@@ -1,193 +1,247 @@
-import { motion } from 'framer-motion';
-import { useState } from 'react';
-import { FaGithub, FaExternalLinkAlt, FaCode, FaServer, FaDatabase, FaRobot } from 'react-icons/fa';
-import { staggerContainer, fadeIn, hoverScale, tapScale } from '../utils/animations';
+import { useState, useMemo, useCallback, memo } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FaGithub, FaExternalLinkAlt, FaCode, FaServer, FaBrain, FaTools } from 'react-icons/fa';
+import AnimatedBackground from '../components/AnimatedBackground';
 
 const projects = [
   {
-    title: 'AI-Powered Document Analysis',
-    description: 'Developed an intelligent document processing system using NLP and computer vision.',
-    technologies: ['Python', 'TensorFlow', 'OpenCV', 'FastAPI'],
-    image: '/project1.jpg',
+    id: 1,
+    title: 'AI-Powered Document Processing System',
+    description: 'Developed an intelligent document processing system using computer vision and NLP to automate data extraction and classification.',
+    image: '/src/assets/images/project1.jpg',
+    tags: ['AI/ML', 'Computer Vision', 'NLP', 'Python'],
     github: 'https://github.com/yourusername/project1',
-    demo: 'https://demo.project1.com',
-    category: 'AI/ML',
-    icon: FaRobot,
-    color: 'text-accent-blue'
+    live: 'https://project1.com',
+    category: 'AI/ML'
   },
   {
-    title: 'Real-time Data Dashboard',
-    description: 'Built a real-time analytics dashboard for monitoring system performance.',
-    technologies: ['React', 'Node.js', 'WebSocket', 'D3.js'],
-    image: '/project2.jpg',
+    id: 2,
+    title: 'Real-time Data Analytics Dashboard',
+    description: 'Built a real-time analytics dashboard for monitoring business metrics and KPIs using React and WebSocket technology.',
+    image: '/src/assets/images/project2.jpg',
+    tags: ['React', 'WebSocket', 'D3.js', 'Node.js'],
     github: 'https://github.com/yourusername/project2',
-    demo: 'https://demo.project2.com',
-    category: 'Full-Stack',
-    icon: FaServer,
-    color: 'text-accent-purple'
+    live: 'https://project2.com',
+    category: 'Web Development'
   },
   {
-    title: 'Database Optimization Tool',
-    description: 'Created a tool for optimizing database performance and query execution.',
-    technologies: ['SQL', 'Python', 'PostgreSQL', 'Redis'],
-    image: '/project3.jpg',
+    id: 3,
+    title: 'Predictive Maintenance System',
+    description: 'Implemented a machine learning system for predicting equipment failures and optimizing maintenance schedules.',
+    image: '/src/assets/images/project3.jpg',
+    tags: ['Machine Learning', 'Python', 'TensorFlow', 'IoT'],
     github: 'https://github.com/yourusername/project3',
-    demo: 'https://demo.project3.com',
-    category: 'Backend',
-    icon: FaDatabase,
-    color: 'text-accent-green'
+    live: 'https://project3.com',
+    category: 'AI/ML'
   }
 ];
 
+const categories = [
+  { name: 'All', icon: FaTools },
+  { name: 'AI/ML', icon: FaBrain },
+  { name: 'Web Development', icon: FaCode },
+  { name: 'Backend', icon: FaServer }
+];
+
+const ProjectCard = memo(({ project, onMouseEnter, onMouseLeave }) => {
+  return (
+    <motion.div
+      key={project.id}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      className="relative group"
+      onMouseEnter={() => onMouseEnter(project.id)}
+      onMouseLeave={onMouseLeave}
+    >
+      {/* Project Card with Neo-brutalist Style */}
+      <div className="absolute -inset-1 bg-gradient-to-r from-accent-blue to-accent-purple rounded-lg blur opacity-30 group-hover:opacity-50 transition-opacity" />
+      <div className="relative bg-primary-dark border-2 border-accent-blue/50 rounded-lg overflow-hidden">
+        {/* Project Image */}
+        <div className="relative aspect-video overflow-hidden">
+          <motion.img
+            src={project.image}
+            alt={project.title}
+            className="w-full h-full object-cover"
+            whileHover={{ scale: 1.1 }}
+            transition={{ duration: 0.3 }}
+            loading="lazy"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-primary-dark to-transparent opacity-60" />
+        </div>
+
+        {/* Project Content */}
+        <div className="p-6">
+          <h3 className="text-xl font-bold mb-3 text-text-primary">
+            {project.title}
+          </h3>
+          <p className="text-text-secondary mb-4">
+            {project.description}
+          </p>
+
+          {/* Tags */}
+          <div className="flex flex-wrap gap-2 mb-6">
+            {project.tags.map((tag) => (
+              <span
+                key={tag}
+                className="px-3 py-1 bg-accent-blue/10 text-accent-blue rounded-full text-sm"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+
+          {/* Project Links */}
+          <div className="flex gap-4">
+            <motion.a
+              href={project.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="relative group/link"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <div className="absolute -inset-1 bg-gradient-to-r from-accent-blue to-accent-purple rounded-lg blur opacity-30 group-hover/link:opacity-50 transition-opacity" />
+              <div className="relative bg-primary-dark border-2 border-accent-blue/50 rounded-lg px-4 py-2 flex items-center gap-2">
+                <FaGithub className="text-accent-blue" />
+                <span className="text-accent-blue">Code</span>
+              </div>
+            </motion.a>
+
+            <motion.a
+              href={project.live}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="relative group/link"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <div className="absolute -inset-1 bg-gradient-to-r from-accent-purple to-accent-blue rounded-lg blur opacity-30 group-hover/link:opacity-50 transition-opacity" />
+              <div className="relative bg-primary-dark border-2 border-accent-purple/50 rounded-lg px-4 py-2 flex items-center gap-2">
+                <FaExternalLinkAlt className="text-accent-purple" />
+                <span className="text-accent-purple">Live</span>
+              </div>
+            </motion.a>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+});
+
 const Projects = () => {
-  const [activeFilter, setActiveFilter] = useState('All');
+  const [selectedCategory, setSelectedCategory] = useState('all');
   const [hoveredProject, setHoveredProject] = useState(null);
 
-  const categories = ['All', 'AI/ML', 'Full-Stack', 'Backend'];
+  // Memoize filtered projects to prevent unnecessary recalculations
+  const filteredProjects = useMemo(() => 
+    selectedCategory === 'all'
+      ? projects
+      : projects.filter(project => project.category === selectedCategory),
+    [selectedCategory]
+  );
 
-  const filteredProjects = activeFilter === 'All' 
-    ? projects 
-    : projects.filter(project => project.category === activeFilter);
+  // Memoize category filter handler
+  const handleCategoryChange = useCallback((category) => {
+    setSelectedCategory(category.toLowerCase());
+  }, []);
+
+  // Memoize mouse event handlers
+  const handleMouseEnter = useCallback((id) => {
+    setHoveredProject(id);
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    setHoveredProject(null);
+  }, []);
 
   return (
     <section id="projects" className="min-h-screen py-20 relative overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute inset-0 bg-gradient-radial opacity-20" />
-      <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
-      
+      {/* Animated Background */}
+      <AnimatedBackground />
+
       <div className="container mx-auto px-4 relative z-10">
+        {/* Section Title with Neo-brutalist Style */}
         <motion.div
-          initial="hidden"
-          whileInView="visible"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          variants={fadeIn}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-space font-bold mb-4">
-            <span className="bg-gradient-to-r from-accent-blue to-accent-purple bg-clip-text text-transparent">
-              Featured Projects
-            </span>
-        </h2>
-          <p className="text-text-secondary max-w-2xl mx-auto">
-            A showcase of my recent work, demonstrating expertise in AI, full-stack development, and system architecture.
+          <div className="relative inline-block">
+            <div className="absolute -inset-1 bg-gradient-to-r from-accent-blue to-accent-purple rounded-lg blur opacity-30" />
+            <div className="relative bg-primary-dark border-2 border-accent-blue/50 rounded-lg px-8 py-4">
+              <h2 className="text-4xl md:text-5xl font-bold">
+                <span className="gradient-text">My Projects</span>
+              </h2>
+            </div>
+          </div>
+          <p className="text-text-secondary max-w-2xl mx-auto mt-6">
+            Explore my latest work and innovative solutions
           </p>
         </motion.div>
 
-        {/* Category Filter */}
+        {/* Category Filter with Neo-brutalist Style */}
         <motion.div
-          initial="hidden"
-          whileInView="visible"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          variants={staggerContainer}
           className="flex flex-wrap justify-center gap-4 mb-12"
         >
-          {categories.map((category, index) => (
+          {categories.map((category) => (
             <motion.button
-              key={category}
-              variants={fadeIn}
-              onClick={() => setActiveFilter(category)}
-              className={`px-6 py-2 rounded-full transition-all ${
-                activeFilter === category
-                  ? 'bg-accent-blue text-white'
-                  : 'bg-primary-dark/50 text-text-secondary hover:bg-secondary-dark'
+              key={category.name}
+              onClick={() => handleCategoryChange(category.name)}
+              className={`relative group ${
+                selectedCategory === category.name.toLowerCase() ? 'z-10' : ''
               }`}
-              whileHover={hoverScale}
-              whileTap={tapScale}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
-              {category}
+              <div className={`absolute -inset-1 bg-gradient-to-r ${
+                selectedCategory === category.name.toLowerCase()
+                  ? 'from-accent-blue to-accent-purple'
+                  : 'from-accent-blue/20 to-accent-purple/20'
+              } rounded-lg blur opacity-30 group-hover:opacity-50 transition-opacity`} />
+              <div className={`relative bg-primary-dark border-2 ${
+                selectedCategory === category.name.toLowerCase()
+                  ? 'border-accent-blue/50'
+                  : 'border-accent-blue/20'
+              } rounded-lg px-6 py-3 flex items-center gap-2`}>
+                <category.icon className={`text-xl ${
+                  selectedCategory === category.name.toLowerCase()
+                    ? 'text-accent-blue'
+                    : 'text-text-secondary'
+                }`} />
+                <span className={`font-medium ${
+                  selectedCategory === category.name.toLowerCase()
+                    ? 'text-accent-blue'
+                    : 'text-text-secondary'
+                }`}>
+                  {category.name}
+                </span>
+              </div>
             </motion.button>
           ))}
         </motion.div>
 
-        {/* Projects Grid */}
+        {/* Projects Grid with Neo-brutalist Style */}
         <motion.div
-          initial="hidden"
-          whileInView="visible"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          variants={staggerContainer}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
         >
-          {filteredProjects.map((project, index) => (
-            <motion.div
-              key={project.title}
-              variants={fadeIn}
-              className="glass-card group relative overflow-hidden"
-              onMouseEnter={() => setHoveredProject(index)}
-              onMouseLeave={() => setHoveredProject(null)}
-            >
-              {/* Project Image */}
-              <div className="relative h-48 overflow-hidden">
-                <motion.div
-                  initial={false}
-                  animate={{
-                    scale: hoveredProject === index ? 1.1 : 1,
-                    filter: hoveredProject === index ? 'brightness(0.7)' : 'brightness(1)'
-                  }}
-                  transition={{ duration: 0.3 }}
-                  className="w-full h-full bg-gradient-to-br from-accent-blue/20 to-accent-purple/20"
-                />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <project.icon className={`text-6xl ${project.color} opacity-50`} />
-                </div>
-              </div>
-
-              {/* Project Content */}
-              <div className="p-6">
-                <h3 className="text-xl font-bold mb-2 text-text-primary">{project.title}</h3>
-                <p className="text-text-secondary mb-4">{project.description}</p>
-                
-                {/* Technologies */}
-                <div className="flex flex-wrap gap-2 mb-6">
-                  {project.technologies.map((tech) => (
-                    <span
-                      key={tech}
-                      className="px-3 py-1 bg-primary-dark/50 text-accent-blue rounded-full text-sm"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-
-                {/* Project Links */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: hoveredProject === index ? 1 : 0, y: hoveredProject === index ? 0 : 20 }}
-                  transition={{ duration: 0.3 }}
-                  className="flex gap-4"
-                >
-                  <a
-                    href={project.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-text-secondary hover:text-accent-blue transition-colors"
-                  >
-                    <FaGithub />
-                    <span>Code</span>
-                  </a>
-                  <a
-                    href={project.demo}
-                target="_blank"
-                rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-text-secondary hover:text-accent-blue transition-colors"
-              >
-                    <FaExternalLinkAlt />
-                    <span>Live Demo</span>
-              </a>
-                </motion.div>
-            </div>
-
-              {/* Hover Overlay */}
-              <motion.div
-                initial={false}
-                animate={{
-                  opacity: hoveredProject === index ? 1 : 0,
-                  y: hoveredProject === index ? 0 : 20
-                }}
-                transition={{ duration: 0.3 }}
-                className="absolute inset-0 bg-gradient-to-t from-primary-dark to-transparent opacity-0 group-hover:opacity-100"
+          <AnimatePresence mode="wait">
+            {filteredProjects.map((project) => (
+              <ProjectCard
+                key={project.id}
+                project={project}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
               />
-            </motion.div>
-          ))}
+            ))}
+          </AnimatePresence>
         </motion.div>
       </div>
     </section>

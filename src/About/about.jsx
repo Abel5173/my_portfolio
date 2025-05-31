@@ -1,124 +1,213 @@
-import { motion } from 'framer-motion';
-import { useState } from 'react';
-import { FaBrain, FaCode, FaServer, FaTools, FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa';
-import { staggerContainer, fadeIn, hoverScale, tapScale } from '../utils/animations';
+import { useState, useRef } from 'react';
+import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
+import { FaCode, FaServer, FaBrain, FaTools, FaDatabase, FaNetworkWired, FaMobile, FaCloud } from 'react-icons/fa';
+import AnimatedBackground from '../components/AnimatedBackground';
 
 const techStacks = [
   {
-    category: 'AI/ML & Data Science',
+    category: 'AI/ML',
     icon: FaBrain,
+    color: 'from-purple-500 to-pink-500',
     skills: [
-      { name: 'Python', level: 90 },
-      { name: 'TensorFlow', level: 85 },
-      { name: 'PyTorch', level: 80 },
-      { name: 'Scikit-learn', level: 85 },
-      { name: 'Pandas', level: 90 },
-      { name: 'NLP', level: 85 }
-    ],
-    color: 'text-accent-blue'
+      { name: 'Machine Learning', level: 85 },
+      { name: 'Deep Learning', level: 80 },
+      { name: 'Computer Vision', level: 75 },
+      { name: 'NLP', level: 70 }
+    ]
+  },
+  {
+    category: 'Backend',
+    icon: FaServer,
+    color: 'from-blue-500 to-cyan-500',
+    skills: [
+      { name: 'Node.js', level: 90 },
+      { name: 'Python', level: 85 },
+      { name: 'Java', level: 80 },
+      { name: 'SQL', level: 85 }
+    ]
   },
   {
     category: 'Frontend',
     icon: FaCode,
+    color: 'from-green-500 to-emerald-500',
     skills: [
-      { name: 'React', level: 85 },
-      { name: 'TypeScript', level: 80 },
-      { name: 'Tailwind CSS', level: 90 },
-      { name: 'Next.js', level: 75 },
-      { name: 'Redux', level: 80 },
-      { name: 'GraphQL', level: 70 }
-    ],
-    color: 'text-accent-purple'
-  },
-  {
-    category: 'Backend & Deployment',
-    icon: FaServer,
-    skills: [
-      { name: 'Node.js', level: 85 },
-      { name: 'Docker', level: 80 },
-      { name: 'AWS', level: 75 },
-      { name: 'MongoDB', level: 85 },
-      { name: 'PostgreSQL', level: 80 },
-      { name: 'Redis', level: 75 }
-    ],
-    color: 'text-accent-green'
-  },
-  {
-    category: 'System & Tools',
-    icon: FaTools,
-    skills: [
-      { name: 'Git', level: 90 },
-      { name: 'Linux', level: 85 },
-      { name: 'CI/CD', level: 80 },
-      { name: 'Kubernetes', level: 70 },
-      { name: 'Terraform', level: 65 },
-      { name: 'Monitoring', level: 75 }
-    ],
-    color: 'text-accent-blue'
+      { name: 'React', level: 90 },
+      { name: 'TypeScript', level: 85 },
+      { name: 'Next.js', level: 80 },
+      { name: 'Tailwind CSS', level: 85 }
+    ]
   }
 ];
 
-const About = () => {
-  const [activeCategory, setActiveCategory] = useState('AI/ML & Data Science');
-  const [hoveredSkill, setHoveredSkill] = useState(null);
+const SkillCard = ({ skill, index, color }) => {
+  const [isHovered, setIsHovered] = useState(false);
+  const cardRef = useRef(null);
+
+  const { scrollYProgress } = useScroll({
+    target: cardRef,
+    offset: ["start end", "end start"]
+  });
+
+  const y = useTransform(scrollYProgress, [0, 1], [100, -100]);
+  const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [0, 1, 0]);
+  const scale = useTransform(scrollYProgress, [0, 0.5, 1], [0.8, 1, 0.8]);
 
   return (
-    <section id="about" className="min-h-screen py-20 relative overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute inset-0 bg-gradient-radial opacity-20" />
-      <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
-      
-      <div className="container mx-auto px-4 relative z-10">
+    <motion.div
+      ref={cardRef}
+      style={{ y, opacity, scale }}
+      className="relative"
+      onHoverStart={() => setIsHovered(true)}
+      onHoverEnd={() => setIsHovered(false)}
+    >
+      <motion.div
+        className="relative p-6 rounded-2xl overflow-hidden"
+        animate={{
+          rotateX: isHovered ? 5 : 0,
+          rotateY: isHovered ? -5 : 0,
+          scale: isHovered ? 1.02 : 1,
+        }}
+        transition={{ type: "spring", stiffness: 300, damping: 20 }}
+      >
+        {/* Card Background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-primary-dark/95 to-primary-dark/90 backdrop-blur-xl" />
+
+        {/* Animated Border */}
         <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeIn}
+          className="absolute inset-0 rounded-2xl p-[1px]"
+          animate={{
+            background: isHovered
+              ? "linear-gradient(45deg, #3b82f6, #8b5cf6, #ec4899, #3b82f6)"
+              : `linear-gradient(45deg, ${color})`,
+          }}
+          transition={{ duration: 3, repeat: Infinity, repeatType: "reverse" }}
+        >
+          <div className="absolute inset-0 rounded-2xl bg-primary-dark/95" />
+        </motion.div>
+
+        {/* Content */}
+        <div className="relative z-10">
+          <div className="flex items-center gap-3 mb-4">
+            <div className={`p-2 rounded-lg bg-gradient-to-r ${color} bg-opacity-20`}>
+              <skill.icon className="text-2xl" />
+            </div>
+            <h3 className="text-xl font-bold">{skill.name}</h3>
+          </div>
+          <p className="text-text-secondary mb-4">{skill.description}</p>
+          
+          {/* Skills Progress */}
+          <div className="space-y-3">
+            {skill.skills.map((item, idx) => (
+              <div key={idx} className="space-y-1">
+                <div className="flex justify-between text-sm">
+                  <span className="text-text-secondary">{item.name}</span>
+                  <span className="text-accent-blue">{item.level}%</span>
+                </div>
+                <div className="h-2 bg-primary-dark/50 rounded-full overflow-hidden">
+                  <motion.div
+                    className={`h-full rounded-full bg-gradient-to-r ${color}`}
+                    initial={{ width: 0 }}
+                    whileInView={{ width: `${item.level}%` }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 1, delay: idx * 0.1 }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Decorative Elements */}
+        <motion.div
+          className="absolute top-0 right-0 w-32 h-32 -mr-16 -mt-16 rounded-full bg-gradient-to-br from-accent-blue/20 to-accent-purple/20 blur-2xl"
+          animate={{
+            scale: isHovered ? 1.2 : 1,
+            opacity: isHovered ? 0.3 : 0.2,
+          }}
+        />
+        <motion.div
+          className="absolute bottom-0 left-0 w-32 h-32 -ml-16 -mb-16 rounded-full bg-gradient-to-br from-accent-purple/20 to-accent-pink/20 blur-2xl"
+          animate={{
+            scale: isHovered ? 1.2 : 1,
+            opacity: isHovered ? 0.3 : 0.2,
+          }}
+        />
+      </motion.div>
+    </motion.div>
+  );
+};
+
+const About = () => {
+  const [activeCategory, setActiveCategory] = useState('AI/ML');
+  const containerRef = useRef(null);
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+
+  const y = useTransform(scrollYProgress, [0, 1], [0, -100]);
+  const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [0, 1, 0]);
+
+  return (
+    <section id="about" className="min-h-screen py-20 relative overflow-hidden" ref={containerRef}>
+      {/* Animated Background */}
+      <AnimatedBackground />
+
+      <div className="container mx-auto px-4 relative z-10">
+        {/* Section Title with Artistic Style */}
+        <motion.div
+          style={{ y, opacity }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-space font-bold mb-4">
-            <span className="bg-gradient-to-r from-accent-blue to-accent-purple bg-clip-text text-transparent">
-              About Me
-            </span>
-          </h2>
-          <p className="text-text-secondary max-w-2xl mx-auto">
-            A passionate Data Scientist and AI Engineer focused on building intelligent solutions.
+          <div className="relative inline-block">
+            <div className="absolute -inset-1 bg-gradient-to-r from-accent-blue to-accent-purple rounded-lg blur opacity-30" />
+            <div className="relative bg-primary-dark border-2 border-accent-blue/50 rounded-lg px-8 py-4">
+              <h2 className="text-4xl md:text-5xl font-bold">
+                <span className="gradient-text">About Me</span>
+              </h2>
+            </div>
+          </div>
+          <p className="text-text-secondary max-w-2xl mx-auto mt-6">
+            A passionate developer with expertise in AI, web development, and software engineering
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-12 items-start">
-          {/* About Content */}
+        {/* Asymmetrical Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+          {/* Left Column - About Content */}
           <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
+            style={{ y, opacity }}
             className="space-y-8"
           >
-            <motion.div variants={fadeIn} className="glass-card p-8">
-              <h3 className="text-2xl font-space font-bold mb-6 text-text-primary">Who I Am</h3>
-              <p className="text-text-secondary leading-relaxed">
-                I'm a Data Scientist and AI Engineer with a passion for building intelligent solutions that solve real-world problems. 
-                Currently working at Commercial Bank of Ethiopia, I focus on developing AI-powered tools and systems that enhance 
-                business processes and decision-making.
-              </p>
-            </motion.div>
+            <div className="relative">
+              <div className="absolute -inset-1 bg-gradient-to-r from-accent-blue to-accent-purple rounded-lg blur opacity-30" />
+              <div className="relative bg-primary-dark border-2 border-accent-blue/50 rounded-lg p-8">
+                <h3 className="text-2xl font-bold mb-4">Who I Am</h3>
+                <p className="text-text-secondary leading-relaxed">
+                  I'm a full-stack developer with a passion for creating innovative solutions. 
+                  My journey in technology has led me to explore various domains, from AI/ML to web development, 
+                  always seeking to push the boundaries of what's possible.
+                </p>
+              </div>
+            </div>
 
-            <motion.div variants={fadeIn} className="glass-card p-8">
-              <h3 className="text-2xl font-space font-bold mb-6 text-text-primary">My Vision</h3>
-              <p className="text-text-secondary leading-relaxed">
-                I believe in the power of AI and data to transform businesses and improve lives. My goal is to create 
-                innovative solutions that are not only technically sound but also accessible and impactful.
-              </p>
-            </motion.div>
+            <div className="relative">
+              <div className="absolute -inset-1 bg-gradient-to-r from-accent-purple to-accent-blue rounded-lg blur opacity-30" />
+              <div className="relative bg-primary-dark border-2 border-accent-purple/50 rounded-lg p-8">
+                <h3 className="text-2xl font-bold mb-4">My Vision</h3>
+                <p className="text-text-secondary leading-relaxed">
+                  I believe in leveraging technology to solve real-world problems. 
+                  My goal is to create impactful solutions that make a difference, 
+                  combining technical expertise with creative thinking.
+                </p>
+              </div>
+            </div>
           </motion.div>
 
-          {/* Skills Section */}
+          {/* Right Column - Skills */}
           <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
+            style={{ y, opacity }}
             className="space-y-8"
           >
             {/* Category Tabs */}
@@ -126,52 +215,51 @@ const About = () => {
               {techStacks.map((stack) => (
                 <motion.button
                   key={stack.category}
-                  variants={fadeIn}
                   onClick={() => setActiveCategory(stack.category)}
-                  className={`px-4 py-2 rounded-lg transition-all ${
-                    activeCategory === stack.category
-                      ? 'bg-accent-blue text-white'
-                      : 'bg-primary-dark/50 text-text-secondary hover:bg-secondary-dark'
+                  className={`relative group ${
+                    activeCategory === stack.category ? 'z-10' : ''
                   }`}
-                  whileHover={hoverScale}
-                  whileTap={tapScale}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                 >
-                  <stack.icon className={`inline-block mr-2 ${stack.color}`} />
-                  {stack.category}
+                  <div className={`absolute -inset-1 bg-gradient-to-r ${
+                    activeCategory === stack.category
+                      ? 'from-accent-blue to-accent-purple'
+                      : 'from-accent-blue/20 to-accent-purple/20'
+                  } rounded-lg blur opacity-30 group-hover:opacity-50 transition-opacity`} />
+                  <div className={`relative bg-primary-dark border-2 ${
+                    activeCategory === stack.category
+                      ? 'border-accent-blue/50'
+                      : 'border-accent-blue/20'
+                  } rounded-lg px-6 py-3 flex items-center gap-2`}>
+                    <stack.icon className={`text-xl ${
+                      activeCategory === stack.category
+                        ? 'text-accent-blue'
+                        : 'text-text-secondary'
+                    }`} />
+                    <span className={`font-medium ${
+                      activeCategory === stack.category
+                        ? 'text-accent-blue'
+                        : 'text-text-secondary'
+                    }`}>
+                      {stack.category}
+                    </span>
+                  </div>
                 </motion.button>
               ))}
             </div>
 
             {/* Skills Grid */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-6">
               {techStacks
-                .find((stack) => stack.category === activeCategory)
-                ?.skills.map((skill) => (
-                  <motion.div
-                    key={skill.name}
-                    variants={fadeIn}
-                    className="glass-card p-4"
-                    onMouseEnter={() => setHoveredSkill(skill.name)}
-                    onMouseLeave={() => setHoveredSkill(null)}
-                  >
-                    <div className="flex justify-between items-center mb-2">
-                      <span className="text-text-primary">{skill.name}</span>
-                      <span className="text-text-secondary">{skill.level}%</span>
-                    </div>
-                    <div className="h-2 bg-primary-dark/50 rounded-full overflow-hidden">
-                      <motion.div
-                        initial={{ width: 0 }}
-                        whileInView={{ width: `${skill.level}%` }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 1, ease: "easeOut" }}
-                        className={`h-full rounded-full ${
-                          hoveredSkill === skill.name
-                            ? 'bg-gradient-to-r from-accent-blue to-accent-purple'
-                            : 'bg-accent-blue'
-                        }`}
-                      />
-                    </div>
-                  </motion.div>
+                .filter(stack => stack.category === activeCategory)
+                .map((stack, index) => (
+                  <SkillCard
+                    key={stack.category}
+                    skill={stack}
+                    index={index}
+                    color={stack.color}
+                  />
                 ))}
             </div>
           </motion.div>

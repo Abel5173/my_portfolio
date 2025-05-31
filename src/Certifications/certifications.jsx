@@ -147,6 +147,20 @@ const CertificateModal = ({ certificate, onClose }) => {
   const [isZoomed, setIsZoomed] = useState(false);
   const modalRef = useRef(null);
 
+  const handleDownload = () => {
+    // Create a temporary anchor element
+    const link = document.createElement('a');
+    link.href = certificate.image;
+    link.download = `${certificate.title.toLowerCase().replace(/\s+/g, '-')}-certificate`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const handleImageClick = () => {
+    window.open(certificate.image, '_blank');
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -177,11 +191,9 @@ const CertificateModal = ({ certificate, onClose }) => {
           {/* Image Section */}
           <div className="relative h-full">
             <motion.div
-              className="relative h-full w-full cursor-zoom-in"
-              onClick={() => setIsZoomed(!isZoomed)}
-              animate={{
-                scale: isZoomed ? 1.5 : 1,
-              }}
+              className="relative h-full w-full cursor-pointer group"
+              onClick={handleImageClick}
+              whileHover={{ scale: 1.02 }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
             >
               <img
@@ -189,7 +201,10 @@ const CertificateModal = ({ certificate, onClose }) => {
                 alt={certificate.title}
                 className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-primary-dark/80 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-primary-dark/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <FaExternalLinkAlt className="text-4xl text-white" />
+              </div>
             </motion.div>
           </div>
 
@@ -231,6 +246,7 @@ const CertificateModal = ({ certificate, onClose }) => {
               </div>
 
               <motion.button
+                onClick={handleDownload}
                 className="w-full py-3 px-4 rounded-lg bg-accent-blue/20 text-accent-blue hover:bg-accent-blue/30 transition-colors flex items-center justify-center gap-2"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
@@ -431,117 +447,288 @@ const CertificationCard = ({ certification, index }) => {
 
 const Certifications = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedCertificate, setSelectedCertificate] = useState(null);
   const [hoveredCategory, setHoveredCategory] = useState(null);
 
   const filteredCertifications = (hoveredCategory || selectedCategory) === 'all'
     ? certifications
     : certifications.filter(cert => cert.category === (hoveredCategory || selectedCategory));
 
-  return (
-    <section id="certifications" className="py-20 relative overflow-hidden">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 bg-grid-pattern opacity-5" />
+  const handleCertificateClick = (certificate) => {
+    setSelectedCertificate(certificate);
+  };
 
-      <div className="container mx-auto px-4">
+  const handleCloseModal = () => {
+    setSelectedCertificate(null);
+  };
+
+  return (
+    <section id="certifications" className="min-h-screen py-20 relative overflow-hidden">
+      {/* Futuristic Background Elements */}
+      <div className="absolute inset-0">
+        {/* Animated Grid */}
+        <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10 animate-pulse-slow" />
+        
+        {/* Gradient Orbs */}
+        <motion.div
+          className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-accent-blue/20 to-accent-purple/20 rounded-full blur-3xl"
+          animate={{
+            scale: [1, 1.2, 1],
+            opacity: [0.3, 0.5, 0.3],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+        <motion.div
+          className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gradient-to-r from-accent-purple/20 to-accent-blue/20 rounded-full blur-3xl"
+          animate={{
+            scale: [1.2, 1, 1.2],
+            opacity: [0.5, 0.3, 0.5],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+      </div>
+
+      <div className="container mx-auto px-4 relative z-10">
+        {/* Section Title with Neo-brutalist Style */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-12"
+          className="text-center mb-16"
         >
-          <h2 className="text-4xl font-bold mb-4">
-            <span className="bg-gradient-to-r from-accent-blue to-accent-purple bg-clip-text text-transparent">
-              Certifications
-            </span>
-          </h2>
-          <p className="text-text-secondary max-w-2xl mx-auto">
-            Professional certifications and achievements that validate my expertise across various domains.
+          <div className="relative inline-block">
+            <div className="absolute -inset-1 bg-gradient-to-r from-accent-blue to-accent-purple rounded-lg blur opacity-30" />
+            <div className="relative bg-primary-dark border-2 border-accent-blue/50 rounded-lg px-8 py-4">
+              <h2 className="text-4xl md:text-5xl font-bold">
+                <span className="gradient-text">Certifications</span>
+              </h2>
+            </div>
+          </div>
+          <p className="text-text-secondary max-w-2xl mx-auto mt-6">
+            Professional certifications and achievements that showcase my expertise
           </p>
         </motion.div>
 
-        {/* Category Filter */}
-        <div className="flex flex-wrap justify-center gap-4 mb-12">
+        {/* Category Filter with Neo-brutalist Style */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="flex flex-wrap justify-center gap-4 mb-12"
+        >
           {categories.map((category) => (
             <motion.button
               key={category.id}
               onClick={() => setSelectedCategory(category.id)}
               onMouseEnter={() => setHoveredCategory(category.id)}
               onMouseLeave={() => setHoveredCategory(null)}
-              className={`relative flex items-center gap-2 px-6 py-3 rounded-full overflow-hidden ${
-                (hoveredCategory === category.id || selectedCategory === category.id)
-                  ? 'bg-accent-blue/20 text-accent-blue'
-                  : 'text-text-secondary hover:text-accent-blue'
+              className={`relative group ${
+                selectedCategory === category.id ? 'z-10' : ''
               }`}
-              whileHover={{ 
-                scale: 1.05,
-                transition: { type: "spring", stiffness: 400, damping: 10 }
-              }}
+              whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              {/* Animated Background */}
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-accent-blue/20 to-accent-purple/20"
-                initial={{ opacity: 0 }}
-                animate={{ 
-                  opacity: (hoveredCategory === category.id || selectedCategory === category.id) ? 1 : 0 
-                }}
-                transition={{ duration: 0.3 }}
-              />
-              
-              {/* Glowing Border */}
-              <motion.div
-                className="absolute inset-0 rounded-full"
-                animate={{
-                  boxShadow: (hoveredCategory === category.id || selectedCategory === category.id)
-                    ? '0 0 15px rgba(59, 130, 246, 0.5)'
-                    : 'none'
-                }}
-                transition={{ duration: 0.3 }}
-              />
-
-              {/* Content */}
-              <motion.div
-                className="relative flex items-center gap-2"
-                animate={{ 
-                  x: (hoveredCategory === category.id || selectedCategory === category.id) ? 2 : 0 
-                }}
-                transition={{ type: "spring", stiffness: 400, damping: 10 }}
-              >
-                <motion.div
-                  animate={{ 
-                    rotate: (hoveredCategory === category.id || selectedCategory === category.id) ? 360 : 0 
-                  }}
-                  transition={{ duration: 0.5 }}
-                >
-                  <category.icon className="text-xl" />
-                </motion.div>
-                <span className="font-medium">{category.label}</span>
-              </motion.div>
-
-              {/* Hover Effect Particles */}
-              <motion.div
-                className="absolute inset-0"
-                animate={{ 
-                  opacity: (hoveredCategory === category.id || selectedCategory === category.id) ? 1 : 0 
-                }}
-                transition={{ duration: 0.3 }}
-              >
-                <div className="absolute top-0 left-0 w-2 h-2 bg-accent-blue/30 rounded-full blur-sm" />
-                <div className="absolute bottom-0 right-0 w-2 h-2 bg-accent-purple/30 rounded-full blur-sm" />
-              </motion.div>
+              <div className={`absolute -inset-1 bg-gradient-to-r ${
+                selectedCategory === category.id || hoveredCategory === category.id
+                  ? 'from-accent-blue to-accent-purple'
+                  : 'from-accent-blue/20 to-accent-purple/20'
+              } rounded-lg blur opacity-30 group-hover:opacity-50 transition-opacity`} />
+              <div className={`relative bg-primary-dark border-2 ${
+                selectedCategory === category.id || hoveredCategory === category.id
+                  ? 'border-accent-blue/50'
+                  : 'border-accent-blue/20'
+              } rounded-lg px-6 py-3`}>
+                <span className={`font-medium ${
+                  selectedCategory === category.id || hoveredCategory === category.id
+                    ? 'text-accent-blue'
+                    : 'text-text-secondary'
+                }`}>
+                  {category.label}
+                </span>
+              </div>
             </motion.button>
           ))}
-        </div>
+        </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredCertifications.map((certification, index) => (
-            <CertificationCard
-              key={certification.id}
-              certification={certification}
-              index={index}
-            />
+        {/* Certificates Grid with Neo-brutalist Style */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+        >
+          {filteredCertifications.map((certificate) => (
+            <motion.div
+              key={certificate.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="relative group"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <div className="absolute -inset-1 bg-gradient-to-r from-accent-blue to-accent-purple rounded-lg blur opacity-30 group-hover:opacity-50 transition-opacity" />
+              <div 
+                className="relative bg-primary-dark border-2 border-accent-blue/50 rounded-lg overflow-hidden cursor-pointer"
+                onClick={() => handleCertificateClick(certificate)}
+              >
+                {/* Certificate Image */}
+                <div className="relative aspect-video overflow-hidden">
+                  <motion.img
+                    src={certificate.image}
+                    alt={certificate.title}
+                    className="w-full h-full object-cover"
+                    whileHover={{ scale: 1.1 }}
+                    transition={{ duration: 0.3 }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-primary-dark to-transparent opacity-60" />
+                </div>
+
+                {/* Certificate Content */}
+                <div className="p-6">
+                  <div className="flex items-center gap-2 mb-3">
+                    <FaAward className="text-accent-blue" />
+                    <h3 className="text-xl font-bold text-text-primary">
+                      {certificate.title}
+                    </h3>
+                  </div>
+                  <p className="text-text-secondary mb-2">
+                    {certificate.issuer}
+                  </p>
+                  <p className="text-text-secondary text-sm">
+                    {certificate.date}
+                  </p>
+                </div>
+              </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
+
+        {/* Certificate Modal with Neo-brutalist Style */}
+        <AnimatePresence>
+          {selectedCertificate && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-primary-dark/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+              onClick={handleCloseModal}
+            >
+              <motion.div
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.9, opacity: 0 }}
+                className="relative max-w-4xl w-full"
+                onClick={e => e.stopPropagation()}
+              >
+                <div className="absolute -inset-1 bg-gradient-to-r from-accent-blue to-accent-purple rounded-lg blur opacity-30" />
+                <div className="relative bg-primary-dark border-2 border-accent-blue/50 rounded-lg overflow-hidden">
+                  {/* Modal Header */}
+                  <div className="p-6 border-b border-accent-blue/20">
+                    <div className="flex justify-between items-center">
+                      <h3 className="text-2xl font-bold text-text-primary">
+                        {selectedCertificate.title}
+                      </h3>
+                      <motion.button
+                        onClick={handleCloseModal}
+                        className="relative group"
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        <div className="absolute -inset-1 bg-gradient-to-r from-accent-blue to-accent-purple rounded-full blur opacity-30 group-hover:opacity-50 transition-opacity" />
+                        <div className="relative bg-primary-dark border-2 border-accent-blue/50 rounded-full p-2">
+                          <FaTimes className="text-accent-blue" />
+                        </div>
+                      </motion.button>
+                    </div>
+                  </div>
+
+                  {/* Modal Content */}
+                  <div className="p-6">
+                    <div className="grid md:grid-cols-2 gap-8">
+                      {/* Certificate Image */}
+                      <div className="relative aspect-video rounded-lg overflow-hidden">
+                        <img
+                          src={selectedCertificate.image}
+                          alt={selectedCertificate.title}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+
+                      {/* Certificate Details */}
+                      <div className="space-y-4">
+                        <div>
+                          <h4 className="text-lg font-medium text-text-primary mb-2">
+                            Issuer
+                          </h4>
+                          <p className="text-text-secondary">
+                            {selectedCertificate.issuer}
+                          </p>
+                        </div>
+
+                        <div>
+                          <h4 className="text-lg font-medium text-text-primary mb-2">
+                            Date Earned
+                          </h4>
+                          <p className="text-text-secondary">
+                            {selectedCertificate.date}
+                          </p>
+                        </div>
+
+                        <div>
+                          <h4 className="text-lg font-medium text-text-primary mb-2">
+                            Description
+                          </h4>
+                          <p className="text-text-secondary">
+                            {selectedCertificate.details}
+                          </p>
+                        </div>
+
+                        {/* Action Buttons */}
+                        <div className="flex gap-4 pt-4">
+                          <motion.a
+                            href={selectedCertificate.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="relative group flex-1"
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                          >
+                            <div className="absolute -inset-1 bg-gradient-to-r from-accent-blue to-accent-purple rounded-lg blur opacity-30 group-hover:opacity-50 transition-opacity" />
+                            <div className="relative bg-primary-dark border-2 border-accent-blue/50 rounded-lg px-6 py-3 flex items-center justify-center gap-2">
+                              <FaExternalLinkAlt className="text-accent-blue" />
+                              <span className="text-accent-blue">View Certificate</span>
+                            </div>
+                          </motion.a>
+
+                          <motion.button
+                            className="relative group flex-1"
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                          >
+                            <div className="absolute -inset-1 bg-gradient-to-r from-accent-purple to-accent-blue rounded-lg blur opacity-30 group-hover:opacity-50 transition-opacity" />
+                            <div className="relative bg-primary-dark border-2 border-accent-purple/50 rounded-lg px-6 py-3 flex items-center justify-center gap-2">
+                              <FaDownload className="text-accent-purple" />
+                              <span className="text-accent-purple">Download</span>
+                            </div>
+                          </motion.button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </section>
   );

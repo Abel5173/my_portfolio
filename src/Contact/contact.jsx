@@ -1,7 +1,9 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { useState } from 'react';
-import { FaGithub, FaLinkedin, FaTwitter, FaEnvelope, FaCheck, FaTimes } from 'react-icons/fa';
+import { useState, useCallback, useMemo, memo } from 'react';
+import { FaGithub, FaLinkedin, FaTwitter, FaEnvelope, FaCheck, FaTimes, FaPhone, FaMapMarkerAlt } from 'react-icons/fa';
 import { staggerContainer, fadeIn, hoverScale, tapScale } from '../utils/animations';
+import AnimatedBackground from '../components/AnimatedBackground';
+import debounce from 'lodash/debounce';
 
 const socialLinks = [
   {
@@ -27,17 +29,72 @@ const socialLinks = [
   }
 ];
 
+const ContactInfoCard = memo(({ info, index }) => (
+  <motion.a
+    href={info.link}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="relative group block"
+    initial={{ opacity: 0, y: 20 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+    transition={{ delay: index * 0.1 }}
+    whileHover={{ scale: 1.02 }}
+    whileTap={{ scale: 0.98 }}
+  >
+    <div className="absolute -inset-1 bg-gradient-to-r from-accent-blue to-accent-purple rounded-lg blur opacity-30 group-hover:opacity-50 transition-opacity" />
+    <div className="relative bg-primary-dark border-2 border-accent-blue/50 rounded-lg p-6">
+      <div className="flex items-center gap-4">
+        <div className="relative">
+          <div className="absolute -inset-1 bg-gradient-to-r from-accent-blue to-accent-purple rounded-full blur opacity-30" />
+          <div className="relative bg-primary-dark border-2 border-accent-blue/50 rounded-full p-3">
+            <info.icon className="text-xl text-accent-blue" />
+          </div>
+        </div>
+        <div>
+          <h3 className="text-lg font-medium text-text-primary">{info.title}</h3>
+          <p className="text-text-secondary">{info.value}</p>
+        </div>
+      </div>
+    </div>
+  </motion.a>
+));
+
 const Contact = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    subject: '',
     message: ''
   });
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null);
 
-  const validateForm = () => {
+  // Memoize contact info to prevent unnecessary re-renders
+  const contactInfo = useMemo(() => [
+    {
+      icon: FaEnvelope,
+      title: 'Email',
+      value: 'abel.zeleke@example.com',
+      link: 'mailto:abel.zeleke@example.com'
+    },
+    {
+      icon: FaPhone,
+      title: 'Phone',
+      value: '+251 912 345 678',
+      link: 'tel:+251912345678'
+    },
+    {
+      icon: FaMapMarkerAlt,
+      title: 'Location',
+      value: 'Addis Ababa, Ethiopia',
+      link: 'https://maps.google.com/?q=Addis+Ababa,Ethiopia'
+    }
+  ], []);
+
+  // Memoize validation function
+  const validateForm = useCallback(() => {
     const newErrors = {};
     if (!formData.name.trim()) {
       newErrors.name = 'Name is required';
@@ -52,9 +109,25 @@ const Contact = () => {
     }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
-  };
+  }, [formData]);
 
-  const handleSubmit = async (e) => {
+  // Debounced input handler
+  const debouncedSetFormData = useMemo(
+    () => debounce((name, value) => {
+      setFormData(prev => ({ ...prev, [name]: value }));
+      if (errors[name]) {
+        setErrors(prev => ({ ...prev, [name]: '' }));
+      }
+    }, 300),
+    [errors]
+  );
+
+  const handleChange = useCallback((e) => {
+    const { name, value } = e.target;
+    debouncedSetFormData(name, value);
+  }, [debouncedSetFormData]);
+
+  const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
 
@@ -63,26 +136,19 @@ const Contact = () => {
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1500));
       setSubmitStatus('success');
-      setFormData({ name: '', email: '', message: '' });
+      setFormData({ name: '', email: '', subject: '', message: '' });
     } catch (error) {
       setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);
     }
-  };
+  }, [validateForm]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-    if (errors[name]) {
-      setErrors(prev => ({ ...prev, [name]: '' }));
-    }
-  };
-
-  const inputVariants = {
+  // Memoize input variants
+  const inputVariants = useMemo(() => ({
     focus: { scale: 1.02 },
     blur: { scale: 1 }
-  };
+  }), []);
 
   return (
     <section 
@@ -90,266 +156,157 @@ const Contact = () => {
       className="min-h-screen py-20 relative overflow-hidden"
       aria-labelledby="contact-heading"
     >
-      {/* Background Elements */}
-      <div className="absolute inset-0 bg-gradient-radial opacity-20" aria-hidden="true" />
-      <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" aria-hidden="true" />
-      
+      {/* Animated Background */}
+      <AnimatedBackground />
+
       <div className="container mx-auto px-4 relative z-10">
+        {/* Section Title with Neo-brutalist Style */}
         <motion.div
-          initial="hidden"
-          whileInView="visible"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          variants={fadeIn}
           className="text-center mb-16"
         >
-          <h2 
-            id="contact-heading"
-            className="text-4xl md:text-5xl font-space font-bold mb-4"
-          >
-            <span className="bg-gradient-to-r from-accent-blue to-accent-purple bg-clip-text text-transparent">
-              Let's Connect
-            </span>
-          </h2>
-          <p className="text-text-secondary max-w-2xl mx-auto">
-            I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.
+          <div className="relative inline-block">
+            <div className="absolute -inset-1 bg-gradient-to-r from-accent-blue to-accent-purple rounded-lg blur opacity-30" />
+            <div className="relative bg-primary-dark border-2 border-accent-blue/50 rounded-lg px-8 py-4">
+              <h2 className="text-4xl md:text-5xl font-bold">
+                <span className="gradient-text">Get in Touch</span>
+              </h2>
+            </div>
+          </div>
+          <p className="text-text-secondary max-w-2xl mx-auto mt-6">
+            Let's discuss how we can work together to bring your ideas to life
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-8 lg:gap-12 items-start">
-          {/* Contact Form */}
+        <div className="grid md:grid-cols-2 gap-12">
+          {/* Contact Form with Neo-brutalist Style */}
           <motion.div
-            initial="hidden"
-            whileInView="visible"
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            variants={staggerContainer}
-            className="glass-card p-6 md:p-8"
+            className="relative"
           >
-            <form
-              onSubmit={handleSubmit} 
-              className="space-y-6"
-              aria-label="Contact form"
-            >
-              <div>
-                <label 
-                  htmlFor="name" 
-                  className="block text-text-secondary mb-2"
+            <div className="absolute -inset-1 bg-gradient-to-r from-accent-blue to-accent-purple rounded-lg blur opacity-30" />
+            <div className="relative bg-primary-dark border-2 border-accent-blue/50 rounded-lg p-8">
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="space-y-4">
+                  {['name', 'email', 'subject', 'message'].map((field) => (
+                    <div key={field} className="relative group">
+                      <div className="absolute -inset-1 bg-gradient-to-r from-accent-blue to-accent-purple rounded-lg blur opacity-30 group-focus-within:opacity-50 transition-opacity" />
+                      {field === 'message' ? (
+                        <textarea
+                          name={field}
+                          value={formData[field]}
+                          onChange={handleChange}
+                          placeholder={`Your ${field.charAt(0).toUpperCase() + field.slice(1)}`}
+                          required
+                          rows="5"
+                          className="relative w-full bg-primary-dark border-2 border-accent-blue/50 rounded-lg px-4 py-3 text-text-primary focus:outline-none focus:border-accent-blue resize-none"
+                        />
+                      ) : (
+                        <input
+                          type={field === 'email' ? 'email' : 'text'}
+                          name={field}
+                          value={formData[field]}
+                          onChange={handleChange}
+                          placeholder={`Your ${field.charAt(0).toUpperCase() + field.slice(1)}`}
+                          required
+                          className="relative w-full bg-primary-dark border-2 border-accent-blue/50 rounded-lg px-4 py-3 text-text-primary focus:outline-none focus:border-accent-blue"
+                        />
+                      )}
+                      {errors[field] && (
+                        <p className="text-red-500 text-sm mt-1">{errors[field]}</p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+
+                <motion.button
+                  type="submit"
+                  className="relative group w-full"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  disabled={isSubmitting}
                 >
-                  Name
-                </label>
-                <motion.div
-                  variants={inputVariants}
-                  whileFocus="focus"
-                  whileBlur="blur"
-            >
-              <input
-                type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    className={`w-full px-4 py-3 rounded-lg bg-primary-dark/50 border ${
-                      errors.name ? 'border-red-500' : 'border-secondary-dark'
-                    } focus:border-accent-blue focus:ring-2 focus:ring-accent-blue/20 outline-none transition-all`}
-                    aria-required="true"
-                    aria-invalid={!!errors.name}
-                    aria-describedby={errors.name ? 'name-error' : undefined}
-                  />
-                </motion.div>
+                  <div className="absolute -inset-1 bg-gradient-to-r from-accent-blue to-accent-purple rounded-lg blur opacity-30 group-hover:opacity-50 transition-opacity" />
+                  <div className="relative bg-primary-dark border-2 border-accent-blue/50 rounded-lg px-6 py-3 text-accent-blue font-medium">
+                    {isSubmitting ? 'Sending...' : 'Send Message'}
+                  </div>
+                </motion.button>
+
                 <AnimatePresence>
-                  {errors.name && (
-                    <motion.p
-                      id="name-error"
-                      initial={{ opacity: 0, y: -10 }}
+                  {submitStatus && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
-                      className="text-red-500 text-sm mt-1"
-                      role="alert"
+                      className={`text-center p-4 rounded-lg ${
+                        submitStatus === 'success' ? 'bg-green-500/20 text-green-500' : 'bg-red-500/20 text-red-500'
+                      }`}
                     >
-                      {errors.name}
-                    </motion.p>
+                      {submitStatus === 'success' ? (
+                        <div className="flex items-center justify-center gap-2">
+                          <FaCheck />
+                          <span>Message sent successfully!</span>
+                        </div>
+                      ) : (
+                        <div className="flex items-center justify-center gap-2">
+                          <FaTimes />
+                          <span>Failed to send message. Please try again.</span>
+                        </div>
+                      )}
+                    </motion.div>
                   )}
                 </AnimatePresence>
-              </div>
-
-              <div>
-                <label 
-                  htmlFor="email" 
-                  className="block text-text-secondary mb-2"
-                >
-                  Email
-                </label>
-                <motion.div
-                  variants={inputVariants}
-                  whileFocus="focus"
-                  whileBlur="blur"
-                >
-              <input
-                    type="email"
-                    id="email"
-                name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    className={`w-full px-4 py-3 rounded-lg bg-primary-dark/50 border ${
-                      errors.email ? 'border-red-500' : 'border-secondary-dark'
-                    } focus:border-accent-blue focus:ring-2 focus:ring-accent-blue/20 outline-none transition-all`}
-                    aria-required="true"
-                    aria-invalid={!!errors.email}
-                    aria-describedby={errors.email ? 'email-error' : undefined}
-                  />
-                </motion.div>
-                <AnimatePresence>
-                  {errors.email && (
-                    <motion.p
-                      id="email-error"
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      className="text-red-500 text-sm mt-1"
-                      role="alert"
-                    >
-                      {errors.email}
-                    </motion.p>
-                  )}
-                </AnimatePresence>
-              </div>
-
-              <div>
-                <label 
-                  htmlFor="message" 
-                  className="block text-text-secondary mb-2"
-                >
-                  Message
-                </label>
-                <motion.div
-                  variants={inputVariants}
-                  whileFocus="focus"
-                  whileBlur="blur"
-                >
-              <textarea
-                    id="message"
-                name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    rows="4"
-                    className={`w-full px-4 py-3 rounded-lg bg-primary-dark/50 border ${
-                      errors.message ? 'border-red-500' : 'border-secondary-dark'
-                    } focus:border-accent-blue focus:ring-2 focus:ring-accent-blue/20 outline-none transition-all`}
-                    aria-required="true"
-                    aria-invalid={!!errors.message}
-                    aria-describedby={errors.message ? 'message-error' : undefined}
-              ></textarea>
-                </motion.div>
-                <AnimatePresence>
-                  {errors.message && (
-                    <motion.p
-                      id="message-error"
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      className="text-red-500 text-sm mt-1"
-                      role="alert"
-                    >
-                      {errors.message}
-                    </motion.p>
-                  )}
-                </AnimatePresence>
-              </div>
-
-              <motion.button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full px-6 py-3 rounded-lg bg-gradient-to-r from-accent-blue to-accent-purple text-white font-medium hover:shadow-glow transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                whileHover={!isSubmitting ? hoverScale : {}}
-                whileTap={!isSubmitting ? tapScale : {}}
-                aria-busy={isSubmitting}
-              >
-                {isSubmitting ? (
-                  <motion.div
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                    className="w-6 h-6 border-2 border-white border-t-transparent rounded-full mx-auto"
-                    aria-label="Sending message"
-                  />
-                ) : (
-                  'Send Message'
-                )}
-              </motion.button>
-
-              <AnimatePresence>
-                {submitStatus && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    className={`mt-4 p-4 rounded-lg flex items-center gap-2 ${
-                      submitStatus === 'success' ? 'bg-green-500/20 text-green-500' : 'bg-red-500/20 text-red-500'
-                    }`}
-                    role="alert"
-                    aria-live="polite"
-                  >
-                    {submitStatus === 'success' ? (
-                      <>
-                        <FaCheck aria-hidden="true" />
-                        <span>Message sent successfully!</span>
-                      </>
-                    ) : (
-                      <>
-                        <FaTimes aria-hidden="true" />
-                        <span>Failed to send message. Please try again.</span>
-                      </>
-                    )}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </form>
+              </form>
+            </div>
           </motion.div>
 
-          {/* Contact Info */}
+          {/* Contact Info with Neo-brutalist Style */}
           <motion.div
-            initial="hidden"
-            whileInView="visible"
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            variants={staggerContainer}
-            className="space-y-6 md:space-y-8"
+            className="space-y-8"
           >
-            <div className="glass-card p-6 md:p-8">
-              <h3 className="text-2xl font-space font-bold mb-6 text-text-primary">Get in Touch</h3>
-              <p className="text-text-secondary mb-8">
-                Feel free to reach out through any of these channels. I'll get back to you as soon as possible.
-              </p>
-              <div className="space-y-4">
-                <motion.a
-                  href="mailto:your.email@example.com"
-                  className="flex items-center space-x-4 text-text-secondary hover:text-accent-blue transition-colors"
-                  whileHover={hoverScale}
-                  whileTap={tapScale}
-                  aria-label="Send me an email"
-                >
-                  <FaEnvelope className="text-2xl" aria-hidden="true" />
-                  <span>your.email@example.com</span>
-                </motion.a>
-              </div>
-            </div>
+            {/* Contact Information Cards */}
+            {contactInfo.map((info, index) => (
+              <ContactInfoCard key={info.title} info={info} index={index} />
+            ))}
 
-            <div className="glass-card p-6 md:p-8">
-              <h3 className="text-2xl font-space font-bold mb-6 text-text-primary">Connect with Me</h3>
-              <div className="flex flex-wrap gap-4">
-                {socialLinks.map((link) => (
-                  <motion.a
-                    key={link.name}
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`p-4 rounded-lg bg-primary-dark/50 hover:bg-secondary-dark transition-all ${link.color}`}
-                    whileHover={hoverScale}
-                    whileTap={tapScale}
-                    aria-label={link.ariaLabel}
-                  >
-                    <link.icon className="text-2xl" aria-hidden="true" />
-                  </motion.a>
-                ))}
+            {/* Social Links with Neo-brutalist Style */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="relative"
+            >
+              <div className="absolute -inset-1 bg-gradient-to-r from-accent-blue to-accent-purple rounded-lg blur opacity-30" />
+              <div className="relative bg-primary-dark border-2 border-accent-blue/50 rounded-lg p-6">
+                <h3 className="text-lg font-medium text-text-primary mb-4">Connect with Me</h3>
+                <div className="flex gap-4">
+                  {socialLinks.map((social) => (
+                    <motion.a
+                      key={social.name}
+                      href={social.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="relative group"
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.95 }}
+                      aria-label={social.ariaLabel}
+                    >
+                      <div className="absolute -inset-1 bg-gradient-to-r from-accent-blue to-accent-purple rounded-full blur opacity-30 group-hover:opacity-50 transition-opacity" />
+                      <div className="relative bg-primary-dark border-2 border-accent-blue/50 rounded-full p-3">
+                        <social.icon className="text-xl text-accent-blue" />
+                      </div>
+                    </motion.a>
+                  ))}
+                </div>
               </div>
-          </div>
+            </motion.div>
           </motion.div>
         </div>
       </div>
