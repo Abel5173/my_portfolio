@@ -5,11 +5,14 @@ import './index.css'
 import './styles/tokens.css'
 
 import { BrowserRouter } from 'react-router-dom'
+import { ThemeProvider } from 'next-themes'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+        <App />
+      </ThemeProvider>
     </BrowserRouter>
   </React.StrictMode>,
 )

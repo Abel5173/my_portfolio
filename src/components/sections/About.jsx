@@ -1,10 +1,10 @@
 import { motion } from 'framer-motion';
 import { Download, Mail } from 'lucide-react';
-import Photo from '../../assets/images/my_image.png';
+import Photo from '../../assets/images/photo.png';
 
 const About = () => {
     return (
-        <section id="about" className="py-24 bg-white dark:bg-neutral-dark transition-colors duration-300">
+        <section id="about" className="py-24 bg-neutral-lightest dark:bg-neutral-black transition-colors duration-300">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                     {/* Profile Image */}
@@ -15,9 +15,9 @@ const About = () => {
                         transition={{ duration: 0.8 }}
                         className="relative flex justify-center lg:justify-end"
                     >
-                        <div className="relative w-64 h-64 md:w-80 md:h-80">
-                            <div className="absolute inset-0 bg-gradient-to-br from-primary to-secondary rounded-full opacity-20 blur-2xl animate-pulse-slow" />
-                            <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-white dark:border-neutral-black shadow-2xl">
+                        <div>
+                            <div/>
+                            <div>
                                 <img
                                     src={Photo}
                                     alt="Abel Zeleke"
@@ -26,9 +26,7 @@ const About = () => {
                             </div>
 
                             {/* Decorative Elements */}
-                            <div className="absolute -top-4 -right-4 w-24 h-24 bg-neutral-lightest dark:bg-neutral-black rounded-full flex items-center justify-center shadow-lg animate-bounce">
-                                <span className="text-2xl">🚀</span>
-                            </div>
+                            <div/>
                         </div>
                     </motion.div>
 
@@ -58,8 +56,9 @@ const About = () => {
 
                         <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
                             <a
-                                href="/resume.pdf"
+                                href="https://drive.google.com/file/d/14EJKDuNdoTyJaYhWHfHAxcQgtl13Nb6U/view?usp=sharing"
                                 target="_blank"
+                                rel="noreferrer"
                                 className="px-6 py-3 bg-primary dark:bg-white text-white dark:text-primary rounded-lg font-semibold hover:shadow-glow transition-all flex items-center gap-2"
                             >
                                 <Download size={20} /> Download CV
