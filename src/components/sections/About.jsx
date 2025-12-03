@@ -4,8 +4,17 @@ import Photo from '../../assets/images/photo.png';
 
 const About = () => {
     return (
-        <section id="about" className="py-24 bg-neutral-lightest dark:bg-neutral-black transition-colors duration-300">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section id="about" className="relative py-24 bg-transparent transition-colors duration-300">
+            {/* Subtle Grid Pattern */}
+            <div className="absolute inset-0 z-0 opacity-[0.02] dark:opacity-[0.03]"
+                style={{
+                    backgroundImage: `linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px)`,
+                    backgroundSize: '40px 40px',
+                    maskImage: 'radial-gradient(circle at center, black 40%, transparent 100%)',
+                    WebkitMaskImage: 'radial-gradient(circle at center, black 40%, transparent 100%)',
+                }}
+            />
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                     {/* Profile Image */}
                     <motion.div
@@ -16,7 +25,7 @@ const About = () => {
                         className="relative flex justify-center lg:justify-end"
                     >
                         <div>
-                            <div/>
+                            <div />
                             <div>
                                 <img
                                     src={Photo}
@@ -26,7 +35,7 @@ const About = () => {
                             </div>
 
                             {/* Decorative Elements */}
-                            <div/>
+                            <div />
                         </div>
                     </motion.div>
 

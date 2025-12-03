@@ -103,7 +103,7 @@ export default function FloatingSidebar() {
                             transition={{ delay: 0.4 }}
                             className="relative z-10 mb-12 text-center"
                         >
-                            <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-br from-neutral-200 to-neutral-400 dark:from-neutral-800 dark:to-neutral-900 shadow-inner flex items-center justify-center border border-white/30">
+                            <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-br from-white to-neutral-light dark:from-neutral-dark dark:to-black shadow-inner flex items-center justify-center border border-white/30">
                                 <span className="text-2xl font-bold text-black dark:text-white">AZ</span>
                             </div>
                             <h3 className="text-sm font-light tracking-widest text-black/80 dark:text-white/90 uppercase">
@@ -191,7 +191,7 @@ export default function FloatingSidebar() {
                                 href="#contact"
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.98 }}
-                                className="mt-4 block text-center px-5 py-3 bg-gradient-to-r from-black to-neutral-800 dark:from-white dark:to-neutral-200 text-white dark:text-black rounded-2xl text-sm font-semibold shadow-xl hover:shadow-2xl transition-all duration-300"
+                                className="mt-4 block text-center px-5 py-3 bg-black dark:bg-white text-white dark:text-black rounded-2xl text-sm font-semibold shadow-xl hover:shadow-2xl transition-all duration-300"
                             >
                                 Hire Me
                             </motion.a>

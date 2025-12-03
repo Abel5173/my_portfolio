@@ -1,5 +1,6 @@
 import { lazy, Suspense } from 'react';
 import Layout from "./components/layout/Layout";
+import { useDynamicFavicon } from './hooks/useDynamicFavicon';
 
 import { Routes, Route } from 'react-router-dom';
 
@@ -21,6 +22,7 @@ const LoadingSpinner = () => (
 );
 
 const App = () => {
+  useDynamicFavicon();
   return (
     <Layout>
       <Suspense fallback={<LoadingSpinner />}>
