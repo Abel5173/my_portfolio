@@ -1,195 +1,478 @@
 import { motion } from 'framer-motion';
-import { ArrowRight, Download } from 'lucide-react';
+import { ArrowRight, Download, Sparkles, Cpu, Zap, Brain } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 const Hero = () => {
+    const [isDark, setIsDark] = useState(false);
+
+    useEffect(() => {
+        // Check initial theme
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            setIsDark(true);
+        } else {
+            setIsDark(false);
+        }
+    }, []);
+
     return (
         <section
             id="home"
-            className="relative min-h-[calc(100vh-4rem)] flex items-center justify-center overflow-hidden bg-transparent"
+            className="relative min-h-screen flex items-center justify-center overflow-hidden bg-transparent"
         >
-            {/* Top-right to Bottom-left Gradient Pattern */}
+            {/* Enhanced Pattern Background with Seamless Flow */}
             <div className="absolute inset-0 z-0">
-                {/* Main gradient fade */}
+                {/* Main Diagonal Gradient Flow - Goes beyond boundaries */}
                 <div
-                    className="absolute inset-0 bg-gradient-to-bl from-transparent via-neutral-200/20 to-neutral-900/5 dark:from-transparent dark:via-white/5 dark:to-black/20"
+                    className="absolute inset-0 opacity-30 dark:opacity-20"
                     style={{
-                        maskImage: 'radial-gradient(circle at top right, black 0%, transparent 70%)',
-                        WebkitMaskImage: 'radial-gradient(circle at top right, black 0%, transparent 70%)',
+                        background: isDark 
+                            ? 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 30%, transparent 70%, rgba(255,255,255,0.05) 100%)'
+                            : 'linear-gradient(135deg, rgba(0,0,0,0.1) 0%, transparent 30%, transparent 70%, rgba(0,0,0,0.05) 100%)',
                     }}
                 />
 
-                {/* Subtle grid pattern overlay */}
-                <div
-                    className="absolute inset-0 opacity-[0.03] dark:opacity-[0.02]"
-                    style={{
-                        backgroundImage: `
-                            linear-gradient(to right, #000 1px, transparent 1px),
-                            linear-gradient(to bottom, #000 1px, transparent 1px)
-                        `,
-                        backgroundSize: '40px 40px',
-                        maskImage: 'linear-gradient(to bottom left, transparent 0%, black 30%, black 70%, transparent 100%)',
-                        WebkitMaskImage: 'linear-gradient(to bottom left, transparent 0%, black 30%, black 70%, transparent 100%)',
-                    }}
-                />
+                {/* Grid Pattern with Gradient Mask */}
+                <div className="absolute inset-0">
+                    <div
+                        className="w-full h-full opacity-[0.03] dark:opacity-[0.02]"
+                        style={{
+                            backgroundImage: `
+                                linear-gradient(90deg, currentColor 1px, transparent 1px),
+                                linear-gradient(180deg, currentColor 1px, transparent 1px)
+                            `,
+                            backgroundSize: '50px 50px',
+                            maskImage: 'radial-gradient(circle at 30% 20%, black 20%, transparent 70%)',
+                            WebkitMaskImage: 'radial-gradient(circle at 30% 20%, black 20%, transparent 70%)',
+                        }}
+                    />
+                </div>
 
-                {/* Concentric circles pattern */}
+                {/* Concentric Waves Pattern */}
                 <svg
-                    className="absolute inset-0 w-full h-full opacity-[0.02] dark:opacity-[0.015]"
+                    className="absolute inset-0 w-full h-full opacity-[0.03] dark:opacity-[0.02]"
                     viewBox="0 0 1200 800"
                     preserveAspectRatio="xMidYMid slice"
                 >
                     <defs>
-                        <radialGradient id="circleFade" cx="100%" cy="0%">
-                            <stop offset="0%" stopColor="currentColor" stopOpacity="0.3" />
+                        <radialGradient id="waveFade" cx="80%" cy="20%">
+                            <stop offset="0%" stopColor="currentColor" stopOpacity="0.2" />
+                            <stop offset="50%" stopColor="currentColor" stopOpacity="0.1" />
                             <stop offset="100%" stopColor="currentColor" stopOpacity="0" />
                         </radialGradient>
                     </defs>
-                    <circle cx="1200" cy="0" r="200" fill="url(#circleFade)" className="text-black dark:text-white" />
-                    <circle cx="1200" cy="0" r="400" fill="url(#circleFade)" className="text-black dark:text-white" />
-                    <circle cx="1200" cy="0" r="600" fill="url(#circleFade)" className="text-black dark:text-white" />
+                    {[200, 400, 600, 800].map((r, i) => (
+                        <motion.circle
+                            key={r}
+                            cx="960"
+                            cy="160"
+                            r={r}
+                            fill="url(#waveFade)"
+                            className="text-black dark:text-white"
+                            initial={{ scale: 0.95, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 0.03 }}
+                            transition={{
+                                duration: 3,
+                                delay: i * 0.2,
+                                repeat: Infinity,
+                                repeatType: "reverse"
+                            }}
+                        />
+                    ))}
                 </svg>
 
-                {/* Diagonal lines pattern */}
-                <div
-                    className="absolute inset-0 opacity-[0.02] dark:opacity-[0.015]"
+                {/* Dynamic Pattern Overlay */}
+                <motion.div
+                    className="absolute inset-0"
                     style={{
-                        backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 15px, currentColor 15px, currentColor 30px)',
-                        maskImage: 'linear-gradient(to bottom left, transparent 10%, black 40%, black 60%, transparent 90%)',
-                        WebkitMaskImage: 'linear-gradient(to bottom left, transparent 10%, black 40%, black 60%, transparent 90%)',
+                        backgroundImage: 'repeating-linear-gradient(60deg, transparent, transparent 2px, currentColor 2px, currentColor 3px)',
+                        opacity: 0.01,
+                        maskImage: 'linear-gradient(to bottom right, transparent 5%, black 25%, black 75%, transparent 95%)',
+                        WebkitMaskImage: 'linear-gradient(to bottom right, transparent 5%, black 25%, black 75%, transparent 95%)',
+                    }}
+                    animate={{
+                        backgroundPosition: ['0px 0px', '100px 100px'],
+                    }}
+                    transition={{
+                        duration: 20,
+                        repeat: Infinity,
+                        ease: "linear"
                     }}
                 />
 
-
+                {/* Gradient Orbs for Depth */}
+                <div className="absolute top-1/4 -right-20 w-96 h-96 rounded-full blur-3xl opacity-30"
+                    style={{
+                        background: isDark 
+                            ? 'radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%)'
+                            : 'radial-gradient(circle, rgba(0,0,0,0.3) 0%, transparent 70%)'
+                    }}
+                />
+                <div className="absolute bottom-1/4 -left-20 w-96 h-96 rounded-full blur-3xl opacity-30"
+                    style={{
+                        background: isDark 
+                            ? 'radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%)'
+                            : 'radial-gradient(circle, rgba(0,0,0,0.2) 0%, transparent 70%)'
+                    }}
+                />
             </div>
 
-            {/* Abstract floating elements */}
+            {/* Animated Floating Elements */}
             <div className="absolute inset-0 z-5 overflow-hidden pointer-events-none">
-                {/* Floating dots following diagonal direction */}
-                {Array.from({ length: 8 }).map((_, i) => (
+                {/* Floating AI Icons */}
+                {[Brain, Cpu, Zap].map((Icon, i) => (
                     <motion.div
                         key={i}
-                        className="absolute w-1 h-1 rounded-full bg-neutral-400/20 dark:bg-neutral-600/20"
+                        className="absolute"
+                        initial={{
+                            x: Math.random() * 80 + 10 + '%',
+                            y: Math.random() * 80 + 10 + '%',
+                            opacity: 0,
+                            rotate: 0
+                        }}
+                        animate={{
+                            x: [null, `-${Math.random() * 20 + 10}%`],
+                            y: [null, `+${Math.random() * 20 + 10}%`],
+                            opacity: [0, 0.1, 0],
+                            rotate: 360
+                        }}
+                        transition={{
+                            duration: Math.random() * 10 + 15,
+                            repeat: Infinity,
+                            ease: "linear",
+                            delay: i * 2,
+                        }}
+                    >
+                        <Icon className={`w-6 h-6 ${isDark ? 'text-white/20' : 'text-black/20'}`} />
+                    </motion.div>
+                ))}
+
+                {/* Enhanced Floating Dots */}
+                {Array.from({ length: 15 }).map((_, i) => (
+                    <motion.div
+                        key={i}
+                        className={`absolute w-1 h-1 rounded-full ${isDark ? 'bg-white/10' : 'bg-black/10'}`}
                         initial={{
                             x: Math.random() * 100 + 80 + '%',
-                            y: Math.random() * 20 + 10 + '%',
+                            y: Math.random() * 100 + 10 + '%',
                             opacity: 0,
                         }}
                         animate={{
-                            x: [null, `-${Math.random() * 40 + 20}%`],
-                            y: [null, `${Math.random() * 40 + 40}%`],
-                            opacity: [0, 0.3, 0],
+                            x: [null, `-${Math.random() * 60 + 40}%`],
+                            y: [null, `${Math.random() * 60 + 40}%`],
+                            opacity: [0, 0.4, 0],
                         }}
                         transition={{
-                            duration: Math.random() * 5 + 10,
+                            duration: Math.random() * 8 + 12,
                             repeat: Infinity,
                             ease: "linear",
-                            delay: i * 0.5,
+                            delay: i * 0.3,
                         }}
                     />
                 ))}
+
+                {/* Connection Lines */}
+                <svg className="absolute inset-0 w-full h-full opacity-10">
+                    <motion.path
+                        d="M80,100 Q400,50 600,200 T1200,300"
+                        fill="none"
+                        stroke={isDark ? "white" : "black"}
+                        strokeWidth="0.5"
+                        strokeDasharray="5,5"
+                        initial={{ pathLength: 0 }}
+                        animate={{ pathLength: 1 }}
+                        transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+                    />
+                </svg>
             </div>
 
+            {/* Main Content */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 w-full">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                    {/* Text Content – Clean & Bold */}
+                    {/* Text Content – Enhanced with Animations */}
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
+                        initial={{ opacity: 0, y: 40 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8 }}
-                        className="text-center lg:text-left"
+                        className="text-center lg:text-left relative"
                     >
+                        {/* Floating Badge with Particles */}
                         <motion.div
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
+                            initial={{ opacity: 0, x: -20, scale: 0.9 }}
+                            animate={{ opacity: 1, x: 0, scale: 1 }}
                             transition={{ delay: 0.2, duration: 0.8 }}
-                            className="inline-block px-4 py-2 mb-6 rounded-full bg-neutral-100/60 dark:bg-neutral-900/60 border border-neutral-300/30 dark:border-neutral-700/40 backdrop-blur-sm"
+                            className="inline-block mb-8 relative"
                         >
-                            <span className="text-neutral-700 dark:text-neutral-300 font-medium text-sm">
-                                AI Engineer & Full Stack Developer
-                            </span>
+                            <div className="px-5 py-2.5 rounded-full bg-white/10 dark:bg-black/10 border border-white/20 dark:border-black/20 backdrop-blur-xl flex items-center gap-3">
+                                <Sparkles className="w-4 h-4 text-neutral-600 dark:text-neutral-400" />
+                                <span className="text-neutral-700 dark:text-neutral-300 font-medium text-sm">
+                                    AI Engineer & Full Stack Developer
+                                </span>
+                            </div>
+                            
+                            {/* Animated particles around badge */}
+                            {[...Array(3)].map((_, i) => (
+                                <motion.div
+                                    key={i}
+                                    className={`absolute w-1 h-1 rounded-full ${isDark ? 'bg-white/30' : 'bg-black/30'}`}
+                                    style={{
+                                        left: `${Math.cos(i * 120 * Math.PI / 180) * 20}px`,
+                                        top: `${Math.sin(i * 120 * Math.PI / 180) * 20}px`,
+                                    }}
+                                    animate={{
+                                        scale: [0, 1, 0],
+                                        opacity: [0, 1, 0],
+                                    }}
+                                    transition={{
+                                        duration: 2,
+                                        repeat: Infinity,
+                                        delay: i * 0.3,
+                                    }}
+                                />
+                            ))}
                         </motion.div>
 
-                        <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6 text-neutral-900 dark:text-white">
-                            Building the <br />
-                            <span className="bg-clip-text text-transparent bg-gradient-to-r from-neutral-900 to-neutral-600 dark:from-white dark:to-neutral-300">
-                                Intelligent Future
-                            </span>
-                        </h1>
+                        {/* Main Heading with Staggered Text */}
+                        <div className="overflow-hidden mb-6">
+                            <motion.h1
+                                initial={{ y: 100, opacity: 0 }}
+                                animate={{ y: 0, opacity: 1 }}
+                                transition={{ duration: 0.8, delay: 0.3 }}
+                                className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-neutral-900 dark:text-white leading-tight"
+                            >
+                                Building the
+                                <br />
+                                <span className="relative">
+                                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-neutral-900 via-neutral-700 to-neutral-900 dark:from-white dark:via-neutral-300 dark:to-white">
+                                        Intelligent Future
+                                    </span>
+                                    {/* Animated underline */}
+                                    <motion.div
+                                        className="absolute -bottom-2 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-neutral-900/50 to-transparent dark:via-white/50"
+                                        initial={{ scaleX: 0 }}
+                                        animate={{ scaleX: 1 }}
+                                        transition={{ delay: 0.8, duration: 1 }}
+                                    />
+                                </span>
+                            </motion.h1>
+                        </div>
 
-                        <p className="text-lg md:text-xl text-neutral-600 dark:text-neutral-400 mb-8 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-                            I specialize in crafting advanced AI solutions and scalable web applications. Bridging the gap between complex
-                            machine learning models and intuitive user experiences.
-                        </p>
+                        {/* Subtitle with Fade In */}
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 0.5, duration: 0.8 }}
+                            className="mb-10"
+                        >
+                            <p className="text-lg md:text-xl text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+                                I specialize in crafting advanced AI solutions and scalable web applications. Bridging the gap between complex
+                                machine learning models and intuitive user experiences.
+                            </p>
+                        </motion.div>
 
-                        <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+                        {/* Enhanced CTA Buttons */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.7, duration: 0.8 }}
+                            className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-5"
+                        >
                             <motion.a
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                                 href="#projects"
-                                className="px-8 py-4 bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 rounded-lg font-semibold text-lg hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] dark:hover:shadow-[0_8px_30px_rgb(255,255,255,0.08)] transition-all flex items-center gap-2"
+                                className="px-8 py-4 bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 rounded-xl font-semibold text-lg hover:shadow-[0_20px_50px_-12px] hover:shadow-neutral-900/20 dark:hover:shadow-white/20 transition-all duration-300 flex items-center gap-3 group relative overflow-hidden"
                             >
-                                View Projects <ArrowRight size={20} />
+                                <span className="relative z-10">View Projects</span>
+                                <ArrowRight size={20} className="relative z-10 transition-transform group-hover:translate-x-1" />
+                                <motion.div
+                                    className="absolute inset-0 bg-gradient-to-r from-neutral-800 to-neutral-900 dark:from-gray-200 dark:to-white"
+                                    initial={{ x: '-100%' }}
+                                    whileHover={{ x: '0%' }}
+                                    transition={{ duration: 0.3 }}
+                                />
                             </motion.a>
+
                             <motion.a
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                                 href="https://drive.google.com/file/d/14EJKDuNdoTyJaYhWHfHAxcQgtl13Nb6U/view?usp=sharing"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="px-8 py-4 bg-transparent border border-neutral-400/30 dark:border-neutral-600/40 text-neutral-900 dark:text-white rounded-lg font-semibold text-lg hover:bg-neutral-100/20 dark:hover:bg-neutral-800/20 transition-all flex items-center gap-2"
+                                className="px-8 py-4 bg-transparent border-2 border-neutral-300 dark:border-neutral-700 text-neutral-900 dark:text-white rounded-xl font-semibold text-lg hover:bg-neutral-100/30 dark:hover:bg-neutral-800/30 transition-all duration-300 flex items-center gap-3 group relative overflow-hidden"
                             >
-                                Download CV <Download size={20} />
+                                <span className="relative z-10">Download CV</span>
+                                <Download size={20} className="relative z-10 transition-transform group-hover:-translate-y-1" />
+                                {/* Subtle background effect */}
+                                <div className="absolute inset-0 bg-gradient-to-br from-transparent via-neutral-100/10 to-transparent dark:via-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                             </motion.a>
-                        </div>
+                        </motion.div>
+
+                        {/* Stats Counter */}
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 1, duration: 0.8 }}
+                            className="mt-12 flex items-center justify-center lg:justify-start gap-8"
+                        >
+                            {[
+                                { value: '3+', label: 'Years Experience' },
+                                { value: '20+', label: 'Projects' },
+                                { value: '5+', label: 'AI Models' }
+                            ].map((stat, i) => (
+                                <div key={i} className="text-center">
+                                    <motion.div
+                                        className="text-2xl font-bold text-neutral-900 dark:text-white"
+                                        initial={{ scale: 0 }}
+                                        animate={{ scale: 1 }}
+                                        transition={{ delay: 1 + i * 0.1, type: "spring" }}
+                                    >
+                                        {stat.value}
+                                    </motion.div>
+                                    <div className="text-sm text-neutral-600 dark:text-neutral-400 mt-1">
+                                        {stat.label}
+                                    </div>
+                                </div>
+                            ))}
+                        </motion.div>
                     </motion.div>
 
-                    {/* Visual: Minimalist AI Terminal – Black & White */}
+                    {/* Enhanced Visual Terminal */}
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: 0.4, duration: 0.7 }}
+                        initial={{ opacity: 0, scale: 0.9, rotateY: -10 }}
+                        animate={{ opacity: 1, scale: 1, rotateY: 0 }}
+                        transition={{ delay: 0.4, duration: 0.8, type: "spring" }}
                         className="relative hidden lg:block"
                     >
                         <div className="relative w-full aspect-square max-w-lg mx-auto">
-                            {/* Floating Glass Panel with diagonal gradient */}
-                            <div
-                                className="absolute inset-0 backdrop-blur-xl rounded-2xl border border-neutral-300/20 dark:border-neutral-700/30 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.08)] dark:shadow-[0_20px_50px_-12px_rgba(255,255,255,0.03)] rounded-[28px]"
+                            {/* Outer Glow */}
+                            <motion.div
+                                className="absolute -inset-4 rounded-3xl blur-xl"
+                                animate={{
+                                    opacity: [0.3, 0.5, 0.3],
+                                }}
+                                transition={{
+                                    duration: 3,
+                                    repeat: Infinity
+                                }}
                                 style={{
-                                    background: 'linear-gradient(to bottom left, rgba(255,255,255,0.05), rgba(0,0,0,0.05))',
+                                    background: isDark 
+                                        ? 'radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%)'
+                                        : 'radial-gradient(circle, rgba(0,0,0,0.2) 0%, transparent 70%)'
                                 }}
                             />
 
-                            {/* Inner Content – AI Data Stream */}
-                            <div className="relative z-10 w-full h-full bg-gradient-to-bl from-white/5 to-black/5 backdrop-blur-2xl rounded-2xl border border-white/10 dark:border-black/20 p-6 flex flex-col">
-                                {/* Terminal Header Dots */}
-                                <div className="flex items-center gap-2 mb-5">
-                                    <div className="w-3 h-3 rounded-full bg-neutral-400" />
-                                    <div className="w-3 h-3 rounded-full bg-neutral-400" />
-                                    <div className="w-3 h-3 rounded-full bg-neutral-400" />
-                                </div>
+                            {/* Glass Panel */}
+                            <div className="relative w-full h-full backdrop-blur-2xl rounded-2xl border border-white/20 dark:border-white/10 shadow-2xl overflow-hidden">
+                                {/* Terminal Content */}
+                                <div className="relative z-10 w-full h-full bg-gradient-to-br from-white/5 to-black/5 p-6 flex flex-col">
+                                    {/* Terminal Header */}
+                                    <div className="flex items-center gap-2 mb-6">
+                                        {['#FF5F57', '#FFBD2E', '#28CA42'].map((color, i) => (
+                                            <motion.div
+                                                key={i}
+                                                className="w-3 h-3 rounded-full"
+                                                style={{ backgroundColor: color }}
+                                                animate={{ scale: [1, 1.2, 1] }}
+                                                transition={{ delay: i * 0.2, repeat: Infinity, duration: 2 }}
+                                            />
+                                        ))}
+                                        <div className="flex-1 text-center font-mono text-xs text-neutral-600 dark:text-neutral-400">
+                                            AI_Terminal_01
+                                        </div>
+                                    </div>
 
-                                {/* Simulated AI Output – Clean Monospace */}
-                                <div className="flex-1 flex flex-col justify-end space-y-3 font-mono text-xs text-neutral-700 dark:text-neutral-300">
-                                    <div className="h-3 bg-neutral-300/40 dark:bg-neutral-700/50 rounded w-4/5" />
-                                    <div className="h-3 bg-neutral-300/40 dark:bg-neutral-700/50 rounded w-2/3" />
-                                    <div className="h-3 bg-neutral-300/40 dark:bg-neutral-700/50 rounded w-5/6" />
+                                    {/* AI Processing Animation */}
+                                    <div className="flex-1 space-y-4">
+                                        {[
+                                            'Initializing neural network... ✓',
+                                            'Loading training data... ✓',
+                                            'Processing inference request...',
+                                            'Confidence: 98.7%'
+                                        ].map((line, i) => (
+                                            <motion.div
+                                                key={i}
+                                                className="font-mono text-sm text-neutral-700 dark:text-neutral-300 flex items-center gap-3"
+                                                initial={{ opacity: 0, x: -20 }}
+                                                animate={{ opacity: 1, x: 0 }}
+                                                transition={{ delay: 0.6 + i * 0.2 }}
+                                            >
+                                                <span className="text-neutral-500 dark:text-neutral-500">$</span>
+                                                {line}
+                                                {i < 2 && (
+                                                    <motion.span
+                                                        className="text-green-500"
+                                                        initial={{ opacity: 0 }}
+                                                        animate={{ opacity: 1 }}
+                                                        transition={{ delay: 0.8 + i * 0.2 }}
+                                                    >
+                                                        ✓
+                                                    </motion.span>
+                                                )}
+                                            </motion.div>
+                                        ))}
 
-                                    {/* AI Result – Highlighted with Precision */}
-                                    <div className="mt-4 p-3 bg-gradient-to-bl from-neutral-900/5 to-white/5 dark:from-white/5 dark:to-black/5 border border-neutral-400/20 dark:border-neutral-600/30 rounded-lg text-center">
-                                        <span className="font-medium text-neutral-900 dark:text-neutral-200">
-                                            Model Inference: 98.7% Confidence
-                                        </span>
+                                        {/* AI Output Visualization */}
+                                        <motion.div
+                                            className="mt-6 p-4 bg-gradient-to-r from-white/5 to-transparent dark:from-black/5 rounded-lg border border-white/10 dark:border-white/5"
+                                            initial={{ opacity: 0, scale: 0.9 }}
+                                            animate={{ opacity: 1, scale: 1 }}
+                                            transition={{ delay: 1.2 }}
+                                        >
+                                            <div className="flex items-center justify-between mb-2">
+                                                <span className="font-medium text-neutral-900 dark:text-white">
+                                                    Model Performance
+                                                </span>
+                                                <span className="text-xs text-green-500 font-mono">↑ 98.7%</span>
+                                            </div>
+                                            <div className="h-2 bg-white/10 dark:bg-black/10 rounded-full overflow-hidden">
+                                                <motion.div
+                                                    className="h-full bg-gradient-to-r from-neutral-900 to-neutral-700 dark:from-white dark:to-neutral-300"
+                                                    initial={{ width: 0 }}
+                                                    animate={{ width: '98.7%' }}
+                                                    transition={{ delay: 1.4, duration: 1 }}
+                                                />
+                                            </div>
+                                        </motion.div>
+                                    </div>
+
+                                    {/* Status Bar */}
+                                    <div className="mt-6 pt-4 border-t border-white/10 dark:border-black/10 flex items-center justify-between text-xs text-neutral-600 dark:text-neutral-400">
+                                        <span>Ready</span>
+                                        <span>AI Terminal v2.0</span>
                                     </div>
                                 </div>
 
-                                {/* Subtle diagonal highlight */}
-                                <div className="absolute top-4 left-4 right-4 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent dark:via-black/10 rounded-full" />
-                                <div className="absolute bottom-4 left-4 right-4 h-px bg-gradient-to-r from-transparent via-white/5 to-transparent dark:via-black/5 rounded-full" />
+                                {/* Animated Scan Line */}
+                                <motion.div
+                                    className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent"
+                                    animate={{ y: ['0%', '100%', '0%'] }}
+                                    transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+                                />
                             </div>
                         </div>
                     </motion.div>
                 </div>
             </div>
+
+            {/* Scroll Indicator */}
+            <motion.div
+                className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.5, duration: 0.8 }}
+            >
+                <motion.div
+                    className="w-6 h-10 border-2 border-neutral-400/30 dark:border-neutral-600/30 rounded-full p-1"
+                    animate={{ y: [0, 10, 0] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                >
+                    <motion.div
+                        className="w-1 h-2 bg-neutral-600 dark:bg-neutral-400 rounded-full mx-auto"
+                        animate={{ y: [0, 12, 0] }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                    />
+                </motion.div>
+            </motion.div>
         </section>
     );
 };

@@ -9,6 +9,7 @@ const Hero = lazy(() => import("./components/sections/Hero"));
 const Projects = lazy(() => import("./components/sections/Projects"));
 const Skills = lazy(() => import("./components/sections/Skills"));
 const Experience = lazy(() => import("./components/sections/Experience"));
+const Certificates = lazy(() => import("./components/sections/Certificates"));
 const About = lazy(() => import("./components/sections/About"));
 const Contact = lazy(() => import("./components/sections/Contact"));
 const NavPlayground = lazy(() => import("./components/pages/NavPlayground"));
@@ -34,6 +35,7 @@ const App = () => {
                 <Projects />
                 <Skills />
                 <Experience />
+                <Certificates />
                 <About />
                 <Contact />
               </>

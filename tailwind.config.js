@@ -44,7 +44,7 @@ export default {
         ring: 'hsl(var(--ring))',
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['IBM Plex Mono', 'monospace'],
       },
       boxShadow: {
         'glow': '0 0 15px rgba(0, 0, 0, 0.1)',

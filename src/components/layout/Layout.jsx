@@ -18,7 +18,7 @@ const Layout = ({ children }) => {
             />
             <Header />
             <Sidebar />
-            <main className="flex-grow pt-16 md:pt-0 md:pl-32 transition-all duration-300">
+            <main className="flex-grow pt-16 md:pt-0 transition-all duration-300">
                 {children}
             </main>
             <Footer />

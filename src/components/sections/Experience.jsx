@@ -30,14 +30,73 @@ const experiences = [
 
 const Experience = () => {
     return (
-        <section id="experience" className="relative py-24 overflow-hidden">
-            {/* Background Grid Pattern - Super subtle */}
-            <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
+        <section id="experience" className="relative py-24 overflow-hidden bg-transparent">
+            {/* Unified Background System - Diagonal flow continuation */}
+            <div className="absolute inset-0 z-0">
+                {/* Diagonal flow from previous sections */}
+                <div className="absolute inset-0 opacity-20" style={{ background: 'linear-gradient(135deg, rgba(0,0,0,0.08) 0%, transparent 30%, transparent 70%, rgba(0,0,0,0.04) 100%)' }} />
 
-            {/* Organic Shapes - Micro, not loud */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-neutral-200/20 dark:bg-neutral-800/20 rounded-full blur-[100px] -translate-x-1/2 -translate-y-1/2" />
-                <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-neutral-200/20 dark:bg-neutral-800/20 rounded-full blur-[100px] translate-x-1/2 translate-y-1/2" />
+                {/* Grid pattern with diagonal alignment */}
+                <div className="absolute inset-0">
+                    <div className="w-full h-full opacity-[0.03]" style={{
+                        backgroundImage: 'linear-gradient(135deg, currentColor 1px, transparent 1px)',
+                        backgroundSize: '30px 30px',
+                        maskImage: 'radial-gradient(circle at 50% 50%, black 30%, transparent 70%)',
+                        WebkitMaskImage: 'radial-gradient(circle at 50% 50%, black 30%, transparent 70%)',
+                    }} />
+                </div>
+
+                {/* Wave propagation with timeline theme */}
+                <svg className="absolute inset-0 w-full h-full opacity-[0.02]" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+                    <defs>
+                        <radialGradient id="expWave" cx="50%" cy="50%">
+                            <stop offset="0%" stopColor="currentColor" stopOpacity="0.2" />
+                            <stop offset="50%" stopColor="currentColor" stopOpacity="0.1" />
+                            <stop offset="100%" stopColor="currentColor" stopOpacity="0" />
+                        </radialGradient>
+                    </defs>
+                    <circle cx="50%" cy="50%" r="300" fill="url(#expWave)" className="animate-pulse-slow" />
+                </svg>
+
+                {/* Timeline connection lines */}
+                <div className="absolute inset-0 opacity-5">
+                    <svg className="w-full h-full">
+                        <motion.path
+                            d="M100,200 Q400,150 700,250 T1100,200"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="0.5"
+                            strokeDasharray="5,5"
+                            initial={{ pathLength: 0 }}
+                            animate={{ pathLength: 1 }}
+                            transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+                        />
+                    </svg>
+                </div>
+
+                {/* Floating timeline dots */}
+                <div className="absolute inset-0">
+                    {Array.from({ length: 6 }).map((_, i) => (
+                        <motion.div
+                            key={i}
+                            className="absolute w-1 h-1 rounded-full bg-black/20 dark:bg-white/20"
+                            style={{
+                                left: `${20 + (i * 15)}%`,
+                                top: `${40 + (i * 5)}%`,
+                            }}
+                            animate={{
+                                scale: [1, 1.5, 1],
+                                opacity: [0.2, 0.6, 0.2],
+                            }}
+                            transition={{
+                                duration: 2 + i * 0.2,
+                                repeat: Infinity,
+                                ease: 'easeInOut',
+                                delay: i * 0.3,
+                            }}
+                        />
+                    ))}
+                </div>
             </div>
 
             <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -62,8 +121,8 @@ const Experience = () => {
                 </motion.div>
 
                 <div className="relative">
-                    {/* Vertical Timeline Line - Subtle Gradient */}
-                    <div className="absolute left-0 md:left-1/2 transform md:-translate-x-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-neutral-300 dark:via-neutral-700 to-transparent opacity-50" />
+                    {/* Vertical Timeline Line - Following diagonal flow */}
+                    <div className="absolute left-0 md:left-1/2 transform md:-translate-x-1/2 top-0 bottom-0 w-px" style={{ background: 'linear-gradient(to bottom, transparent, rgba(0,0,0,0.3) 20%, rgba(0,0,0,0.3) 80%, transparent)' }} />
 
                     <div className="space-y-12">
                         {experiences.map((exp, index) => (
@@ -79,17 +138,62 @@ const Experience = () => {
                                 }}
                                 className={`relative flex flex-col md:flex-row gap-8 ${index % 2 === 0 ? 'md:flex-row-reverse' : ''}`}
                             >
-                                {/* Timeline Dot - Minimalist */}
+                                {/* Timeline Dot - Enhanced with particle trails */}
                                 <div className="absolute left-0 md:left-1/2 transform -translate-x-1/2 w-4 h-4 mt-1.5 md:mt-0 z-10">
-                                    <div className="absolute inset-0 bg-neutral-900 dark:bg-neutral-100 rounded-full ring-4 ring-white dark:ring-black" />
+                                    <motion.div
+                                        className="absolute inset-0 bg-black dark:bg-white rounded-full ring-4 ring-white dark:ring-black"
+                                        animate={{
+                                            scale: [1, 1.2, 1],
+                                            boxShadow: [
+                                                '0 0 0 0 rgba(0,0,0,0.3)',
+                                                '0 0 0 8px rgba(0,0,0,0)',
+                                                '0 0 0 0 rgba(0,0,0,0)'
+                                            ]
+                                        }}
+                                        transition={{
+                                            duration: 2,
+                                            repeat: Infinity,
+                                            ease: 'easeInOut'
+                                        }}
+                                    />
+                                    {/* Particle trail effect */}
+                                    {Array.from({ length: 3 }).map((_, i) => (
+                                        <motion.div
+                                            key={i}
+                                            className="absolute w-1 h-1 bg-black/30 dark:bg-white/30 rounded-full"
+                                            style={{
+                                                left: '50%',
+                                                top: '50%',
+                                                transform: 'translate(-50%, -50%)',
+                                            }}
+                                            animate={{
+                                                x: [0, (i + 1) * 20, 0],
+                                                y: [0, (i + 1) * 10, 0],
+                                                opacity: [0, 0.6, 0],
+                                                scale: [0, 1, 0],
+                                            }}
+                                            transition={{
+                                                duration: 1.5,
+                                                repeat: Infinity,
+                                                delay: i * 0.2,
+                                                ease: 'easeOut',
+                                            }}
+                                        />
+                                    ))}
                                 </div>
 
                                 {/* Content Card */}
                                 <div className="ml-8 md:ml-0 md:w-1/2">
                                     <div className={`relative group ${index % 2 === 0 ? 'md:mr-12' : 'md:ml-12'}`}>
 
-                                        {/* Glassmorphic Card */}
-                                        <div className="relative bg-white/5 dark:bg-black/5 backdrop-blur-md border border-white/20 dark:border-white/10 rounded-xl p-6 md:p-8 shadow-[0_4px_20px_-2px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_30px_-2px_rgba(0,0,0,0.1)] transition-all duration-500 hover:scale-[1.01] group-hover:border-white/30 dark:group-hover:border-white/20">
+                                        {/* Enhanced Glassmorphic Card with shine effects */}
+                                        <div className="relative bg-white/5 dark:bg-black/5 backdrop-blur-xl border border-white/20 dark:border-white/10 rounded-xl p-6 md:p-8 shadow-[0_4px_20px_-2px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_30px_-2px_rgba(0,0,0,0.1)] transition-all duration-500 hover:scale-[1.01] group overflow-hidden">
+
+                                            {/* Animated shine effect */}
+                                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+
+                                            {/* Subtle background gradient */}
+                                            <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
                                             {/* Header Section */}
                                             <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-6">
