@@ -42,6 +42,21 @@ jobs:
     - name: Build project
       run: npm run build
 
+    # Validate that required secrets are configured
+    - name: Check Netlify credentials
+      run: |
+        if [ -z "${{ secrets.NETLIFY_AUTH_TOKEN }}" ]; then
+          echo "::error::NETLIFY_AUTH_TOKEN secret is not configured. Please add it in GitHub repository Settings → Secrets and variables → Actions."
+          echo "Get your token from: Netlify account → User settings → Applications → Personal access tokens"
+          exit 1
+        fi
+        if [ -z "${{ secrets.NETLIFY_SITE_ID }}" ]; then
+          echo "::error::NETLIFY_SITE_ID secret is not configured. Please add it in GitHub repository Settings → Secrets and variables → Actions."
+          echo "Get your Site ID from: Netlify dashboard → Site configuration → General → Site ID"
+          exit 1
+        fi
+        echo "✓ Netlify credentials are configured"
+
     # Deploy the built site to Netlify
     - name: Deploy to Netlify
       run: |
