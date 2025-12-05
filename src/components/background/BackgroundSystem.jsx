@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { useTheme } from '../ThemeProvider';
 import { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 
 const BackgroundSystem = ({ className = "" }) => {
     const { resolvedTheme } = useTheme();
@@ -527,14 +528,12 @@ const BackgroundSystem = ({ className = "" }) => {
                 }}
             />
 
-            {/* Performance optimization: Use will-change for animated elements */}
-            <style jsx>{`
-        .background-layer {
-          will-change: transform, opacity;
-        }
-      `}</style>
         </div>
     );
+};
+
+BackgroundSystem.propTypes = {
+    className: PropTypes.string
 };
 
 export default BackgroundSystem;

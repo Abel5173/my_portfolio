@@ -1,14 +1,12 @@
 import { motion } from 'framer-motion';
 import {
-    Cpu, Code2, Zap, Target, TrendingUp, Sparkles,
-    Brain, Server, Layout, Cloud, Smartphone, Terminal,
-    Database, GitBranch, Cpu as CpuIcon, BarChart3,
-    Wrench, GitPullRequest, Layers, Shield,
-    Briefcase, Users, MessageSquare
+    Cpu, Code2, Target, TrendingUp, Sparkles,
+    Brain, Server, Layout, Cloud, Terminal,
+    Database, Cpu as CpuIcon, Wrench, Briefcase
 } from 'lucide-react';
-import { useState, useRef, useEffect } from 'react';
-import { useInView } from 'framer-motion';
+import { useState, useRef } from 'react';
 import { useTheme } from '../ThemeProvider';
+import PropTypes from 'prop-types';
 
 // Simplified skill structure
 const skillClusters = [
@@ -124,11 +122,15 @@ const SkillDepthIndicator = ({ level, isDark }) => {
     );
 };
 
+SkillDepthIndicator.propTypes = {
+    level: PropTypes.number.isRequired,
+    isDark: PropTypes.bool.isRequired
+};
+
 const Skills = () => {
     const { resolvedTheme } = useTheme();
     const [activeCluster, setActiveCluster] = useState('core');
     const containerRef = useRef(null);
-    const inView = useInView(containerRef, { once: true, margin: '-50px' });
 
     const isDark = resolvedTheme === 'dark';
 
@@ -474,7 +476,6 @@ const Skills = () => {
                                     { year: '2023', label: 'LLMs', desc: 'Fine-tuning & RAG', icon: Sparkles },
                                     { year: '2024', label: 'MLOps', desc: 'Deployment & Scaling', icon: Cloud },
                                 ].map((item, index) => {
-                                    const Icon = item.icon;
                                     return (
                                         <div key={item.year} className="relative flex md:flex-col items-center md:text-center gap-4 md:gap-0">
                                             <motion.div

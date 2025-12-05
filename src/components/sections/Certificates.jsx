@@ -1,18 +1,15 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { Award, ExternalLink, Download, FileText, Calendar, CheckCircle, Eye, ChevronLeft, ChevronRight, Lock, Globe, Filter, SortAsc, ChevronDown, Copy, Check } from 'lucide-react';
+import { Award, Download, FileText, CheckCircle, Eye, Filter, SortAsc, ChevronDown, Copy, Check } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import { useTheme } from '../ThemeProvider';
 
 const Certificates = () => {
     const { resolvedTheme } = useTheme();
     const [selectedCertificate, setSelectedCertificate] = useState(null);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [zoomLevel, setZoomLevel] = useState(1);
     const [filter, setFilter] = useState('all');
     const [sortBy, setSortBy] = useState('recent');
     const [showAll, setShowAll] = useState(false);
     const [copied, setCopied] = useState(false);
-    const certificatesPerPage = 6;
     const modalRef = useRef(null);
 
     const isDark = resolvedTheme === 'dark';
@@ -188,7 +185,6 @@ const Certificates = () => {
 
     const openCertificateModal = (cert) => {
         setSelectedCertificate(cert);
-        setZoomLevel(1);
         document.body.style.overflow = 'hidden';
     };
 

@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { Github, ExternalLink, Code, Smartphone, Layout, Server, ArrowUpRight, FolderGit2, Cpu, Globe, Terminal, GitBranch, Star, Clock, Users, Filter, Grid3x3 } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useTheme } from '../ThemeProvider';
 
 const projects = [

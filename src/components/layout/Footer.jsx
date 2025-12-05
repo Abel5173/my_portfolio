@@ -1,4 +1,3 @@
-import React from 'react';
 import { Github, Linkedin, Twitter, Mail, ArrowUpRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -101,9 +100,9 @@ const Footer = () => {
 
                     {/* CTA Section */}
                     <motion.div className="md:col-span-3" variants={itemVariants}>
-                        <h3 className="text-lg font-semibold mb-6 text-neutral-200">Let's Connect</h3>
+                        <h3 className="text-lg font-semibold mb-6 text-neutral-200">Let&apos;s Connect</h3>
                         <p className="text-neutral-400 mb-6 text-sm">
-                            Have a project in mind? Let's build something extraordinary together.
+                            Have a project in mind? Let&apos;s build something extraordinary together.
                         </p>
                         <a
                             href="mailto:abelzeleke5173@gmail.com"

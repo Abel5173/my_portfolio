@@ -28,21 +28,23 @@ export default function FloatingActions3D() {
 
   const isDark = resolvedTheme === 'dark';
 
+  const anyModalOpen = isChatbotOpen || isContactOpen || isFeedbackOpen || isShareOpen;
+
   const toggleTheme = () => {
     setTheme(theme === 'dark' ? 'light' : 'dark');
   };
 
   // 2. Actions Array
   const actions = [
-    { icon: <Bot className="w-6 h-6" />, label: "AI Assistant", onClick: () => setIsChatbotOpen(true) },
+    { icon: <Bot className="w-6 h-6" />, label: "AI Assistant", onClick: () => { setIsOpen(false); setIsChatbotOpen(true); } },
     {
       icon: isDark ? <Sun className="w-6 h-6" /> : <Moon className="w-6 h-6" />,
       label: "Toggle Theme",
       onClick: toggleTheme,
     },
-    { icon: <LifeBuoy className="w-6 h-6" />, label: "Support", onClick: () => setIsContactOpen(true) },
-    { icon: <MessageSquareMore className="w-6 h-6" />, label: "Feedback", onClick: () => setIsFeedbackOpen(true) },
-    { icon: <Share2 className="w-6 h-6" />, label: "Share", onClick: () => setIsShareOpen(true) },
+    { icon: <LifeBuoy className="w-6 h-6" />, label: "Support", onClick: () => { setIsOpen(false); setIsContactOpen(true); } },
+    { icon: <MessageSquareMore className="w-6 h-6" />, label: "Feedback", onClick: () => { setIsOpen(false); setIsFeedbackOpen(true); } },
+    { icon: <Share2 className="w-6 h-6" />, label: "Share", onClick: () => { setIsOpen(false); setIsShareOpen(true); } },
   ];
 
   // 3. Enhanced colors with better contrast for light mode
@@ -75,8 +77,8 @@ export default function FloatingActions3D() {
     <>
       <div
         className="fixed bottom-8 right-8 z-[9999] select-none"
-        onMouseEnter={() => setIsOpen(true)}
-        onMouseLeave={() => setIsOpen(false)}
+        onMouseEnter={anyModalOpen ? undefined : () => setIsOpen(true)}
+        onMouseLeave={anyModalOpen ? undefined : () => setIsOpen(false)}
       >
         {/* Floating Action Buttons */}
         <AnimatePresence>
@@ -138,7 +140,7 @@ export default function FloatingActions3D() {
 
         {/* Main Floating Orb */}
         <motion.button
-          className="relative w-24 h-24 rounded-full overflow-visible"
+          className="relative w-20 h-20 rounded-full overflow-visible"
           whileHover={{ scale: 1.12 }}
           whileTap={{ scale: 0.94 }}
         >
@@ -170,7 +172,7 @@ export default function FloatingActions3D() {
 
           {/* Rotating Dashed Ring - Enhanced for light mode */}
           <motion.div
-            className="absolute inset-2 rounded-full border-4 border-dashed"
+            className="absolute inset-1.5 rounded-full border-4 border-dashed"
             style={{
               borderColor: borderColor,
               opacity: isDark ? 0.4 : 0.6 // Higher opacity in light mode
@@ -185,7 +187,7 @@ export default function FloatingActions3D() {
 
           {/* Inner solid ring for contrast */}
           <motion.div
-            className="absolute inset-4 rounded-full border-2"
+            className="absolute inset-3 rounded-full border-2"
             style={{
               borderColor: borderColor,
               opacity: 0.2
@@ -202,7 +204,7 @@ export default function FloatingActions3D() {
 
           {/* Core */}
           <div
-            className={`${coreBg} absolute inset-6 rounded-full shadow-2xl flex items-center justify-center border-2 ${isDark ? 'border-white/30' : 'border-white/40'}`}
+            className={`${coreBg} absolute inset-5 rounded-full shadow-2xl flex items-center justify-center border-2 ${isDark ? 'border-white/30' : 'border-white/40'}`}
           >
             <motion.div
               animate={{ rotate: isOpen ? 135 : 0 }}
@@ -211,9 +213,9 @@ export default function FloatingActions3D() {
               {/* Core Icons with slight glow */}
               <div className="relative">
                 {isOpen ? (
-                  <Zap className={`w-12 h-12 ${coreIconColor} drop-shadow-lg`} />
+                  <Zap className={`w-8 h-8 ${coreIconColor} drop-shadow-lg`} />
                 ) : (
-                  <Plus className={`w-12 h-12 ${coreIconColor} drop-shadow-lg`} />
+                  <Plus className={`w-8 h-8 ${coreIconColor} drop-shadow-lg`} />
                 )}
                 {/* Icon glow */}
                 <div className="absolute inset-0 blur-sm bg-white/30 rounded-full" />

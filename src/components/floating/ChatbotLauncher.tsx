@@ -125,12 +125,7 @@ export function ChatbotLauncher({ open, onOpenChange }: ChatbotLauncherProps) {
 
     // UI Theme Classes
     const uiClasses = {
-        dialog: clsx(
-            "fixed left-1/2 top-1/2 z-50 w-full max-w-lg max-h-[80vh] -translate-x-1/2 -translate-y-1/2 rounded-3xl border shadow-2xl backdrop-blur-3xl overflow-hidden p-6",
-            glassBorder,
-            glassOverlay,
-            primaryText
-        ),
+        dialog: "fixed z-50 w-full max-w-md rounded-3xl border border-white/10 bg-white/95 p-6 text-neutral-900 shadow-2xl backdrop-blur-2xl dark:bg-neutral-950/90 dark:text-neutral-100 inset-x-auto bottom-0 right-32 m-6 transform-none",
         closeButton: clsx(
             "inline-flex h-8 w-8 items-center justify-center rounded-full border transition hover:scale-110 focus-visible:outline-none focus-visible:ring-2",
             isDark
@@ -170,132 +165,135 @@ export function ChatbotLauncher({ open, onOpenChange }: ChatbotLauncherProps) {
 
     return (
         <Dialog.Root open={open} onOpenChange={onOpenChange}>
-            <AnimatePresence>
-                {open ? (
-                    <Dialog.Portal forceMount>
-                        {/* FIX: MotionOverlay handles the outside click.
-                            Ensure its z-index is lower than the content but covers the page.
-                        */}
-                        <MotionOverlay
-                            className={clsx("fixed inset-0 z-40 backdrop-blur-sm", isDark ? "bg-black/60" : "bg-black/40")}
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                        />
-                        <MotionContent
-                            initial={{ opacity: 0, scale: 0.95 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0, scale: 0.98 }}
-                            transition={{ type: 'spring', stiffness: 280, damping: 30 }}
-                            className={uiClasses.dialog}
-                        >
-                            {/* Header Section */}
-                            <div className="flex items-start justify-between gap-4 pb-4">
-                                <div>
-                                    <div className={clsx("flex items-center gap-2 text-xs font-semibold uppercase tracking-widest", subtleText)}>
-                                        <Sparkles className="h-4 w-4" />
-                                        AI Assistant
-                                    </div>
-                                    <Dialog.Title className={clsx("mt-1 text-2xl font-bold", primaryText)}>Command Console</Dialog.Title>
-                                    <Dialog.Description className={clsx("text-sm", subtleText)}>
-                                        Initialize queries for project data, technical specs, or contact routing.
-                                    </Dialog.Description>
-                                </div>
-                                <Dialog.Close asChild>
-                                    {/* FIX: Dialog.Close button should be standard HTML button */}
-                                    <button
-                                        className={uiClasses.closeButton}
-                                        aria-label="Close AI assistant"
-                                    >
-                                        <X className="h-5 w-5" />
-                                    </button>
-                                </Dialog.Close>
-                            </div>
-
-                            {/* Chat Window Container */}
-                            <div className={uiClasses.chatWindow}>
-                                {/* Connection Status (Pure B/W styling) */}
-                                <div className={clsx("flex items-center gap-2 text-xs font-semibold uppercase tracking-widest", subtleText)}>
-                                    <span
-                                        className={clsx("flex h-2 w-2 rounded-full", isDark ? "bg-white shadow-[0_0_5px_rgba(255,255,255,0.8)]" : "bg-black shadow-[0_0_5px_rgba(0,0,0,0.8)]")}
-                                        aria-hidden
-                                    />
-                                    Connection Secure // 24/7
-                                </div>
-
-                                {/* Messages Feed */}
-                                <div className="flex flex-1 flex-col gap-4 overflow-y-auto pr-2">
-                                    {messages.map((message) => (
-                                        <motion.div
-                                            key={message.id}
-                                            initial={{ opacity: 0, y: 10 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            transition={{ duration: 0.2 }}
-                                            className={clsx('flex flex-col gap-1 text-sm', message.sender === 'user' ? 'items-end' : 'items-start')}
-                                        >
-                                            <div
-                                                className={clsx(
-                                                    'max-w-[85%] rounded-2xl px-4 py-3 text-sm shadow-xl transition-all duration-300',
-                                                    // User Message Style: Pure Black/White High contrast
-                                                    message.sender === 'user'
-                                                        ? 'font-medium rounded-br-none bg-black text-white'
-                                                        // AI Message Style: Theme-aware contrast
-                                                        : clsx(
-                                                            'rounded-tl-none',
-                                                            isDark
-                                                                ? 'bg-neutral-800 border border-white/5 text-white'
-                                                                : 'bg-neutral-100 border border-black/10 text-black'
-                                                        ),
-                                                    // Typing indicator uses subtle text color
-                                                    message.isTyping && 'animate-pulse'
-                                                )}
-                                            >
-                                                {message.isTyping ? (
-                                                    <span className={clsx(subtleText)}>
-                                                        {message.text}
-                                                    </span>
-                                                ) : (
-                                                    // Simple markdown/bolding support
-                                                    <span dangerouslySetInnerHTML={{ __html: message.text.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>') }} />
-                                                )}
+            <Dialog.Portal>
+                <AnimatePresence>
+                    {open && (
+                        <>
+                            <Dialog.Overlay asChild>
+                                <motion.div
+                                    className={clsx("fixed inset-0 z-40 backdrop-blur-sm", isDark ? "bg-black/60" : "bg-black/40")}
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    exit={{ opacity: 0 }}
+                                />
+                            </Dialog.Overlay>
+                            <Dialog.Content asChild>
+                                <motion.div
+                                    initial={{ opacity: 0, scale: 0.95 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    exit={{ opacity: 0, scale: 0.98 }}
+                                    transition={{ type: 'spring', stiffness: 280, damping: 30 }}
+                                    className={uiClasses.dialog}
+                                >
+                                    {/* Header Section */}
+                                    <div className="flex items-start justify-between gap-4 pb-4">
+                                        <div>
+                                            <div className={clsx("flex items-center gap-2 text-xs font-semibold uppercase tracking-widest", subtleText)}>
+                                                <Sparkles className="h-4 w-4" />
+                                                AI Assistant
                                             </div>
-                                            <span className={clsx("text-[10px] uppercase tracking-wider", isDark ? "text-gray-600" : "text-gray-400")}>{message.timestamp}</span>
-                                        </motion.div>
-                                    ))}
-                                    <div ref={messagesEndRef} />
-                                </div>
-
-                                {/* Input Form */}
-                                <form onSubmit={handleSend} className={uiClasses.inputContainer}>
-                                    <div className={uiClasses.botIcon}>
-                                        <Bot className="h-5 w-5" aria-hidden />
+                                            <Dialog.Title className={clsx("mt-1 text-2xl font-bold", primaryText)}>Command Console</Dialog.Title>
+                                            <Dialog.Description className={clsx("text-sm", subtleText)}>
+                                                Initialize queries for project data, technical specs, or contact routing.
+                                            </Dialog.Description>
+                                        </div>
+                                        <Dialog.Close asChild>
+                                            {/* FIX: Dialog.Close button should be standard HTML button */}
+                                            <button
+                                                className={uiClasses.closeButton}
+                                                aria-label="Close AI assistant"
+                                            >
+                                                <X className="h-5 w-5" />
+                                            </button>
+                                        </Dialog.Close>
                                     </div>
-                                    <input
-                                        className={clsx("flex-1 bg-transparent text-sm outline-none placeholder:text-gray-500", primaryText)}
-                                        placeholder="Enter command or query..."
-                                        value={inputValue}
-                                        onChange={(event) => setInputValue(event.target.value)}
-                                        aria-label="Message the AI assistant"
-                                        disabled={isSending}
-                                    />
-                                    <button
-                                        type="submit"
-                                        className={uiClasses.sendButton(isSending)}
-                                        aria-label="Send message"
-                                        disabled={isSending || inputValue.trim() === ''}
-                                    >
-                                        {isSending ? (
-                                            <Loader2 className="h-4 w-4 animate-spin" />
-                                        ) : (
-                                            <SendHorizontal className="h-4 w-4" />
-                                        )}
-                                    </button>
-                                </form>
-                            </div>
-                        </MotionContent>
-                    </Dialog.Portal>
-                ) : null}
-            </AnimatePresence>
+
+                                    {/* Chat Window Container */}
+                                    <div className={uiClasses.chatWindow}>
+                                        {/* Connection Status (Pure B/W styling) */}
+                                        <div className={clsx("flex items-center gap-2 text-xs font-semibold uppercase tracking-widest", subtleText)}>
+                                            <span
+                                                className={clsx("flex h-2 w-2 rounded-full", isDark ? "bg-white shadow-[0_0_5px_rgba(255,255,255,0.8)]" : "bg-black shadow-[0_0_5px_rgba(0,0,0,0.8)]")}
+                                                aria-hidden
+                                            />
+                                            Connection Secure // 24/7
+                                        </div>
+
+                                        {/* Messages Feed */}
+                                        <div className="flex flex-1 flex-col gap-4 overflow-y-auto pr-2">
+                                            {messages.map((message) => (
+                                                <motion.div
+                                                    key={message.id}
+                                                    initial={{ opacity: 0, y: 10 }}
+                                                    animate={{ opacity: 1, y: 0 }}
+                                                    transition={{ duration: 0.2 }}
+                                                    className={clsx('flex flex-col gap-1 text-sm', message.sender === 'user' ? 'items-end' : 'items-start')}
+                                                >
+                                                    <div
+                                                        className={clsx(
+                                                            'max-w-[85%] rounded-2xl px-4 py-3 text-sm shadow-xl transition-all duration-300',
+                                                            // User Message Style: Pure Black/White High contrast
+                                                            message.sender === 'user'
+                                                                ? 'font-medium rounded-br-none bg-black text-white'
+                                                                // AI Message Style: Theme-aware contrast
+                                                                : clsx(
+                                                                    'rounded-tl-none',
+                                                                    isDark
+                                                                        ? 'bg-neutral-800 border border-white/5 text-white'
+                                                                        : 'bg-neutral-100 border border-black/10 text-black'
+                                                                ),
+                                                            // Typing indicator uses subtle text color
+                                                            message.isTyping && 'animate-pulse'
+                                                        )}
+                                                    >
+                                                        {message.isTyping ? (
+                                                            <span className={clsx(subtleText)}>
+                                                                {message.text}
+                                                            </span>
+                                                        ) : (
+                                                            // Simple markdown/bolding support
+                                                            <span dangerouslySetInnerHTML={{ __html: message.text.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>') }} />
+                                                        )}
+                                                    </div>
+                                                    <span className={clsx("text-[10px] uppercase tracking-wider", isDark ? "text-gray-600" : "text-gray-400")}>{message.timestamp}</span>
+                                                </motion.div>
+                                            ))}
+                                            <div ref={messagesEndRef} />
+                                        </div>
+
+                                        {/* Input Form */}
+                                        <form onSubmit={handleSend} className={uiClasses.inputContainer}>
+                                            <div className={uiClasses.botIcon}>
+                                                <Bot className="h-5 w-5" aria-hidden />
+                                            </div>
+                                            <input
+                                                className={clsx("flex-1 bg-transparent text-sm outline-none placeholder:text-gray-500", primaryText)}
+                                                placeholder="Enter command or query..."
+                                                value={inputValue}
+                                                onChange={(event) => setInputValue(event.target.value)}
+                                                aria-label="Message the AI assistant"
+                                                disabled={isSending}
+                                            />
+                                            <button
+                                                type="submit"
+                                                className={uiClasses.sendButton(isSending)}
+                                                aria-label="Send message"
+                                                disabled={isSending || inputValue.trim() === ''}
+                                            >
+                                                {isSending ? (
+                                                    <Loader2 className="h-4 w-4 animate-spin" />
+                                                ) : (
+                                                    <SendHorizontal className="h-4 w-4" />
+                                                )}
+                                            </button>
+                                        </form>
+                                    </div>
+                                </motion.div>
+                            </Dialog.Content>
+                        </>
+                    )}
+                </AnimatePresence>
+            </Dialog.Portal>
         </Dialog.Root>
     );
 }

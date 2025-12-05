@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion';
 import { ArrowRight, Download, Sparkles, Cpu, Zap, Brain } from 'lucide-react';
-import { useEffect, useState } from 'react';
 import { useTheme } from '../ThemeProvider';
 
 const Hero = () => {
