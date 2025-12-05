@@ -3,27 +3,39 @@ import { Briefcase, Calendar, MapPin, Rocket, Sparkles } from 'lucide-react';
 
 const experiences = [
     {
-        title: "Junior Full-stack Developer",
+        title: "Data Scientist",
+        company: "Commercial Bank of Ethiopia (CBE)",
+        period: "2023 - Present",
+        location: "Addis Ababa, Ethiopia",
+        description: [
+            "Developed enterprise-grade AI systems and RAG architectures for production use.",
+            "Implemented credit scoring systems and HR chatbot using advanced ML algorithms.",
+            "Built and deployed RAG assistants for internal knowledge management.",
+            "Led AI/ML projects from research to production deployment."
+        ]
+    },
+    {
+        title: "Freelance ML Engineer",
+        company: "Independent / Remote",
+        period: "2022 - Present",
+        location: "Remote",
+        description: [
+            "Won Kaggle competitions and specialized in LLM fine-tuning for custom applications.",
+            "Developed end-to-end ML solutions for clients across various industries.",
+            "Provided AI consulting services and technical expertise.",
+            "Built production-ready ML applications with scalable architectures."
+        ]
+    },
+    {
+        title: "Software Engineer",
         company: "Freelance / Self-Employed",
         period: "2022 - Present",
         location: "Remote",
         description: [
-            "Developed and deployed full-stack web applications using React, Node.js, and PostgreSQL.",
-            "Collaborated with clients to define requirements and deliver custom software solutions.",
-            "Implemented responsive designs and ensured cross-browser compatibility.",
-            "Integrated third-party APIs and payment gateways."
-        ]
-    },
-    {
-        title: "Software Engineering Intern",
-        company: "AppDiv System Software Development",
-        period: "March 2023 - June 2023",
-        location: "Addis Ababa, Ethiopia",
-        description: [
-            "Assisted in the development of enterprise-level software solutions.",
-            "Participated in code reviews and contributed to agile development processes.",
-            "Gained hands-on experience with backend technologies and database management.",
-            "Worked closely with senior developers to troubleshoot and resolve bugs."
+            "Developed full-stack applications with AI integration and ML pipelines.",
+            "Created AI-powered file organization systems and Telegram bot automation.",
+            "Implemented production ML applications with modern web technologies.",
+            "Delivered end-to-end solutions combining frontend, backend, and AI components."
         ]
     }
 ];

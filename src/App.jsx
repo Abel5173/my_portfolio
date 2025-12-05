@@ -8,6 +8,7 @@ import { Routes, Route } from 'react-router-dom';
 const Hero = lazy(() => import("./components/sections/Hero"));
 const Projects = lazy(() => import("./components/sections/Projects"));
 const Skills = lazy(() => import("./components/sections/Skills"));
+const Articles = lazy(() => import("./components/pages/Articles"));
 const Experience = lazy(() => import("./components/sections/Experience"));
 const Certificates = lazy(() => import("./components/sections/Certificates"));
 const About = lazy(() => import("./components/sections/About"));
@@ -34,6 +35,7 @@ const App = () => {
                 <Hero />
                 <Projects />
                 <Skills />
+                <Articles />
                 <Experience />
                 <Certificates />
                 <About />

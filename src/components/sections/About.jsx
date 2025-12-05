@@ -45,13 +45,16 @@ const About = () => {
 
                         <div className="space-y-4 text-lg text-neutral-medium dark:text-neutral-light leading-relaxed mb-8">
                             <p>
-                                I am a passionate Software Engineer with a strong foundation in full-stack development and a keen interest in Artificial Intelligence. My journey began with a curiosity for how things work, which evolved into a career dedicated to building efficient, scalable, and user-centric solutions.
+                                I'm a passionate Generative AI Engineer and Data Scientist with expertise in building intelligent solutions that bridge the gap between cutting-edge AI research and real-world applications. Currently working at CBE, I specialize in developing enterprise-grade AI systems, RAG architectures, and full-stack ML applications.
                             </p>
                             <p>
-                                With expertise in modern web technologies like React, Node.js, and Python, I strive to bridge the gap between complex backend logic and intuitive frontend interfaces. I am constantly learning and adapting to new technologies to stay at the forefront of the industry.
+                                Currently Working On: Enterprise RAG AI Assistant & Credit Risk Models • Learning: Advanced LLM Fine-tuning & MLOps on Kubernetes • Open for Collaboration: Generative AI projects and innovative ML solutions
                             </p>
                             <p>
-                                When I&apos;m not coding, you can find me exploring the latest advancements in AI, contributing to open-source projects, or sharing my knowledge through technical writing and mentorship.
+                                Ask me about: Python, PyTorch, Hugging Face, RAG systems, ML deployment • Fun fact: I automate everything that can be automated!
+                            </p>
+                            <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-4">
+                                418+ contributions on GitHub • 82 repositories • Kaggle Expert certified
                             </p>
                         </div>
 

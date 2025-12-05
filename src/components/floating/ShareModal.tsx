@@ -14,9 +14,9 @@ export interface ShareModalProps {
 const MotionOverlay = motion(Dialog.Overlay);
 const MotionContent = motion(Dialog.Content);
 
-const defaultUrl = 'https://abelola.dev';
-const defaultTitle = 'Abel Ola | Product-minded AI Engineer';
-const defaultText = 'Explore the portfolio, case studies, and realtime analytics that power my work.';
+const defaultUrl = 'https://abelai-dev.netlify.app/';
+const defaultTitle = 'Abel | Generative AI Engineer';
+const defaultText = 'Explore the portfolio, case studies, and frameworks that power my work.';
 
 export function ShareModal({
     open,
@@ -87,7 +87,7 @@ export function ShareModal({
                             >
                                 <div className="flex items-start justify-between gap-4">
                                     <div>
-                                        <Dialog.Title className="text-2xl font-semibold">Share Abel\'s portfolio</Dialog.Title>
+                                        <Dialog.Title className="text-2xl font-semibold">Share Abel's portfolio</Dialog.Title>
                                         <Dialog.Description className="text-sm text-neutral-500 dark:text-neutral-400">
                                             Amplify the story. Send a curated snapshot to a teammate, recruiter, or friend.
                                         </Dialog.Description>
@@ -141,11 +141,6 @@ export function ShareModal({
                                         <p className="mt-1">{shareText}</p>
                                         <p className="mt-2 text-xs uppercase tracking-wide text-neutral-400">{shareTitle}</p>
                                     </div>
-
-                                    <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-neutral-500 dark:text-neutral-400">
-                                        <Share2 className="h-4 w-4" />
-                                        Works best on mobile share sheets.
-                                    </p>
                                 </div>
                             </motion.div>
                         </Dialog.Content>

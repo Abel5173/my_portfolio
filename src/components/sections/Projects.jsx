@@ -1,98 +1,98 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { Github, ExternalLink, Code, Smartphone, Layout, Server, ArrowUpRight, FolderGit2, Cpu, Globe, Terminal, GitBranch, Star, Clock, Users, Filter, Grid3x3 } from 'lucide-react';
+import { Github, ExternalLink, Code, Smartphone, Layout, Server, ArrowUpRight, FolderGit2, Cpu, Globe, Terminal, GitBranch, Star, Clock, Users, Filter, Grid3x3, TrendingUp, Target } from 'lucide-react';
 import { useState } from 'react';
 import { useTheme } from '../ThemeProvider';
 
 const projects = [
     {
         id: 1,
-        title: "Internship Management System",
-        description: "A comprehensive frontend web application built with Next.js for managing internship processes with real-time collaboration features.",
-        tags: ["Next.js", "React", "TypeScript"],
-        links: {
-            github: "https://github.com/TsionTegene/InternshipManagementSystem",
-            demo: "#"
-        },
-        icon: Layout,
-        status: "active",
-        stars: 12,
-        lastUpdated: "2 months ago",
-        contributors: 3
-    },
-    {
-        id: 2,
-        title: "Backend Management System",
-        description: "Robust backend architecture built with NestJS, PostgreSQL, and Redis for high-performance internship management.",
-        tags: ["NestJS", "TypeScript", "PostgreSQL"],
-        links: {
-            github: "https://github.com/bereket21-12/Web-Based-Internship-Management-System/tree/master",
-            demo: "#"
-        },
-        icon: Server,
-        status: "production",
-        stars: 8,
-        lastUpdated: "1 month ago",
-        contributors: 2
-    },
-    {
-        id: 3,
-        title: "Mobile Application",
-        description: "Cross-platform mobile application with offline-first architecture and push notifications.",
-        tags: ["React Native", "Expo", "Mobile"],
-        links: {
-            github: "https://github.com/Abel5173/Mobile_App",
-            demo: "#"
-        },
-        icon: Smartphone,
-        status: "in-progress",
-        stars: 5,
-        lastUpdated: "3 weeks ago",
-        contributors: 1
-    },
-    {
-        id: 4,
-        title: "Static Portfolio Collection",
-        description: "A curated collection showcasing modern frontend techniques with responsive designs and animations.",
-        tags: ["HTML5", "CSS3", "JavaScript"],
-        links: {
-            github: "https://codepen.io/abel5173",
-            demo: "https://codepen.io/abel5173"
-        },
-        icon: Code,
-        status: "completed",
-        stars: 15,
-        lastUpdated: "1 week ago",
-        contributors: 1
-    },
-    {
-        id: 5,
-        title: "AI Model Dashboard",
-        description: "Real-time monitoring dashboard for machine learning model performance and metrics.",
-        tags: ["React", "Chart.js", "TensorFlow.js"],
+        title: "CBE RAG AI Assistant",
+        description: "Enterprise conversational AI system with advanced retrieval-augmented generation for internal knowledge management and query processing.",
+        tags: ["Python", "Hugging Face", "FastAPI", "RAG"],
         links: {
             github: "#",
             demo: "#"
         },
         icon: Cpu,
-        status: "planning",
+        status: "production",
         stars: 0,
-        lastUpdated: "Just added",
-        contributors: 0
+        lastUpdated: "Recently deployed",
+        contributors: 1
+    },
+    {
+        id: 2,
+        title: "Fraud Detection System",
+        description: "Comprehensive fraud detection system for e-commerce and banking transactions using advanced ML techniques with SHAP explainability.",
+        tags: ["Python", "scikit-learn", "Jupyter Notebook", "ML", "Fraud Detection"],
+        links: {
+            github: "https://github.com/Abel5173/Fraud-Detection-Ecommerce-Banking",
+            demo: "#"
+        },
+        icon: Server,
+        status: "production",
+        stars: 0,
+        lastUpdated: "Active",
+        contributors: 1
+    },
+    {
+        id: 3,
+        title: "Credit Risk Modeling",
+        description: "End-to-end credit risk probability model for BNPL using alternative eCommerce data with MLflow tracking and FastAPI deployment.",
+        tags: ["Python", "MLflow", "FastAPI", "Jupyter Notebook", "Credit Risk"],
+        links: {
+            github: "https://github.com/Abel5173/credit-risk-model",
+            demo: "#"
+        },
+        icon: TrendingUp,
+        status: "production",
+        stars: 0,
+        lastUpdated: "Active",
+        contributors: 1
+    },
+    {
+        id: 4,
+        title: "Stock Sentiment Analysis",
+        description: "Stock market sentiment analysis and technical analysis combining news sentiment with historical data and trading indicators.",
+        tags: ["Python", "Jupyter Notebook", "Finance", "Sentiment Analysis"],
+        links: {
+            github: "https://github.com/Abel5173/tenx-stock-sentiment-analysis",
+            demo: "#"
+        },
+        icon: Target,
+        status: "completed",
+        stars: 0,
+        lastUpdated: "Completed",
+        contributors: 1
+    },
+    {
+        id: 5,
+        title: "Telegram AI Responder",
+        description: "Personal Telegram userbot AI assistant with context-aware responses using multiple AI providers and persistent chat history.",
+        tags: ["Python", "Telegram API", "AI", "Automation"],
+        links: {
+            github: "https://github.com/Abel5173/telegram_AI_responder",
+            demo: "#"
+        },
+        icon: Terminal,
+        status: "active",
+        stars: 0,
+        lastUpdated: "Active",
+        contributors: 1
     },
     {
         id: 6,
-        title: "API Gateway Service",
-        description: "Microservices API gateway with rate limiting, authentication, and caching layers.",
-        tags: ["Node.js", "Express", "Redis"],
+        title: "ML File Organizer",
+        description: "AI-powered file management system with intelligent content classification using zero-shot ML models for automated organization.",
+        tags: ["Python", "ML", "Automation", "File Management"],
         links: {
-            github: "#",
+            github: "https://github.com/Abel5173/ml_file_organizer",
             demo: "#"
         },
-        icon: Globe,
-        status: "archived",
-        stars: 3,
-        lastUpdated: "6 months ago",
-        contributors: 2
+        icon: FolderGit2,
+        status: "completed",
+        stars: 0,
+        lastUpdated: "Completed",
+        contributors: 1
     }
 ];
 

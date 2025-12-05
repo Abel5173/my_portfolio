@@ -7,7 +7,8 @@ import {
     FileText,
     User,
     Mail,
-    Award
+    Award,
+    BookOpen
 } from 'lucide-react';
 import { useTheme } from '../ThemeProvider';
 
@@ -15,6 +16,7 @@ const navItems = [
     { name: 'Home', icon: Home, href: '#home' },
     { name: 'Projects', icon: Briefcase, href: '#projects' },
     { name: 'Skills', icon: Code2, href: '#skills' },
+    { name: 'Articles', icon: BookOpen, href: '#articles' },
     { name: 'Experience', icon: FileText, href: '#experience' },
     { name: 'Certificates', icon: Award, href: '#certificates' },
     { name: 'About', icon: User, href: '#about' },

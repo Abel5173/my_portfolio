@@ -44,7 +44,7 @@ export default {
         ring: 'hsl(var(--ring))',
       },
       fontFamily: {
-        sans: ['IBM Plex Mono', 'monospace'],
+        sans: ['SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', 'Droid Sans Mono', 'Source Code Pro', 'monospace'],
       },
       boxShadow: {
         'glow': '0 0 15px rgba(0, 0, 0, 0.1)',

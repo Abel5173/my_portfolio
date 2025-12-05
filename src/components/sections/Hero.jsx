@@ -103,7 +103,7 @@ const Hero = () => {
                             <div className="px-5 py-2.5 rounded-full bg-white/10 dark:bg-black/10 border border-white/20 dark:border-black/20 backdrop-blur-xl flex items-center gap-3">
                                 <Sparkles className="w-4 h-4 text-neutral-600 dark:text-neutral-400" />
                                 <span className="text-neutral-700 dark:text-neutral-300 font-medium text-sm">
-                                    AI Engineer & Full Stack Developer
+                                    Generative AI Engineer & Data Scientist
                                 </span>
                             </div>
 
