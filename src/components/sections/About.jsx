@@ -45,7 +45,7 @@ const About = () => {
 
                         <div className="space-y-4 text-lg text-neutral-medium dark:text-neutral-light leading-relaxed mb-8">
                             <p>
-                                I'm a passionate Generative AI Engineer and Data Scientist with expertise in building intelligent solutions that bridge the gap between cutting-edge AI research and real-world applications. Currently working at CBE, I specialize in developing enterprise-grade AI systems, RAG architectures, and full-stack ML applications.
+                                I&apos;m a passionate Generative AI Engineer and Data Scientist with expertise in building intelligent solutions that bridge the gap between cutting-edge AI research and real-world applications. Currently working at CBE, I specialize in developing enterprise-grade AI systems, RAG architectures, and full-stack ML applications.
                             </p>
                             <p>
                                 Currently Working On: Enterprise RAG AI Assistant & Credit Risk Models • Learning: Advanced LLM Fine-tuning & MLOps on Kubernetes • Open for Collaboration: Generative AI projects and innovative ML solutions
