@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useTheme } from 'next-themes';
+import { useTheme } from '../components/ThemeProvider';
 
 export function useDynamicFavicon() {
     const { resolvedTheme } = useTheme();

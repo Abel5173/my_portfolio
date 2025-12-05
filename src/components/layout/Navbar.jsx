@@ -11,6 +11,7 @@ import {
     Moon,
     X
 } from 'lucide-react';
+import { useTheme } from '../ThemeProvider';
 
 const navItems = [
     { name: 'Home', icon: Home, href: '#home' },
@@ -22,8 +23,10 @@ const navItems = [
 ];
 
 export default function FloatingSidebar() {
-    const [isDark, setIsDark] = useState(false);
-    const [hoveredIndex, setHoveredIndex] = useState < number | null > (null);
+    const { resolvedTheme, setTheme, theme } = useTheme();
+    const [hoveredIndex, setHoveredIndex] = useState(null);
+
+    const isDark = resolvedTheme === 'dark';
 
     // Parallax tilt effect
     const mouseX = useMotionValue(0);
@@ -41,28 +44,11 @@ export default function FloatingSidebar() {
         return () => window.removeEventListener('mousemove', handleMouseMove);
     }, [mouseX, mouseY]);
 
-    useEffect(() => {
-        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            setIsDark(true);
-            document.documentElement.classList.add('dark');
-        } else {
-            setIsDark(false);
-            document.documentElement.classList.remove('dark');
-        }
-    }, []);
-
     const toggleTheme = () => {
-        if (isDark) {
-            document.documentElement.classList.remove('dark');
-            localStorage.theme = 'light';
-        } else {
-            document.documentElement.classList.add('dark');
-            localStorage.theme = 'dark';
-        }
-        setIsDark(!isDark);
+        setTheme(theme === 'dark' ? 'light' : 'dark');
     };
 
-    const scrollToSection = (href: string) => {
+    const scrollToSection = (href) => {
         document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
     };
 

@@ -31,73 +31,7 @@ const experiences = [
 const Experience = () => {
     return (
         <section id="experience" className="relative py-24 overflow-hidden bg-transparent">
-            {/* Unified Background System - Diagonal flow continuation */}
-            <div className="absolute inset-0 z-0">
-                {/* Diagonal flow from previous sections */}
-                <div className="absolute inset-0 opacity-20" style={{ background: 'linear-gradient(135deg, rgba(0,0,0,0.08) 0%, transparent 30%, transparent 70%, rgba(0,0,0,0.04) 100%)' }} />
-
-                {/* Grid pattern with diagonal alignment */}
-                <div className="absolute inset-0">
-                    <div className="w-full h-full opacity-[0.03]" style={{
-                        backgroundImage: 'linear-gradient(135deg, currentColor 1px, transparent 1px)',
-                        backgroundSize: '30px 30px',
-                        maskImage: 'radial-gradient(circle at 50% 50%, black 30%, transparent 70%)',
-                        WebkitMaskImage: 'radial-gradient(circle at 50% 50%, black 30%, transparent 70%)',
-                    }} />
-                </div>
-
-                {/* Wave propagation with timeline theme */}
-                <svg className="absolute inset-0 w-full h-full opacity-[0.02]" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
-                    <defs>
-                        <radialGradient id="expWave" cx="50%" cy="50%">
-                            <stop offset="0%" stopColor="currentColor" stopOpacity="0.2" />
-                            <stop offset="50%" stopColor="currentColor" stopOpacity="0.1" />
-                            <stop offset="100%" stopColor="currentColor" stopOpacity="0" />
-                        </radialGradient>
-                    </defs>
-                    <circle cx="50%" cy="50%" r="300" fill="url(#expWave)" className="animate-pulse-slow" />
-                </svg>
-
-                {/* Timeline connection lines */}
-                <div className="absolute inset-0 opacity-5">
-                    <svg className="w-full h-full">
-                        <motion.path
-                            d="M100,200 Q400,150 700,250 T1100,200"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="0.5"
-                            strokeDasharray="5,5"
-                            initial={{ pathLength: 0 }}
-                            animate={{ pathLength: 1 }}
-                            transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                        />
-                    </svg>
-                </div>
-
-                {/* Floating timeline dots */}
-                <div className="absolute inset-0">
-                    {Array.from({ length: 6 }).map((_, i) => (
-                        <motion.div
-                            key={i}
-                            className="absolute w-1 h-1 rounded-full bg-black/20 dark:bg-white/20"
-                            style={{
-                                left: `${20 + (i * 15)}%`,
-                                top: `${40 + (i * 5)}%`,
-                            }}
-                            animate={{
-                                scale: [1, 1.5, 1],
-                                opacity: [0.2, 0.6, 0.2],
-                            }}
-                            transition={{
-                                duration: 2 + i * 0.2,
-                                repeat: Infinity,
-                                ease: 'easeInOut',
-                                delay: i * 0.3,
-                            }}
-                        />
-                    ))}
-                </div>
-            </div>
+            {/* Content is now layered over the unified background system */}
 
             <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Header */}
@@ -187,7 +121,7 @@ const Experience = () => {
                                     <div className={`relative group ${index % 2 === 0 ? 'md:mr-12' : 'md:ml-12'}`}>
 
                                         {/* Enhanced Glassmorphic Card with shine effects */}
-                                        <div className="relative bg-white/5 dark:bg-black/5 backdrop-blur-xl border border-white/20 dark:border-white/10 rounded-xl p-6 md:p-8 shadow-[0_4px_20px_-2px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_30px_-2px_rgba(0,0,0,0.1)] transition-all duration-500 hover:scale-[1.01] group overflow-hidden">
+                                        <div className="relative glass-card rounded-xl p-6 md:p-8 shadow-glass hover:shadow-glass-lg transition-all duration-500 hover:scale-[1.01] group overflow-hidden">
 
                                             {/* Animated shine effect */}
                                             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />

@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { Github, ExternalLink, Code, Smartphone, Layout, Server, ArrowUpRight, FolderGit2, Cpu, Globe, Terminal, GitBranch, Star, Clock, Users, Filter, Grid3x3 } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { useTheme } from '../ThemeProvider';
 
 const projects = [
     {
@@ -105,17 +106,11 @@ const statusStyles = {
 };
 
 const Projects = () => {
-    const [isDark, setIsDark] = useState(false);
+    const { resolvedTheme } = useTheme();
     const [hoveredProject, setHoveredProject] = useState(null);
     const [activeCategory, setActiveCategory] = useState('all');
 
-    useEffect(() => {
-        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            setIsDark(true);
-        } else {
-            setIsDark(false);
-        }
-    }, []);
+    const isDark = resolvedTheme === 'dark';
 
     const categories = [
         { id: 'all', label: 'All Projects', icon: FolderGit2, count: projects.length },
@@ -134,172 +129,7 @@ const Projects = () => {
 
     return (
         <section id="projects" className="relative py-32 bg-transparent overflow-hidden">
-            {/* Black & White Gradient Background with Glassmorphism */}
-            <div className="absolute inset-0 z-0">
-                {/* Main Gradient Background - Enhanced for Light Theme */}
-                <div className="absolute inset-0 opacity-30 dark:opacity-10"
-                    style={{
-                        background: isDark
-                            ? 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 30%, transparent 70%, rgba(255,255,255,0.05) 100%)'
-                            : 'linear-gradient(135deg, rgba(0,0,0,0.15) 0%, transparent 40%, transparent 60%, rgba(0,0,0,0.08) 100%)',
-                    }}
-                />
-
-                {/* Grid Pattern with Enhanced Visibility */}
-                <div className="absolute inset-0">
-                    <div
-                        className="w-full h-full opacity-[0.08] dark:opacity-[0.02]"
-                        style={{
-                            backgroundImage: `
-                    linear-gradient(90deg, currentColor 1px, transparent 1px),
-                    linear-gradient(180deg, currentColor 1px, transparent 1px)
-                `,
-                            backgroundSize: '40px 40px',
-                            maskImage: 'radial-gradient(circle at 30% 20%, black 20%, transparent 70%)',
-                            WebkitMaskImage: 'radial-gradient(circle at 30% 20%, black 20%, transparent 70%)',
-                        }}
-                    />
-                </div>
-
-                {/* Diagonal Checkerboard Pattern */}
-                <div className="absolute inset-0 opacity-[0.04] dark:opacity-[0.015]">
-                    <div
-                        className="w-full h-full"
-                        style={{
-                            backgroundImage: `
-                    linear-gradient(45deg, currentColor 1px, transparent 1px),
-                    linear-gradient(-45deg, currentColor 1px, transparent 1px)
-                `,
-                            backgroundSize: '20px 20px',
-                            maskImage: 'radial-gradient(circle at 70% 80%, black 15%, transparent 85%)',
-                            WebkitMaskImage: 'radial-gradient(circle at 70% 80%, black 15%, transparent 85%)',
-                        }}
-                    />
-                </div>
-
-                {/* Concentric Waves Pattern (Enhanced for Light Theme) */}
-                <svg
-                    className="absolute inset-0 w-full h-full opacity-[0.06] dark:opacity-[0.015]"
-                    viewBox="0 0 1200 800"
-                    preserveAspectRatio="xMidYMid slice"
-                >
-                    <defs>
-                        <radialGradient id="projectsWaveFade" cx="80%" cy="20%">
-                            <stop offset="0%" stopColor="currentColor" stopOpacity="0.25" />
-                            <stop offset="50%" stopColor="currentColor" stopOpacity="0.12" />
-                            <stop offset="100%" stopColor="currentColor" stopOpacity="0" />
-                        </radialGradient>
-                    </defs>
-                    {[200, 400, 600, 800].map((r, i) => (
-                        <motion.circle
-                            key={r}
-                            cx="960"
-                            cy="160"
-                            r={r}
-                            fill="url(#projectsWaveFade)"
-                            className="text-black dark:text-white"
-                            initial={{ scale: 0.95, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 0.06 }}
-                            transition={{
-                                duration: 4,
-                                delay: i * 0.3,
-                                repeat: Infinity,
-                                repeatType: "reverse",
-                                ease: "easeInOut"
-                            }}
-                        />
-                    ))}
-                </svg>
-
-                {/* Dynamic Diagonal Lines with Enhanced Visibility */}
-                <motion.div
-                    className="absolute inset-0"
-                    style={{
-                        backgroundImage: 'repeating-linear-gradient(60deg, transparent, transparent 2px, currentColor 2px, currentColor 3px)',
-                        opacity: isDark ? 0.01 : 0.03,
-                        maskImage: 'linear-gradient(to bottom right, transparent 5%, black 25%, black 75%, transparent 95%)',
-                        WebkitMaskImage: 'linear-gradient(to bottom right, transparent 5%, black 25%, black 75%, transparent 95%)',
-                    }}
-                    animate={{
-                        backgroundPosition: ['0px 0px', '100px 100px'],
-                    }}
-                    transition={{
-                        duration: 25,
-                        repeat: Infinity,
-                        ease: "linear"
-                    }}
-                />
-
-                {/* Subtle Glassmorphism Overlay for Enhanced Depth */}
-                <div className="absolute inset-0 backdrop-blur-[80px] bg-white/8 dark:bg-black/10" />
-
-                {/* Binary Rain Animation */}
-                <div className="absolute inset-0 overflow-hidden opacity-5">
-                    {Array.from({ length: 12 }).map((_, i) => (
-                        <motion.div
-                            key={i}
-                            className="absolute text-xs font-mono text-black/30 dark:text-white/30 select-none pointer-events-none"
-                            style={{
-                                left: `${Math.random() * 100}%`,
-                                top: `-20px`,
-                            }}
-                            animate={{
-                                y: ['0vh', '120vh'],
-                            }}
-                            transition={{
-                                duration: Math.random() * 6 + 8,
-                                repeat: Infinity,
-                                delay: Math.random() * 3,
-                                ease: 'linear',
-                            }}
-                        >
-                            {Math.random() > 0.5 ? '1' : '0'}
-                        </motion.div>
-                    ))}
-                </div>
-
-                {/* Gradient Orbs for Seamless Flow - Enhanced */}
-                <div className="absolute top-1/4 -right-20 w-96 h-96 rounded-full blur-3xl opacity-25"
-                    style={{
-                        background: isDark
-                            ? 'radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%)'
-                            : 'radial-gradient(circle, rgba(0,0,0,0.25) 0%, transparent 70%)'
-                    }}
-                />
-                <div className="absolute bottom-1/4 -left-20 w-96 h-96 rounded-full blur-3xl opacity-20"
-                    style={{
-                        background: isDark
-                            ? 'radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%)'
-                            : 'radial-gradient(circle, rgba(0,0,0,0.2) 0%, transparent 70%)'
-                    }}
-                />
-            </div>
-
-            {/* Animated Connection Lines - Enhanced for Light Theme */}
-            <div className="absolute inset-0 z-1 overflow-hidden pointer-events-none">
-                <svg className="absolute inset-0 w-full h-full opacity-20 dark:opacity-10">
-                    <motion.path
-                        d="M0,100 Q200,50 400,150 T800,200"
-                        fill="none"
-                        stroke={isDark ? "white" : "black"}
-                        strokeWidth="0.5"
-                        strokeDasharray="8,8"
-                        initial={{ pathLength: 0, opacity: 0 }}
-                        animate={{ pathLength: 1, opacity: 0.2 }}
-                        transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-                    />
-                    <motion.path
-                        d="M200,300 Q400,250 600,350 T1000,400"
-                        fill="none"
-                        stroke={isDark ? "white" : "black"}
-                        strokeWidth="0.3"
-                        strokeDasharray="6,6"
-                        initial={{ pathLength: 0, opacity: 0 }}
-                        animate={{ pathLength: 1, opacity: 0.15 }}
-                        transition={{ duration: 5, delay: 1, repeat: Infinity, ease: "linear" }}
-                    />
-                </svg>
-            </div>
+            {/* Content is now layered over the unified background system */}
 
             <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Section Header with Glass Effect */}
@@ -311,7 +141,7 @@ const Projects = () => {
                     className="text-center mb-16"
                 >
                     <div className="inline-block mb-6">
-                        <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-white/60 dark:bg-black/20 backdrop-blur-2xl border border-white/40 dark:border-white/20 shadow-lg shadow-black/5 dark:shadow-white/5">
+                        <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full glass-card shadow-glass">
                             <Grid3x3 className={`w-5 h-5 ${isDark ? 'text-white' : 'text-black'}`} />
                             <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-black to-gray-800 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">
                                 Technical Projects
@@ -375,8 +205,8 @@ const Projects = () => {
                             onHoverEnd={() => setHoveredProject(null)}
                             className="group relative"
                         >
-                            {/* Glassmorphic Project Card - Enhanced for Light Theme */}
-                            <div className="relative h-full bg-white/70 dark:bg-black/60 backdrop-blur-2xl rounded-2xl border border-white/50 dark:border-white/20 p-6 shadow-xl hover:shadow-2xl transition-all duration-500 overflow-hidden shadow-black/10 dark:shadow-white/10">
+                            {/* Premium Glass Card */}
+                            <div className="relative h-full glass-card rounded-2xl p-6 shadow-glass hover:shadow-glass-lg transition-all duration-500 overflow-hidden group">
 
                                 {/* Animated Background */}
                                 <div className={`absolute inset-0 bg-gradient-to-br from-transparent ${isDark ? 'via-white/5' : 'via-black/5'} to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />

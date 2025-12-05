@@ -9,6 +9,7 @@ import {
     Mail,
     Award
 } from 'lucide-react';
+import { useTheme } from '../ThemeProvider';
 
 const navItems = [
     { name: 'Home', icon: Home, href: '#home' },
@@ -21,10 +22,12 @@ const navItems = [
 ];
 
 export default function GlassSidebar() {
-    const [isDark, setIsDark] = useState(false);
+    const { resolvedTheme } = useTheme();
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [activeIndex, setActiveIndex] = useState<number | null>(null);
+
+    const isDark = resolvedTheme === 'dark';
 
     // Parallax / floating motion
     const mouseX = useMotionValue(0);
@@ -46,16 +49,6 @@ export default function GlassSidebar() {
         window.addEventListener('mousemove', handleMouseMove);
         return () => window.removeEventListener('mousemove', handleMouseMove);
     }, [mouseX, mouseY]);
-
-    useEffect(() => {
-        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            setIsDark(true);
-            document.documentElement.classList.add('dark');
-        } else {
-            setIsDark(false);
-            document.documentElement.classList.remove('dark');
-        }
-    }, []);
 
     const scrollToSection = (href: string, index: number) => {
         setActiveIndex(index);

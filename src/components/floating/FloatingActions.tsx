@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Plus,
@@ -11,45 +11,30 @@ import {
   Zap,
 } from "lucide-react";
 import { ContactModal } from "./ContactModal";
+import { ChatbotLauncher } from "./ChatbotLauncher";
 import { FeedbackModal } from "./FeedbackModal";
 import { ShareModal } from "./ShareModal";
+import { useTheme } from "../ThemeProvider";
 
 export default function FloatingActions3D() {
   const [isOpen, setIsOpen] = useState(false);
-  const [isDark, setIsDark] = useState(true);
+  const { resolvedTheme, setTheme, theme } = useTheme();
 
   // Modal states
   const [isContactOpen, setIsContactOpen] = useState(false);
+  const [isChatbotOpen, setIsChatbotOpen] = useState(false);
   const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
   const [isShareOpen, setIsShareOpen] = useState(false);
 
-  // 1. Theme Detection & Management
-  useEffect(() => {
-    // Check local storage or system preference
-    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-      setIsDark(true);
-      document.documentElement.classList.add('dark');
-    } else {
-      setIsDark(false);
-      document.documentElement.classList.remove('dark');
-    }
-  }, []);
+  const isDark = resolvedTheme === 'dark';
 
   const toggleTheme = () => {
-    if (isDark) {
-      document.documentElement.classList.remove('dark');
-      localStorage.theme = 'light';
-      setIsDark(false);
-    } else {
-      document.documentElement.classList.add('dark');
-      localStorage.theme = 'dark';
-      setIsDark(true);
-    }
+    setTheme(theme === 'dark' ? 'light' : 'dark');
   };
 
   // 2. Actions Array
   const actions = [
-    { icon: <Bot className="w-6 h-6" />, label: "AI Assistant", onClick: () => alert("AI coming soon") },
+    { icon: <Bot className="w-6 h-6" />, label: "AI Assistant", onClick: () => setIsChatbotOpen(true) },
     {
       icon: isDark ? <Sun className="w-6 h-6" /> : <Moon className="w-6 h-6" />,
       label: "Toggle Theme",
@@ -297,6 +282,7 @@ export default function FloatingActions3D() {
       </div>
 
       {/* Modals */}
+      <ChatbotLauncher open={isChatbotOpen} onOpenChange={setIsChatbotOpen} />
       <ContactModal open={isContactOpen} onOpenChange={setIsContactOpen} />
       <FeedbackModal open={isFeedbackOpen} onOpenChange={setIsFeedbackOpen} />
       <ShareModal open={isShareOpen} onOpenChange={setIsShareOpen} />

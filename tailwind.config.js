@@ -50,15 +50,30 @@ export default {
         'glow': '0 0 15px rgba(0, 0, 0, 0.1)',
         'glow-lg': '0 0 25px rgba(0, 0, 0, 0.2)',
         'glow-white': '0 0 15px rgba(255, 255, 255, 0.1)',
+        'glass': '0 4px 20px -2px rgba(0, 0, 0, 0.05), 0 1px 0 0 rgba(255, 255, 255, 0.1) inset',
+        'glass-dark': '0 4px 20px -2px rgba(0, 0, 0, 0.2), 0 1px 0 0 rgba(255, 255, 255, 0.05) inset',
+      },
+      backdropBlur: {
+        'xs': '2px',
       },
       animation: {
         'fade-up': 'fadeUp 0.5s ease-out forwards',
         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'float': 'float 6s ease-in-out infinite',
+        'glow-pulse': 'glowPulse 4s ease-in-out infinite',
       },
       keyframes: {
         fadeUp: {
           '0%': { opacity: '0', transform: 'translateY(20px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        float: {
+          '0%, 100%': { transform: 'translateY(0px)' },
+          '50%': { transform: 'translateY(-10px)' },
+        },
+        glowPulse: {
+          '0%, 100%': { opacity: '0.5', transform: 'scale(1)' },
+          '50%': { opacity: '1', transform: 'scale(1.05)' },
         },
       },
     },

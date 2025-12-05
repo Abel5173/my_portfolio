@@ -1,120 +1,19 @@
 import { motion } from 'framer-motion';
 import { ArrowRight, Download, Sparkles, Cpu, Zap, Brain } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { useTheme } from '../ThemeProvider';
 
 const Hero = () => {
-    const [isDark, setIsDark] = useState(false);
+    const { resolvedTheme } = useTheme();
 
-    useEffect(() => {
-        // Check initial theme
-        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            setIsDark(true);
-        } else {
-            setIsDark(false);
-        }
-    }, []);
+    const isDark = resolvedTheme === 'dark';
 
     return (
         <section
             id="home"
             className="relative min-h-screen flex items-center justify-center overflow-hidden bg-transparent"
         >
-            {/* Enhanced Pattern Background with Seamless Flow */}
-            <div className="absolute inset-0 z-0">
-                {/* Main Diagonal Gradient Flow - Goes beyond boundaries */}
-                <div
-                    className="absolute inset-0 opacity-30 dark:opacity-20"
-                    style={{
-                        background: isDark 
-                            ? 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 30%, transparent 70%, rgba(255,255,255,0.05) 100%)'
-                            : 'linear-gradient(135deg, rgba(0,0,0,0.1) 0%, transparent 30%, transparent 70%, rgba(0,0,0,0.05) 100%)',
-                    }}
-                />
-
-                {/* Grid Pattern with Gradient Mask */}
-                <div className="absolute inset-0">
-                    <div
-                        className="w-full h-full opacity-[0.03] dark:opacity-[0.02]"
-                        style={{
-                            backgroundImage: `
-                                linear-gradient(90deg, currentColor 1px, transparent 1px),
-                                linear-gradient(180deg, currentColor 1px, transparent 1px)
-                            `,
-                            backgroundSize: '50px 50px',
-                            maskImage: 'radial-gradient(circle at 30% 20%, black 20%, transparent 70%)',
-                            WebkitMaskImage: 'radial-gradient(circle at 30% 20%, black 20%, transparent 70%)',
-                        }}
-                    />
-                </div>
-
-                {/* Concentric Waves Pattern */}
-                <svg
-                    className="absolute inset-0 w-full h-full opacity-[0.03] dark:opacity-[0.02]"
-                    viewBox="0 0 1200 800"
-                    preserveAspectRatio="xMidYMid slice"
-                >
-                    <defs>
-                        <radialGradient id="waveFade" cx="80%" cy="20%">
-                            <stop offset="0%" stopColor="currentColor" stopOpacity="0.2" />
-                            <stop offset="50%" stopColor="currentColor" stopOpacity="0.1" />
-                            <stop offset="100%" stopColor="currentColor" stopOpacity="0" />
-                        </radialGradient>
-                    </defs>
-                    {[200, 400, 600, 800].map((r, i) => (
-                        <motion.circle
-                            key={r}
-                            cx="960"
-                            cy="160"
-                            r={r}
-                            fill="url(#waveFade)"
-                            className="text-black dark:text-white"
-                            initial={{ scale: 0.95, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 0.03 }}
-                            transition={{
-                                duration: 3,
-                                delay: i * 0.2,
-                                repeat: Infinity,
-                                repeatType: "reverse"
-                            }}
-                        />
-                    ))}
-                </svg>
-
-                {/* Dynamic Pattern Overlay */}
-                <motion.div
-                    className="absolute inset-0"
-                    style={{
-                        backgroundImage: 'repeating-linear-gradient(60deg, transparent, transparent 2px, currentColor 2px, currentColor 3px)',
-                        opacity: 0.01,
-                        maskImage: 'linear-gradient(to bottom right, transparent 5%, black 25%, black 75%, transparent 95%)',
-                        WebkitMaskImage: 'linear-gradient(to bottom right, transparent 5%, black 25%, black 75%, transparent 95%)',
-                    }}
-                    animate={{
-                        backgroundPosition: ['0px 0px', '100px 100px'],
-                    }}
-                    transition={{
-                        duration: 20,
-                        repeat: Infinity,
-                        ease: "linear"
-                    }}
-                />
-
-                {/* Gradient Orbs for Depth */}
-                <div className="absolute top-1/4 -right-20 w-96 h-96 rounded-full blur-3xl opacity-30"
-                    style={{
-                        background: isDark 
-                            ? 'radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%)'
-                            : 'radial-gradient(circle, rgba(0,0,0,0.3) 0%, transparent 70%)'
-                    }}
-                />
-                <div className="absolute bottom-1/4 -left-20 w-96 h-96 rounded-full blur-3xl opacity-30"
-                    style={{
-                        background: isDark 
-                            ? 'radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%)'
-                            : 'radial-gradient(circle, rgba(0,0,0,0.2) 0%, transparent 70%)'
-                    }}
-                />
-            </div>
+            {/* Content is now layered over the unified background system */}
 
             {/* Animated Floating Elements */}
             <div className="absolute inset-0 z-5 overflow-hidden pointer-events-none">
@@ -208,7 +107,7 @@ const Hero = () => {
                                     AI Engineer & Full Stack Developer
                                 </span>
                             </div>
-                            
+
                             {/* Animated particles around badge */}
                             {[...Array(3)].map((_, i) => (
                                 <motion.div
@@ -355,7 +254,7 @@ const Hero = () => {
                                     repeat: Infinity
                                 }}
                                 style={{
-                                    background: isDark 
+                                    background: isDark
                                         ? 'radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%)'
                                         : 'radial-gradient(circle, rgba(0,0,0,0.2) 0%, transparent 70%)'
                                 }}

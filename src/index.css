@@ -41,6 +41,11 @@
     --ring: 0 0% 0%;
 
     --radius: 0.5rem;
+
+    /* Glass effect variables */
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
   }
 
   .dark {
@@ -78,6 +83,11 @@
     --border: 0 0% 20%;
     --input: 0 0% 20%;
     --ring: 0 0% 80%;
+
+    /* Glass effect variables for dark mode */
+    --glass-bg: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.2);
   }
 }
 
@@ -185,7 +195,9 @@
 
   .animate-pulse-slow,
   .animate-shimmer,
-  .animate-binary-fall {
+  .animate-binary-fall,
+  .animate-float,
+  .animate-glow-pulse {
     animation: none;
   }
 
@@ -194,4 +206,28 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* Glass morphism utilities */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow), 0 1px 0 0 rgba(255, 255, 255, 0.1) inset;
+}
+
+.glass-subtle {
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
