@@ -130,12 +130,12 @@ const Hero = () => {
                         </motion.div>
 
                         {/* Main Heading with Staggered Text */}
-                        <div className="overflow-hidden mb-6">
+                        <div className="overflow-hidden gap-2 mb-6">
                             <motion.h1
                                 initial={{ y: 100, opacity: 0 }}
                                 animate={{ y: 0, opacity: 1 }}
                                 transition={{ duration: 0.8, delay: 0.3 }}
-                                className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-neutral-900 dark:text-white leading-tight"
+                                className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-neutral-900 dark:text-white leading-tight"
                             >
                                 Building the
                                 <br />

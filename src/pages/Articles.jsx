@@ -1,7 +1,8 @@
 import { motion } from 'framer-motion';
-import { BookOpen, Calendar, Clock, ArrowUpRight, Eye, Heart, Share2, Tag, TrendingUp, Sparkles } from 'lucide-react';
+import { BookOpen, Calendar, Clock, ArrowUpRight, Eye, Heart, Share2, Tag, TrendingUp, Sparkles, ArrowLeft } from 'lucide-react';
 import { useState } from 'react';
-import { useTheme } from '../ThemeProvider';
+import { useTheme } from '../components/ThemeProvider';
+import { useParams, useNavigate } from 'react-router-dom';
 
 const articles = [
     {
@@ -12,8 +13,8 @@ const articles = [
         tags: ["AI", "System Design", "Production", "Scalability"],
         readTime: "8 min read",
         publishedDate: "2024-12-15",
-        views: 0,
-        likes: 0,
+        views: 1247,
+        likes: 89,
         featured: true,
         category: "Technical Deep Dive"
     },
@@ -92,10 +93,142 @@ const categoryColors = {
 
 const Articles = () => {
     const { resolvedTheme } = useTheme();
+    const { id } = useParams();
+    const navigate = useNavigate();
     const [hoveredArticle, setHoveredArticle] = useState(null);
     const [activeCategory, setActiveCategory] = useState('all');
 
     const isDark = resolvedTheme === 'dark';
+
+    // Find the current article if viewing individual article
+    const currentArticle = id ? articles.find(article => article.id === parseInt(id)) : null;
+
+    // If viewing individual article, show article detail view
+    if (currentArticle) {
+        return (
+            <div className="min-h-screen bg-transparent">
+                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+                    {/* Back Button */}
+                    <motion.button
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        onClick={() => navigate('/articles')}
+                        className={`mb-8 flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${isDark ? 'hover:bg-white/10 text-white/70' : 'hover:bg-black/10 text-black/70'}`}
+                    >
+                        <ArrowLeft size={16} />
+                        Back to Articles
+                    </motion.button>
+
+                    {/* Article Header */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.1 }}
+                        className="mb-8"
+                    >
+                        <div className="flex items-center gap-2 mb-4">
+                            <span className={`inline-block px-3 py-1 text-sm font-medium rounded-full backdrop-blur-xl border ${categoryColors[currentArticle.category]}`}>
+                                {currentArticle.category}
+                            </span>
+                            {currentArticle.featured && (
+                                <div className="flex items-center gap-1 px-3 py-1 rounded-full bg-gradient-to-r from-yellow-400/20 to-orange-400/20 border border-yellow-400/30 backdrop-blur-xl">
+                                    <Sparkles className="w-3 h-3 text-yellow-400" />
+                                    <span className="text-sm font-medium text-yellow-400">Featured</span>
+                                </div>
+                            )}
+                        </div>
+
+                        <h1 className={`text-4xl md:text-5xl font-bold mb-6 leading-tight ${isDark ? 'text-white' : 'text-black'}`}>
+                            {currentArticle.title}
+                        </h1>
+
+                        <div className="flex flex-wrap items-center gap-6 mb-8">
+                            <div className="flex items-center gap-2">
+                                <Calendar className={`w-4 h-4 ${isDark ? 'text-white/60' : 'text-black/50'}`} />
+                                <span className={isDark ? 'text-white/70' : 'text-black/70'}>
+                                    {new Date(currentArticle.publishedDate).toLocaleDateString('en-US', {
+                                        year: 'numeric',
+                                        month: 'long',
+                                        day: 'numeric'
+                                    })}
+                                </span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <Clock className={`w-4 h-4 ${isDark ? 'text-white/60' : 'text-black/50'}`} />
+                                <span className={isDark ? 'text-white/70' : 'text-black/70'}>{currentArticle.readTime}</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <Eye className={`w-4 h-4 ${isDark ? 'text-white/60' : 'text-black/50'}`} />
+                                <span className={isDark ? 'text-white/70' : 'text-black/70'}>{currentArticle.views.toLocaleString()} views</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <Heart className={`w-4 h-4 ${isDark ? 'text-white/60' : 'text-black/50'}`} />
+                                <span className={isDark ? 'text-white/70' : 'text-black/70'}>{currentArticle.likes} likes</span>
+                            </div>
+                        </div>
+
+                        {/* Tags */}
+                        <div className="flex flex-wrap gap-2 mb-8">
+                            {currentArticle.tags.map((tag, tagIndex) => (
+                                <motion.span
+                                    key={tagIndex}
+                                    initial={{ opacity: 0, scale: 0.8 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    transition={{ delay: tagIndex * 0.05 }}
+                                    className={`px-3 py-1 text-sm font-medium backdrop-blur-xl border rounded-lg shadow-sm ${isDark
+                                        ? 'bg-white/10 border-white/20 text-white/80'
+                                        : 'bg-black/10 border-black/20 text-black/80'
+                                        }`}
+                                >
+                                    {tag}
+                                </motion.span>
+                            ))}
+                        </div>
+                    </motion.div>
+
+                    {/* Article Content */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2 }}
+                        className={`prose prose-lg max-w-none ${isDark ? 'prose-invert' : ''}`}
+                    >
+                        <div className={`text-lg leading-relaxed ${isDark ? 'text-white/90' : 'text-black/90'}`}>
+                            {currentArticle.content}
+                        </div>
+                    </motion.div>
+
+                    {/* Article Actions */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.3 }}
+                        className="mt-12 pt-8 border-t border-neutral-200 dark:border-neutral-800"
+                    >
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-4">
+                                <motion.button
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${isDark ? 'hover:bg-white/10 text-white/70' : 'hover:bg-black/10 text-black/70'}`}
+                                >
+                                    <Heart className="w-4 h-4" />
+                                    Like ({currentArticle.likes})
+                                </motion.button>
+                                <motion.button
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    className={`p-2 rounded-lg transition-colors ${isDark ? 'hover:bg-white/10' : 'hover:bg-black/10'}`}
+                                >
+                                    <Share2 className={`w-4 h-4 ${isDark ? 'text-white/60' : 'text-black/50'}`} />
+                                </motion.button>
+                            </div>
+                        </div>
+                    </motion.div>
+                </div>
+            </div>
+        );
+    }
 
     const categories = [
         { id: 'all', label: 'All Articles', count: articles.length },
@@ -216,14 +349,14 @@ const Articles = () => {
                                     whileHover={{ scale: 1.05 }}
                                     whileTap={{ scale: 0.95 }}
                                     className={`px-6 py-3 rounded-full flex items-center gap-3 transition-all duration-300 border backdrop-blur-xl shadow-sm ${activeCategory === category.id
-                                            ? 'bg-black dark:bg-white text-white dark:text-black border-black dark:border-white shadow-black/20 dark:shadow-white/20'
-                                            : 'bg-white/50 dark:bg-black/30 border-white/40 dark:border-black/30 text-black dark:text-white hover:bg-white/70 dark:hover:bg-black/50 hover:shadow-md'
+                                        ? 'bg-black dark:bg-white text-white dark:text-black border-black dark:border-white shadow-black/20 dark:shadow-white/20'
+                                        : 'bg-white/50 dark:bg-black/30 border-white/40 dark:border-black/30 text-black dark:text-white hover:bg-white/70 dark:hover:bg-black/50 hover:shadow-md'
                                         }`}
                                 >
                                     <span className="font-medium">{category.label}</span>
                                     <span className={`px-2 py-1 text-xs rounded-full ${activeCategory === category.id
-                                            ? 'bg-white/20 dark:bg-black/20'
-                                            : 'bg-white/10 dark:bg-black/10'
+                                        ? 'bg-white/20 dark:bg-black/20'
+                                        : 'bg-white/10 dark:bg-black/10'
                                         }`}>
                                         {category.count}
                                     </span>
@@ -248,7 +381,8 @@ const Articles = () => {
                                 whileHover={{ y: -8 }}
                                 onHoverStart={() => setHoveredArticle(article.id)}
                                 onHoverEnd={() => setHoveredArticle(null)}
-                                className="group relative"
+                                onClick={() => navigate(`/articles/${article.id}`)}
+                                className="group relative cursor-pointer"
                             >
                                 {/* Premium Glass Card */}
                                 <div className="relative h-full glass-card rounded-2xl p-6 shadow-glass hover:shadow-glass-lg transition-all duration-500 overflow-hidden group">
@@ -368,8 +502,8 @@ const Articles = () => {
                                         whileHover={{ scale: 1.02 }}
                                         whileTap={{ scale: 0.98 }}
                                         className={`w-full px-4 py-3 rounded-lg font-medium text-sm transition-all duration-300 flex items-center justify-center gap-2 border ${isDark
-                                                ? 'bg-white/10 hover:bg-white/20 text-white border-white/20 hover:border-white/30'
-                                                : 'bg-black/15 hover:bg-black/25 text-black border-black/30 hover:border-black/40'
+                                            ? 'bg-white/10 hover:bg-white/20 text-white border-white/20 hover:border-white/30'
+                                            : 'bg-black/15 hover:bg-black/25 text-black border-black/30 hover:border-black/40'
                                             }`}
                                     >
                                         <span>Read Article</span>
@@ -401,8 +535,8 @@ const Articles = () => {
                                     type="email"
                                     placeholder="Enter your email"
                                     className={`flex-1 px-4 py-3 rounded-lg backdrop-blur-xl border transition-colors ${isDark
-                                            ? 'bg-white/10 border-white/20 text-white placeholder-white/50 focus:border-white/40'
-                                            : 'bg-black/10 border-black/30 text-black placeholder-black/50 focus:border-black/40'
+                                        ? 'bg-white/10 border-white/20 text-white placeholder-white/50 focus:border-white/40'
+                                        : 'bg-black/10 border-black/30 text-black placeholder-black/50 focus:border-black/40'
                                         }`}
                                 />
                                 <motion.button

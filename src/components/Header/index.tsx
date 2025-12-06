@@ -5,25 +5,32 @@ import { ThemeToggle } from '../ThemeToggle';
 import { Hamburger } from '../Hamburger';
 import { Drawer } from '../Drawer';
 import { Icon, IconName } from '../icons';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
-const navItems: { name: string; href: string; icon: IconName }[] = [
-    { name: 'Home', href: '#home', icon: 'home' },
+const navItems: { name: string; href: string; icon: IconName; isPage?: boolean }[] = [
+    { name: 'Home', href: '/', icon: 'home', isPage: true },
     { name: 'Projects', href: '#projects', icon: 'projects' },
     { name: 'Skills', href: '#skills', icon: 'skills' },
-    { name: 'Experience', href: '#experience', icon: 'articles' },
-    { name: 'About', href: '#about', icon: 'experience' },
+    { name: 'Articles', href: '/articles', icon: 'articles', isPage: true },
+    { name: 'Experience', href: '#experience', icon: 'experience' },
+    { name: 'About', href: '#about', icon: 'about' },
     { name: 'Contact', href: '#contact', icon: 'contact' },
 ];
 
 export default function Header() {
     const isScrolled = useScrollState(16);
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+    const location = useLocation();
+
+    // Filter navigation items based on current page
+    const currentNavItems = location.pathname === '/'
+        ? navItems // Show all items on home page
+        : navItems.filter(item => item.isPage); // Only show page-based items on other pages
 
     return (
         <>
             <header
-                className={`md:hidden fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
+                className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
                     ? 'h-14 bg-surface/80 backdrop-blur-md border-b border-border shadow-sm'
                     : 'h-[72px] bg-transparent'
                     }`}
@@ -43,7 +50,7 @@ export default function Header() {
                     </div>
 
                     {/* Desktop Navigation */}
-                    <NavLinks items={navItems} />
+                    <NavLinks items={currentNavItems} />
 
                     {/* Utilities */}
                     <div className="flex items-center space-x-2 sm:space-x-4">
@@ -66,7 +73,7 @@ export default function Header() {
             </header>
 
             {/* Mobile Drawer */}
-            <Drawer isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} items={navItems} />
+            <Drawer isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} items={currentNavItems} />
         </>
     );
 };

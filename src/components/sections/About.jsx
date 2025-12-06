@@ -45,7 +45,7 @@ const About = () => {
 
                         <div className="space-y-4 text-lg text-neutral-medium dark:text-neutral-light leading-relaxed mb-8">
                             <p>
-                                I&apos;m a passionate Generative AI Engineer and Data Scientist with expertise in building intelligent solutions that bridge the gap between cutting-edge AI research and real-world applications. Currently working at CBE, I specialize in developing enterprise-grade AI systems, RAG architectures, and full-stack ML applications.
+                                Innovative Frontend & Fullstack Developer with a strong foundation in software engineering and machine learning. Skilled in building responsive, user-centered web applications using React, Next.js, Tailwind, and FastAPI. Experienced in API design, component-based architecture, and optimizing performance for seamless user experiences. Passionate about combining AI and modern web technologies to deliver intelligent, production-level solutions.
                             </p>
                             <p>
                                 Currently Working On: Enterprise RAG AI Assistant & Credit Risk Models • Learning: Advanced LLM Fine-tuning & MLOps on Kubernetes • Open for Collaboration: Generative AI projects and innovative ML solutions
@@ -54,7 +54,7 @@ const About = () => {
                                 Ask me about: Python, PyTorch, Hugging Face, RAG systems, ML deployment • Fun fact: I automate everything that can be automated!
                             </p>
                             <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-4">
-                                418+ contributions on GitHub • 82 repositories • Kaggle Expert certified
+                                Education: Bachelor&apos;s in Software Engineering, Wolkite University (2019-2024, GPA: 3.69/4.0) • 418+ contributions on GitHub • 82 repositories • Kaggle Expert certified
                             </p>
                         </div>
 

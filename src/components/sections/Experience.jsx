@@ -37,6 +37,36 @@ const experiences = [
             "Implemented production ML applications with modern web technologies.",
             "Delivered end-to-end solutions combining frontend, backend, and AI components."
         ]
+    },
+    {
+        title: "Freelance Web Developer",
+        company: "Private Clients",
+        period: "Feb 2022 - Nov 2023",
+        location: "Ethiopia",
+        description: [
+            "Designed and deployed responsive web applications using React.js and Next.js, enhancing user experience for 5+ clients.",
+            "Optimized application performance, reducing load times by 20% through efficient coding practices."
+        ]
+    },
+    {
+        title: "Full-Stack Web Development Intern",
+        company: "AppDiv System Development",
+        period: "May 2023 - June 2023",
+        location: "Ethiopia",
+        description: [
+            "Developed full-stack web applications using MERN stack, contributing to 3 scalable features.",
+            "Collaborated with senior developers to ensure high-quality deliverables, meeting project deadlines."
+        ]
+    },
+    {
+        title: "Co-Founder and Head, ICPC Programming Club",
+        company: "Wolkite University",
+        period: "June 2021 - Sep 2023",
+        location: "Ethiopia",
+        description: [
+            "Led training for 50+ students in competitive programming, boosting participation in Ethiopian Collegiate Programming Contest (EtCPC).",
+            "Organized workshops, fostering a collaborative problem-solving community."
+        ]
     }
 ];
 

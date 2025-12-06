@@ -1,24 +1,9 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { Github, ExternalLink, Smartphone, Layout, Server, ArrowUpRight, FolderGit2, Cpu, Terminal, GitBranch, Star, Clock, Users, Filter, Grid3x3, TrendingUp, Target } from 'lucide-react';
+import { Github, Smartphone, Layout, Server, ArrowUpRight, FolderGit2, Cpu, Terminal, GitBranch, Star, Clock, Users, Filter, Grid3x3, TrendingUp, Target } from 'lucide-react';
 import { useState } from 'react';
 import { useTheme } from '../ThemeProvider';
 
 const projects = [
-    {
-        id: 1,
-        title: "CBE RAG AI Assistant",
-        description: "Enterprise conversational AI system with advanced retrieval-augmented generation for internal knowledge management and query processing.",
-        tags: ["Python", "Hugging Face", "FastAPI", "RAG"],
-        links: {
-            github: "#",
-            demo: "#"
-        },
-        icon: Cpu,
-        status: "production",
-        stars: 0,
-        lastUpdated: "Recently deployed",
-        contributors: 1
-    },
     {
         id: 2,
         title: "Fraud Detection System",
@@ -80,15 +65,105 @@ const projects = [
         contributors: 1
     },
     {
-        id: 6,
+        id: 10,
+        title: "Fintech Review Analytics",
+        description: "Comprehensive analysis of fintech reviews using NLP techniques to extract insights and sentiment from customer feedback data.",
+        tags: ["Python", "Jupyter Notebook", "NLP", "Fintech", "Sentiment Analysis"],
+        links: {
+            github: "https://github.com/Abel5173/fintech-review-analytics",
+            demo: "#"
+        },
+        icon: TrendingUp,
+        status: "completed",
+        stars: 0,
+        lastUpdated: "Completed",
+        contributors: 1
+    },
+    {
+        id: 11,
         title: "ML File Organizer",
-        description: "AI-powered file management system with intelligent content classification using zero-shot ML models for automated organization.",
-        tags: ["Python", "ML", "Automation", "File Management"],
+        description: "AI-powered file management system that automatically categorizes and organizes files using machine learning algorithms for intelligent content classification.",
+        tags: ["Python", "Machine Learning", "Automation", "File Management"],
         links: {
             github: "https://github.com/Abel5173/ml_file_organizer",
             demo: "#"
         },
-        icon: FolderGit2,
+        icon: Cpu,
+        status: "In Progress",
+        stars: 0,
+        lastUpdated: "In Progress",
+        contributors: 1
+    },
+    {
+        id: 12,
+        title: "Time Series Forecasting & Portfolio Optimization",
+        description: "Advanced time series analysis and portfolio optimization using statistical models and machine learning for financial forecasting.",
+        tags: ["Python", "Jupyter Notebook", "Time Series", "Finance", "Portfolio Optimization"],
+        links: {
+            github: "https://github.com/Abel5173/time-series-forecasting-portfolio-optimization",
+            demo: "#"
+        },
+        icon: Target,
+        status: "completed",
+        stars: 0,
+        lastUpdated: "Completed",
+        contributors: 1
+    },
+    {
+        id: 13,
+        title: "School Management System",
+        description: "Full-stack school management application built with TypeScript, featuring student enrollment, course management, and administrative dashboards.",
+        tags: ["TypeScript", "Full-Stack", "Education", "Management System"],
+        links: {
+            github: "https://github.com/Abel5173/school_management_system",
+            demo: "#"
+        },
+        icon: Server,
+        status: "completed",
+        stars: 0,
+        lastUpdated: "Completed",
+        contributors: 1
+    },
+    {
+        id: 14,
+        title: "Next.js Dashboard",
+        description: "Modern administrative dashboard built with Next.js, featuring data visualization, user management, and real-time analytics.",
+        tags: ["Next.js", "TypeScript", "Dashboard", "Data Visualization"],
+        links: {
+            github: "https://github.com/Abel5173/nextjs-dashboard",
+            demo: "#"
+        },
+        icon: Grid3x3,
+        status: "completed",
+        stars: 0,
+        lastUpdated: "Completed",
+        contributors: 1
+    },
+    {
+        id: 15,
+        title: "Pizza Ordering Service",
+        description: "Full-stack pizza ordering application with user authentication, menu management, and order tracking built with modern web technologies.",
+        tags: ["TypeScript", "Full-Stack", "E-commerce", "Ordering System"],
+        links: {
+            github: "https://github.com/Abel5173/pizza_ordering_service",
+            demo: "#"
+        },
+        icon: Server,
+        status: "completed",
+        stars: 0,
+        lastUpdated: "Completed",
+        contributors: 1
+    },
+    {
+        id: 16,
+        title: "RAG Pipeline",
+        description: "Retrieval-Augmented Generation pipeline implementation for intelligent question answering and document processing using advanced NLP techniques.",
+        tags: ["Python", "RAG", "NLP", "AI", "Document Processing"],
+        links: {
+            github: "https://github.com/Abel5173/RAG_pipeline",
+            demo: "#"
+        },
+        icon: Cpu,
         status: "completed",
         stars: 0,
         lastUpdated: "Completed",
@@ -284,32 +359,19 @@ const Projects = () => {
                                 </div>
 
                                 {/* Action Buttons */}
-                                <div className="flex items-center gap-3 pt-4 border-t border-white/20 dark:border-white/10">
+                                <div className="relative z-20 flex items-center gap-3 pt-4 border-t border-white/20 dark:border-white/10">
                                     <motion.a
                                         href={project.links.github}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         whileHover={{ scale: 1.05 }}
                                         whileTap={{ scale: 0.95 }}
-                                        className={`flex-1 px-4 py-2 rounded-lg font-medium text-sm transition-colors flex items-center justify-center gap-2 ${isDark
+                                        className={`w-full px-4 py-2 rounded-lg font-medium text-sm transition-colors flex items-center justify-center gap-2 ${isDark
                                             ? 'bg-white/10 hover:bg-white/20 text-white border border-white/20'
                                             : 'bg-black/15 hover:bg-black/25 text-black border border-black/30'}`}
                                     >
                                         <Github size={16} />
                                         <span>Code</span>
-                                    </motion.a>
-                                    <motion.a
-                                        href={project.links.demo}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        whileHover={{ scale: 1.05 }}
-                                        whileTap={{ scale: 0.95 }}
-                                        className={`flex-1 px-4 py-2 rounded-lg font-medium text-sm transition-colors flex items-center justify-center gap-2 ${isDark
-                                            ? 'border border-white/20 hover:bg-white/10 text-white'
-                                            : 'border border-black/30 hover:bg-black/15 text-black'}`}
-                                    >
-                                        <ExternalLink size={16} />
-                                        <span>Demo</span>
                                     </motion.a>
                                 </div>
 

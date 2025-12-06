@@ -11,12 +11,13 @@ import {
     BookOpen
 } from 'lucide-react';
 import { useTheme } from '../ThemeProvider';
+import { useNavigate } from 'react-router-dom';
 
 const navItems = [
     { name: 'Home', icon: Home, href: '#home' },
     { name: 'Projects', icon: Briefcase, href: '#projects' },
     { name: 'Skills', icon: Code2, href: '#skills' },
-    { name: 'Articles', icon: BookOpen, href: '#articles' },
+    { name: 'Articles', icon: BookOpen, href: '/articles' },
     { name: 'Experience', icon: FileText, href: '#experience' },
     { name: 'Certificates', icon: Award, href: '#certificates' },
     { name: 'About', icon: User, href: '#about' },
@@ -28,6 +29,7 @@ export default function GlassSidebar() {
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [activeIndex, setActiveIndex] = useState<number | null>(null);
+    const navigate = useNavigate();
 
     const isDark = resolvedTheme === 'dark';
 
@@ -412,7 +414,13 @@ export default function GlassSidebar() {
                                 transition={{ delay: 0.2 + index * 0.05 }}
                                 onHoverStart={() => setHoveredIndex(index)}
                                 onHoverEnd={() => setHoveredIndex(null)}
-                                onClick={() => scrollToSection(item.href, index)}
+                                onClick={() => {
+                                    if (item.href.startsWith('/')) {
+                                        navigate(item.href);
+                                    } else {
+                                        scrollToSection(item.href, index);
+                                    }
+                                }}
                                 className="group relative cursor-pointer"
                             >
                                 <div className={`relative flex items-center transition-all duration-300 overflow-hidden ${isCollapsed ? 'justify-center p-3' : 'gap-4 p-3'}`}>

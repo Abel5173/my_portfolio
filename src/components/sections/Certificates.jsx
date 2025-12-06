@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { Award, Download, FileText, CheckCircle, Eye, Filter, SortAsc, ChevronDown, Copy, Check } from 'lucide-react';
+import { Award, FileText, CheckCircle, Eye, Filter, SortAsc, ChevronDown } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import { useTheme } from '../ThemeProvider';
 
@@ -9,7 +9,7 @@ const Certificates = () => {
     const [filter, setFilter] = useState('all');
     const [sortBy, setSortBy] = useState('recent');
     const [showAll, setShowAll] = useState(false);
-    const [copied, setCopied] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const modalRef = useRef(null);
 
     const isDark = resolvedTheme === 'dark';
@@ -29,130 +29,155 @@ const Certificates = () => {
     const certificates = [
         {
             id: 1,
-            title: "AWS Certified Solutions Architect",
-            issuer: "Amazon Web Services",
-            provider: "AWS Training & Certification",
-            issueDate: "2024-05",
-            validUntil: "2026-05",
-            description: "Architected scalable cloud infrastructure with IaC and container services",
-            credentialId: "AWS-ACS-789012",
-            skills: ["AWS", "Cloud", "Infrastructure", "Terraform", "ECS"],
-            downloadUrl: "#",
-            verificationUrl: "https://www.aws.training/verify",
-            category: "cloud",
+            title: "HCIA-Datacom (Huawei Certified ICT Associate - Datacom)",
+            issuer: "Huawei",
+            provider: "Huawei ICT Academy / Wolkite University",
+            issueDate: "2022-06",
+            description: "Data Communication and Network Technology (62 Hrs + 66 Hrs) - Module 1 & 2",
+            credentialId: "N/A (Physical certificate)",
+            skills: ["Networking", "Routing", "Switching", "Huawei", "Datacom"],
+            downloadUrl: "https://drive.google.com/file/d/1SqdEBp87J2vo0a1G47ccLPQ7g057wNND/view?usp=sharing", // Huawei pink cert
+            verificationUrl: "https://e.huawei.com/en/talent/#/certification",
+            category: "networking",
             priority: 1
         },
         {
             id: 2,
-            title: "Machine Learning Specialization",
-            issuer: "Coursera",
-            provider: "Stanford University",
-            issueDate: "2023-11",
-            description: "Advanced ML algorithms, neural networks, and production deployment",
-            credentialId: "CERT-ML-456789",
-            skills: ["Python", "TensorFlow", "Neural Networks", "Data Science"],
-            downloadUrl: "#",
-            verificationUrl: "https://coursera.org/verify",
-            category: "ml",
+            title: "ICPC Ethiopian Collegiate Programming Contest - Honorable Mention",
+            issuer: "ICPC Foundation",
+            provider: "Wolkite University / Adama Science and Technology University",
+            issueDate: "2023-09",
+            description: "2023 ICPC Ethiopian Collegiate Programming Contest (21 Aug – 22 Sep 2023)",
+            credentialId: "N/A",
+            skills: ["Competitive Programming", "Algorithms", "Problem Solving", "C/C++"],
+            downloadUrl: "https://drive.google.com/file/d/1nUkshb3TiOMNi_GhD7EOBoUmoHaa0BC7/view?usp=sharing", // ICPC Honorable Mention
+            verificationUrl: "https://icpc.global",
+            category: "programming",
             priority: 1
         },
         {
             id: 3,
-            title: "Google Cloud Professional Cloud Architect",
-            issuer: "Google Cloud",
-            provider: "Google Cloud Certification",
-            issueDate: "2024-02",
-            validUntil: "2026-02",
-            description: "Designed scalable GCP solutions with security and compliance",
-            credentialId: "GCP-PCA-123456",
-            skills: ["GCP", "Cloud", "Architecture", "Security"],
-            downloadUrl: "#",
-            verificationUrl: "https://cloud.google.com/certification",
-            category: "cloud",
+            title: "ALX Software Engineering - Back-End Specialization",
+            issuer: "ALX (powered by Holberton)",
+            provider: "ALX Africa",
+            issueDate: "2024-06",
+            validUntil: "Lifetime",
+            description: "12-month intensive software engineering program with specialization in Back-End development",
+            credentialId: "MNJYLCZEM",
+            skills: ["C", "Python", "Linux", "Back-End", "DevOps", "Systems Programming"],
+            downloadUrl: "https://drive.google.com/file/d/1fsrFxO1qudsj9Q7NbCj75kX7Cm03XiV2/view?usp=sharing", // ALX cert with QR
+            verificationUrl: "https://intranet.alxswe.com/certificates/MNJYLCZEM",
+            category: "software",
             priority: 1
         },
         {
             id: 4,
-            title: "TensorFlow Developer Certificate",
-            issuer: "TensorFlow",
-            provider: "Google Developer Certification",
-            issueDate: "2023-09",
-            description: "Building and training ML models with TensorFlow 2.x",
-            credentialId: "TF-DEV-789012",
-            skills: ["TensorFlow", "Deep Learning", "Python", "Keras"],
-            downloadUrl: "#",
-            verificationUrl: "https://www.tensorflow.org/certificate",
+            title: "Kifiya AI Mastery Training Program (with Distinction)",
+            issuer: "Kifiya Financial Technology / 10 Academy",
+            provider: "Mastercard Foundation & SAFEE KAIM",
+            issueDate: "2025-09",
+            description: "3-month intensive program: Machine Learning Engineering, Data Engineering, and Financial Analysis for Fintech",
+            credentialId: "N/A",
+            skills: ["Machine Learning", "Data Engineering", "MLOps", "Fintech", "Python", "SQL"],
+            downloadUrl: "https://drive.google.com/file/d/1_A8EvEUiOqc59VKUlFfVzfVxfN_rteca/view?usp=sharing", // Kifiya Mastercard cert (name: Abel Mergia)
+            verificationUrl: "https://10academy.org",
             category: "ml",
-            priority: 2
+            priority: 1
         },
         {
             id: 5,
-            title: "HashiCorp Certified: Terraform Associate",
-            issuer: "HashiCorp",
-            provider: "HashiCorp Certification",
-            issueDate: "2023-12",
-            validUntil: "2025-12",
-            description: "Infrastructure as Code with Terraform for multi-cloud deployment",
-            credentialId: "HC-TF-345678",
-            skills: ["Terraform", "IaC", "DevOps", "Automation"],
-            downloadUrl: "#",
-            verificationUrl: "https://www.hashicorp.com/certification",
-            category: "devops",
-            priority: 2
+            title: "Frontier Tech Leaders Programme - Machine Learning Project-Based Training",
+            issuer: "UNDP IICPSD / SDG AI Lab",
+            provider: "United Nations Technology Innovation Lab",
+            issueDate: "2025-08",
+            description: "Advanced project-based Machine Learning training under UN Frontier Tech Leaders initiative",
+            credentialId: "N/A",
+            skills: ["Machine Learning", "Deep Learning", "AI for SDGs", "Project Development"],
+            downloadUrl: "https://drive.google.com/file/d/1atWBEDBvr6FTD9Uq7jmk-lekpR14ybQQ/view?usp=sharing", // UN Frontier Tech cert
+            verificationUrl: "https://www.undp.org/innovation",
+            category: "ml",
+            priority: 1
         },
         {
             id: 6,
-            title: "CompTIA Security+",
-            issuer: "CompTIA",
-            provider: "CompTIA Certification",
-            issueDate: "2023-08",
-            validUntil: "2026-08",
-            description: "Foundational cybersecurity skills and best practices",
-            credentialId: "COMP-SEC-901234",
-            skills: ["Security", "Cybersecurity", "Networking", "Risk Management"],
-            downloadUrl: "#",
-            verificationUrl: "https://www.comptia.org/certifications/security",
-            category: "security",
+            title: "Red Hat Application Development I: Programming in Java EE (AD183)",
+            issuer: "Red Hat Academy",
+            provider: "Wolkite University",
+            issueDate: "2022-03",
+            description: "Certificate of Attendance – Red Hat Java EE Enterprise Application Development",
+            credentialId: "N/A",
+            skills: ["Java EE", "Jakarta EE", "Enterprise Java", "JBoss"],
+            downloadUrl: "https://drive.google.com/file/d/1On5ZJT14dlqBLhXebs6d-X7P-pttg6iw/view?usp=sharing", // Red Hat pink cert
+            verificationUrl: "https://www.redhat.com/en/services/training-and-certification",
+            category: "programming",
             priority: 2
         },
         {
             id: 7,
-            title: "Databricks Lakehouse Fundamentals",
-            issuer: "Databricks",
-            provider: "Databricks Academy",
-            issueDate: "2024-01",
-            description: "Data engineering and analytics on Databricks Lakehouse Platform",
-            credentialId: "DB-LHF-567890",
-            skills: ["Databricks", "Data Engineering", "Spark", "Delta Lake"],
-            downloadUrl: "#",
-            verificationUrl: "https://academy.databricks.com",
-            category: "data",
-            priority: 3
+            title: "NDG Linux Essentials Professional Development Certificate",
+            issuer: "Cisco Networking Academy",
+            provider: "Wolkite University",
+            issueDate: "2022-05",
+            description: "Successfully completed Linux Essentials course by Cisco Networking Academy (LPI prep)",
+            credentialId: "Prepared for LPI Linux Essentials",
+            skills: ["Linux", "Command Line", "Bash", "Open Source", "System Administration"],
+            downloadUrl: "https://drive.google.com/file/d/1AL47Y_LzvsCyUKcQ-DwhBz-nKF6nq2ha/view?usp=sharing", // NDG Linux cert
+            verificationUrl: "https://www.netacad.com",
+            category: "linux",
+            priority: 2
         },
         {
-            id: 8,
-            title: "Kubernetes Fundamentals",
-            issuer: "Linux Foundation",
-            provider: "Linux Foundation Training",
-            issueDate: "2023-10",
-            description: "Container orchestration with Kubernetes for production workloads",
-            credentialId: "LF-K8S-123789",
-            skills: ["Kubernetes", "Containers", "DevOps", "Orchestration"],
+            id: 9,
+            title: "Intermediate Machine Learning",
+            issuer: "Kaggle",
+            provider: "Kaggle Learn",
+            issueDate: "2024",
+            description: "Advanced machine learning concepts and techniques for building predictive models.",
+            credentialId: "N/A",
+            skills: ["Machine Learning", "Python", "Data Science"],
             downloadUrl: "#",
-            verificationUrl: "https://training.linuxfoundation.org",
-            category: "devops",
-            priority: 3
+            verificationUrl: "https://www.kaggle.com/learn/intermediate-machine-learning",
+            category: "ml",
+            priority: 2
+        },
+        {
+            id: 10,
+            title: "Introduction to Machine Learning",
+            issuer: "Kaggle",
+            provider: "Kaggle Learn",
+            issueDate: "2023",
+            description: "Foundational concepts in machine learning including supervised and unsupervised learning.",
+            credentialId: "N/A",
+            skills: ["Machine Learning", "Python", "Data Science"],
+            downloadUrl: "#",
+            verificationUrl: "https://www.kaggle.com/learn/intro-to-machine-learning",
+            category: "ml",
+            priority: 2
+        },
+        {
+            id: 11,
+            title: "Red Hat System Administration",
+            issuer: "Red Hat Academy",
+            provider: "Wolkite University",
+            issueDate: "2023",
+            description: "Certificate of Attendance – Red Hat System Administration training.",
+            credentialId: "N/A",
+            skills: ["System Administration", "Linux", "Red Hat"],
+            downloadUrl: "#",
+            verificationUrl: "https://www.redhat.com/en/services/training-and-certification",
+            category: "linux",
+            priority: 2
         }
     ];
 
     // Filter and sort logic
     const categories = [
         { id: 'all', label: 'All Certificates', count: certificates.length },
-        { id: 'cloud', label: 'Cloud', count: certificates.filter(c => c.category === 'cloud').length },
         { id: 'ml', label: 'ML/AI', count: certificates.filter(c => c.category === 'ml').length },
-        { id: 'devops', label: 'DevOps', count: certificates.filter(c => c.category === 'devops').length },
-        { id: 'security', label: 'Security', count: certificates.filter(c => c.category === 'security').length },
-        { id: 'data', label: 'Data', count: certificates.filter(c => c.category === 'data').length }
+        { id: 'software', label: 'Software Eng', count: certificates.filter(c => c.category === 'software').length },
+        { id: 'programming', label: 'Programming', count: certificates.filter(c => c.category === 'programming').length },
+        { id: 'networking', label: 'Networking', count: certificates.filter(c => c.category === 'networking').length },
+        { id: 'linux', label: 'Linux/Systems', count: certificates.filter(c => c.category === 'linux').length },
     ];
 
     const filteredCertificates = certificates
@@ -169,22 +194,9 @@ const Certificates = () => {
 
     const displayCertificates = showAll ? filteredCertificates : filteredCertificates.slice(0, 6);
 
-    // Copy keywords for ATS
-    const copyKeywords = () => {
-        const keywords = certificates.map(c => `${c.title}, ${c.issuer}`).join(', ');
-        navigator.clipboard.writeText(keywords);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
-    };
-
-    // Download summary PDF (mock function)
-    const downloadSummary = () => {
-        // In production, this would generate/request a PDF
-        alert('Summary PDF would be generated here');
-    };
-
     const openCertificateModal = (cert) => {
         setSelectedCertificate(cert);
+        setIsLoading(true);
         document.body.style.overflow = 'hidden';
     };
 
@@ -214,30 +226,6 @@ const Certificates = () => {
                             <p className={`mt-2 text-sm ${isDark ? 'text-white/60' : 'text-black/60'}`}>
                                 Curated, verifiable credentials relevant to my work
                             </p>
-                        </div>
-                        <div className="flex flex-wrap gap-2">
-                            <motion.button
-                                whileHover={{ scale: 1.02 }}
-                                whileTap={{ scale: 0.98 }}
-                                onClick={copyKeywords}
-                                className={`flex items-center gap-2 px-3 py-2 text-sm rounded-lg ${isDark
-                                    ? 'bg-white/10 hover:bg-white/20 text-white'
-                                    : 'bg-black/10 hover:bg-black/20 text-black'}`}
-                            >
-                                {copied ? <Check size={14} /> : <Copy size={14} />}
-                                {copied ? 'Copied!' : 'Copy Keywords'}
-                            </motion.button>
-                            <motion.button
-                                whileHover={{ scale: 1.02 }}
-                                whileTap={{ scale: 0.98 }}
-                                onClick={downloadSummary}
-                                className={`flex items-center gap-2 px-3 py-2 text-sm rounded-lg ${isDark
-                                    ? 'bg-white text-black hover:bg-white/90'
-                                    : 'bg-black text-white hover:bg-black/90'}`}
-                            >
-                                <Download size={14} />
-                                Download PDF
-                            </motion.button>
                         </div>
                     </div>
 
@@ -456,16 +444,57 @@ const Certificates = () => {
                             </div>
 
                             {/* Certificate Preview */}
-                            <div className="mb-6 p-4 rounded-lg bg-gradient-to-br from-white/5 to-black/5 dark:from-white/5 dark:to-black/5 border border-white/10 dark:border-white/10">
-                                <div className="text-center py-8">
-                                    <FileText className={`w-16 h-16 mx-auto mb-4 ${isDark ? 'text-white/20' : 'text-black/20'}`} />
-                                    <div className={`text-lg font-bold mb-2 ${isDark ? 'text-white/40' : 'text-black/40'}`}>
-                                        {selectedCertificate.title}
-                                    </div>
-                                    <div className={`text-sm ${isDark ? 'text-white/30' : 'text-black/30'}`}>
-                                        Credential ID: {selectedCertificate.credentialId}
-                                    </div>
-                                </div>
+                            <div className="mb-6 rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-900 border border-white/10 dark:border-white/10 aspect-video relative">
+                                <AnimatePresence>
+                                    {isLoading && (
+                                        <motion.div
+                                            initial={{ opacity: 1 }}
+                                            exit={{ opacity: 0 }}
+                                            className={`absolute inset-0 z-10 flex flex-col items-center justify-center ${isDark ? 'bg-gray-900' : 'bg-gray-50'}`}
+                                        >
+                                            <div className="relative">
+                                                {/* Outer rotating ring */}
+                                                <motion.div
+                                                    animate={{ rotate: 360 }}
+                                                    transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+                                                    className={`w-16 h-16 rounded-full border-2 border-dashed ${isDark ? 'border-white/20' : 'border-black/20'}`}
+                                                />
+
+                                                {/* Inner rotating ring (reverse) */}
+                                                <motion.div
+                                                    animate={{ rotate: -360 }}
+                                                    transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+                                                    className={`absolute inset-0 w-16 h-16 rounded-full border-2 border-dotted ${isDark ? 'border-white/20' : 'border-black/20'}`}
+                                                />
+
+                                                {/* Center Icon */}
+                                                <div className="absolute inset-0 flex items-center justify-center">
+                                                    <FileText className={`w-6 h-6 ${isDark ? 'text-white/60' : 'text-black/60'}`} />
+                                                </div>
+                                            </div>
+
+                                            <motion.div
+                                                initial={{ opacity: 0, y: 10 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                transition={{ delay: 0.2 }}
+                                                className="mt-4 text-center"
+                                            >
+                                                <p className={`text-sm font-medium ${isDark ? 'text-white/80' : 'text-black/80'}`}>
+                                                    Loading Preview
+                                                </p>
+                                                <p className={`text-xs mt-1 ${isDark ? 'text-white/40' : 'text-black/40'}`}>
+                                                    Retrieving document...
+                                                </p>
+                                            </motion.div>
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
+                                <iframe
+                                    src={selectedCertificate.downloadUrl.replace('/view?usp=sharing', '/preview')}
+                                    className="w-full h-full"
+                                    title="Certificate Preview"
+                                    onLoad={() => setIsLoading(false)}
+                                ></iframe>
                             </div>
 
                             {/* Key Details */}
@@ -506,18 +535,6 @@ const Certificates = () => {
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-3">
-                                    <motion.a
-                                        href={selectedCertificate.verificationUrl}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        whileHover={{ scale: 1.05 }}
-                                        whileTap={{ scale: 0.95 }}
-                                        className={`px-4 py-2 rounded-lg text-sm ${isDark
-                                            ? 'bg-white/10 hover:bg-white/20 text-white'
-                                            : 'bg-black/10 hover:bg-black/20 text-black'}`}
-                                    >
-                                        Verify Online
-                                    </motion.a>
                                     <motion.a
                                         href={selectedCertificate.downloadUrl}
                                         target="_blank"

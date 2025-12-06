@@ -11,50 +11,85 @@ import PropTypes from 'prop-types';
 // Simplified skill structure
 const skillClusters = [
     {
-        id: 'core',
-        title: 'Core Engineering Stack',
-        icon: CpuIcon,
-        description: 'Technologies I build with daily',
+        id: 'frontend',
+        title: 'Frontend Development',
+        icon: Layout,
+        description: 'Building responsive user interfaces',
         skills: [
-            { name: 'React/Next.js', level: 95, impact: 'Production apps with 10k+ users' },
-            { name: 'Node.js/NestJS', level: 92, impact: 'Scalable backend systems' },
-            { name: 'Python', level: 90, impact: 'ML pipelines & automation' },
-            { name: 'TypeScript', level: 88, impact: 'Type-safe applications' },
+            { name: 'React', level: 75, impact: 'Web applications' },
+            { name: 'Next.js', level: 70, impact: 'Full-stack web applications' },
+            { name: 'Tailwind CSS', level: 80, impact: 'Modern UI design' },
+            { name: 'TypeScript', level: 75, impact: 'Type-safe applications' },
+            { name: 'Framer Motion', level: 75, impact: 'Smooth animations' },
+            { name: 'Bootstrap', level: 70, impact: 'Responsive layouts' },
+        ]
+    },
+    {
+        id: 'backend',
+        title: 'Backend Development',
+        icon: Server,
+        description: 'Scalable server-side solutions',
+        skills: [
+            { name: 'FastAPI', level: 80, impact: 'High-performance APIs' },
+            { name: 'Node.js', level: 70, impact: 'JavaScript backends' },
+            { name: 'Express.js', level: 65, impact: 'RESTful APIs' },
+            { name: 'RESTful APIs', level: 80, impact: 'API design & development' },
         ]
     },
     {
         id: 'ai',
-        title: 'AI / ML Expertise',
+        title: 'AI/ML Integration',
         icon: Brain,
-        description: 'Specialized knowledge areas',
+        description: 'Machine learning and AI solutions',
         skills: [
-            { name: 'TensorFlow/PyTorch', level: 88, impact: 'Production ML models' },
-            { name: 'LLM Fine-tuning', level: 85, impact: 'Custom AI applications' },
-            { name: 'RAG Systems', level: 82, impact: 'Enterprise knowledge bases' },
-            { name: 'Computer Vision', level: 80, impact: 'Image processing systems' },
+            { name: 'Python', level: 90, impact: 'ML pipelines & automation' },
+            { name: 'Scikit-learn', level: 85, impact: 'Traditional ML models' },
+            { name: 'XGBoost', level: 80, impact: 'Gradient boosting' },
+            { name: 'LangChain', level: 70, impact: 'LLM applications' },
+        ]
+    },
+    {
+        id: 'databases',
+        title: 'Databases',
+        icon: Database,
+        description: 'Data storage and management',
+        skills: [
+            { name: 'PostgreSQL', level: 65, impact: 'Relational databases' },
+            { name: 'MySQL', level: 60, impact: 'Web application databases' },
+            { name: 'MongoDB', level: 55, impact: 'NoSQL databases' },
+            { name: 'SQLite', level: 70, impact: 'Lightweight databases' },
         ]
     },
     {
         id: 'tools',
-        title: 'Tools & Platforms',
+        title: 'Software Tools',
         icon: Wrench,
-        description: 'Daily development environment',
+        description: 'Development and productivity tools',
         skills: [
-            { name: 'Docker/K8s', level: 85, impact: 'Containerized deployments' },
-            { name: 'PostgreSQL', level: 88, impact: 'Relational data systems' },
-            { name: 'AWS/GCP', level: 82, impact: 'Cloud infrastructure' },
-            { name: 'Git/CI-CD', level: 90, impact: 'Team collaboration flows' },
+            { name: 'Git', level: 90, impact: 'Version control' },
+            { name: 'Docker', level: 75, impact: 'Containerization' },
+            { name: 'VS Code', level: 90, impact: 'Code editing' },
+            { name: 'Linux', level: 80, impact: 'System administration' },
+            { name: 'Figma', level: 60, impact: 'UI/UX design' },
+            { name: 'Matplotlib', level: 85, impact: 'Data visualization' },
+            { name: 'Seaborn', level: 85, impact: 'Statistical plots' },
+            { name: 'Google Data Studio', level: 75, impact: 'Dashboard creation' },
+            { name: 'Excel (PivotTables)', level: 80, impact: 'Data analysis' },
+            { name: 'Bash', level: 80, impact: 'Shell scripting' },
+            { name: 'Google Colab', level: 90, impact: 'Cloud computing' },
+            { name: 'Jupyter', level: 90, impact: 'Interactive computing' },
+            { name: 'SSH', level: 75, impact: 'Secure connections' },
         ]
     },
     {
-        id: 'method',
-        title: 'How I Work',
+        id: 'soft',
+        title: 'Soft Skills',
         icon: Briefcase,
-        description: 'Approach & methodology',
+        description: 'Professional and interpersonal skills',
         skills: [
-            { name: 'Product Thinking', level: 92, impact: 'User-centric solutions' },
-            { name: 'System Design', level: 88, impact: 'Scalable architectures' },
-            { name: 'Team Leadership', level: 85, impact: 'Cross-functional teams' },
+            { name: 'Problem Solving', level: 95, impact: 'Complex challenges' },
+            { name: 'Agile Methodologies', level: 88, impact: 'Project management' },
+            { name: 'Collaboration', level: 92, impact: 'Team work' },
             { name: 'Communication', level: 90, impact: 'Stakeholder alignment' },
         ]
     }
@@ -62,14 +97,19 @@ const skillClusters = [
 
 // Daily tools with theme-aware styling
 const dailyTools = [
-    { name: 'Docker', icon: '🐳', category: 'devops' },
-    { name: 'Git', icon: '📦', category: 'devops' },
+    { name: 'Git', icon: '�', category: 'devops' },
+    { name: 'Docker', icon: '�', category: 'devops' },
     { name: 'VS Code', icon: '⚡', category: 'development' },
     { name: 'Linux', icon: '🐧', category: 'devops' },
     { name: 'Figma', icon: '🎨', category: 'design' },
-    { name: 'Postman', icon: '📮', category: 'development' },
+    { name: 'Matplotlib', icon: '📊', category: 'data' },
+    { name: 'Seaborn', icon: '�', category: 'data' },
+    { name: 'Google Data Studio', icon: '📋', category: 'data' },
+    { name: 'Excel', icon: '📑', category: 'data' },
+    { name: 'Bash', icon: '💻', category: 'devops' },
+    { name: 'Google Colab', icon: '☁️', category: 'data' },
     { name: 'Jupyter', icon: '📓', category: 'data' },
-    { name: 'Terminal', icon: '💻', category: 'development' },
+    { name: 'SSH', icon: '�', category: 'devops' },
 ];
 
 // Animation variants
