@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import {
     Cpu, Code2, Target, TrendingUp, Sparkles,
     Brain, Server, Layout, Cloud, Terminal,
-    Database, Cpu as CpuIcon, Wrench, Briefcase
+    Database, Wrench, Briefcase
 } from 'lucide-react';
 import { useState, useRef } from 'react';
 import { useTheme } from '../ThemeProvider';

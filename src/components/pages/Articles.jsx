@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { BookOpen, Calendar, Clock, ArrowUpRight, Eye, Heart, Share2, Tag, TrendingUp, Sparkles } from 'lucide-react';
+import { BookOpen, Calendar, Clock, ArrowUpRight, Eye, Heart, Share2, TrendingUp, Sparkles } from 'lucide-react';
 import { useState } from 'react';
 import { useTheme } from '../ThemeProvider';
 
@@ -216,14 +216,14 @@ const Articles = () => {
                                     whileHover={{ scale: 1.05 }}
                                     whileTap={{ scale: 0.95 }}
                                     className={`px-6 py-3 rounded-full flex items-center gap-3 transition-all duration-300 border backdrop-blur-xl shadow-sm ${activeCategory === category.id
-                                            ? 'bg-black dark:bg-white text-white dark:text-black border-black dark:border-white shadow-black/20 dark:shadow-white/20'
-                                            : 'bg-white/50 dark:bg-black/30 border-white/40 dark:border-black/30 text-black dark:text-white hover:bg-white/70 dark:hover:bg-black/50 hover:shadow-md'
+                                        ? 'bg-black dark:bg-white text-white dark:text-black border-black dark:border-white shadow-black/20 dark:shadow-white/20'
+                                        : 'bg-white/50 dark:bg-black/30 border-white/40 dark:border-black/30 text-black dark:text-white hover:bg-white/70 dark:hover:bg-black/50 hover:shadow-md'
                                         }`}
                                 >
                                     <span className="font-medium">{category.label}</span>
                                     <span className={`px-2 py-1 text-xs rounded-full ${activeCategory === category.id
-                                            ? 'bg-white/20 dark:bg-black/20'
-                                            : 'bg-white/10 dark:bg-black/10'
+                                        ? 'bg-white/20 dark:bg-black/20'
+                                        : 'bg-white/10 dark:bg-black/10'
                                         }`}>
                                         {category.count}
                                     </span>
@@ -368,8 +368,8 @@ const Articles = () => {
                                         whileHover={{ scale: 1.02 }}
                                         whileTap={{ scale: 0.98 }}
                                         className={`w-full px-4 py-3 rounded-lg font-medium text-sm transition-all duration-300 flex items-center justify-center gap-2 border ${isDark
-                                                ? 'bg-white/10 hover:bg-white/20 text-white border-white/20 hover:border-white/30'
-                                                : 'bg-black/15 hover:bg-black/25 text-black border-black/30 hover:border-black/40'
+                                            ? 'bg-white/10 hover:bg-white/20 text-white border-white/20 hover:border-white/30'
+                                            : 'bg-black/15 hover:bg-black/25 text-black border-black/30 hover:border-black/40'
                                             }`}
                                     >
                                         <span>Read Article</span>
@@ -401,8 +401,8 @@ const Articles = () => {
                                     type="email"
                                     placeholder="Enter your email"
                                     className={`flex-1 px-4 py-3 rounded-lg backdrop-blur-xl border transition-colors ${isDark
-                                            ? 'bg-white/10 border-white/20 text-white placeholder-white/50 focus:border-white/40'
-                                            : 'bg-black/10 border-black/30 text-black placeholder-black/50 focus:border-black/40'
+                                        ? 'bg-white/10 border-white/20 text-white placeholder-white/50 focus:border-white/40'
+                                        : 'bg-black/10 border-black/30 text-black placeholder-black/50 focus:border-black/40'
                                         }`}
                                 />
                                 <motion.button

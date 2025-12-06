@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { BookOpen, Calendar, Clock, ArrowUpRight, Eye, Heart, Share2, Tag, TrendingUp, Sparkles, ArrowLeft } from 'lucide-react';
+import { BookOpen, Calendar, Clock, ArrowUpRight, Eye, Heart, Share2, TrendingUp, Sparkles, ArrowLeft } from 'lucide-react';
 import { useState } from 'react';
 import { useTheme } from '../components/ThemeProvider';
 import { useParams, useNavigate } from 'react-router-dom';
